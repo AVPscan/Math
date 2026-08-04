@@ -11,9 +11,6 @@ TARGET = math
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
 BASE_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra -flto
 LDFLAGS =
-
-SOURCES = main.c math.c $(SYS_SRC)
-
 # Определение команд для разных ОС
 ifeq ($(UNAME_S),Windows)
     EXT = .exe
@@ -26,6 +23,8 @@ else
     GET_SIZE = wc -c < $(TARGET)$(EXT) 2>/dev/null || echo 0
     RUN_CMD = ./$(TARGET)
 endif
+
+SOURCES = main.c math.c $(SYS_SRC)
 
 .PHONY: all musl run clean size
 

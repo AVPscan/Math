@@ -32,7 +32,7 @@
 typedef uintptr_t  As;
 typedef uint8_t anu;                                // 1   anu [0..FF]
 //typedef uint8_t nanu;                             // 1  n    [0,-7F..-1,80,+1..+7F]
-//typedef struct { union { anu h; anu l[1]; }; };   // 1       возможность работать с anu как со структурой
+typedef struct { anu h; } sanu;                     // 1       возможность работать с anu как со структурой
 typedef struct { anu h, l[1]; } vanu;               // 2  v    [0..FFFF]
 //typedef struct { anu h, l[1]; } vnanu             // 2 vn    [0,+1..+7FFF,8000,-7FFF..-1]
 //typedef struct { anu h, l[2]; };                  // 3       [0..FFFFFF]    [17..24] бит диапазон теперь доступен

@@ -45,7 +45,7 @@ void FADD (anu l, anu *r, anu *a, anu *b) { if (l) { Mat.Riz = 0; Mat.Rnim = 0; 
   if (Mat.Nim) { if (Mat.Carry && Mat.Za) { Mat.Riz++; Mat.Rnim--; *r++ = 0x80; while(--Mat.Loop) *r++ = 0; }
     else { Mat.Rnim = (*r & 0x80) ? 0xFF : 0; } Mat.Carry = 0; } if (!Mat.Br) { Mat.Riz = 1; Mat.Rnim = 0; } } }
 
-void FSUB (anu l, anu *r, anu *a, anu *b) { if (l) { Mat.Riz = 0; Mat.Rnim = 0; Mat.Za = ((*a ^ *b) & 0x80);
+void FSUB (anu l, anu *r, anu *a, anu *b) { if (l) { Mat.Riz = 0; Mat.Rnim = 0; Mat.Za = ((*a ^ ~*b) & 0x80);
   Mat.Loop = l; Mat.Carry = (Mat.Carry != 0); if (Mat.Nim) { Mat.Fa = (*a == 0x80); Mat.Fb = (*b == 0x80);
     if (Mat.Fa || Mat.Fb) { Mat.a = a; Mat.b = b; while(--Mat.Loop && (Mat.Fa || Mat.Fb)) {
         Mat.Fa = (Mat.Fa) ? (*++Mat.a == 0) : Mat.Fa; Mat.Fb = (Mat.Fb) ? (*++Mat.b == 0) : Mat.Fb; }
@@ -66,7 +66,7 @@ void FMUL (anu l, anu *r, anu *a, anu *b) { if (l) { Mat.Fa = 0; Mat.Fb = 0; Mat
     if (Mat.Ba < 2 || Mat.Bb < 2) { Mat.Riz++; Mat.Rnim = 0; if (!Mat.Ba || !Mat.Bb) return;
       if (Mat.Nim && (*(Mat.a - 1) == 0x80 || *(Mat.b - 1) == 0x80)) { *r = 0x80; Mat.Rnim--; return; } }
     Mat.Ba = 0; Mat.Bb = 0; do { Mat.Ba = (Mat.Ba) ? Mat.Ba : (*--Mat.a); Mat.Bb = (Mat.Bb) ? Mat.Bb : (*--Mat.b);
-      Mat.Fa = ((Mat.Ba)) ? Mat.Fa : --Mat.Fa; Mat.Fb = ((Mat.Bb)) ? Mat.Fb : --Mat.Fb; } while(!(Mat.Ba && Mat.Bb));
+      Mat.Fa = ((Mat.Ba)) ? Mat.Fa : Mat.Fa - 1; Mat.Fb = ((Mat.Bb)) ? Mat.Fb : Mat.Fb - 1; } while(!(Mat.Ba && Mat.Bb));
     Mat.Ba = *Mat.a; Mat.Bb = *Mat.b; Mat.a = &Mat.Ho.h; Mat.b = &Mat.Lo.h;
     if (Mat.Fb > Mat.Fa || (Mat.Fb == Mat.Fa && Mat.Bb > Mat.Ba)) { Mat.a = Mat.b; Mat.b = &Mat.Ho.h; l = Mat.Fa;
       Mat.Fa = Mat.Fb; Mat.Fb = l; } *(Mat.b + Mat.Fb++) = 0; r = Mat.e;
