@@ -26,6 +26,83 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    # Linux: Установка стандартных инструментов
+    - name: Install build tools (Linux)
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y build-essential
+
+    # Windows: Используем MSYS2 для установки MinGW и make
+    - name: Install build tools (Windows)
+      if: runner.os == 'Windows'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: true
+        install: mingw-w64-x86_64-gcc make
+
+    # macOS: Решение проблемы с доверием к репозиториям Homebrew
+    - name: Install build tools (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        # Временно отключаем проверку доверия для решения текущей проблемы с aws/tap
+        echo "HOMEBREW_NO_REQUIRE_TAP_TRUST=1" >> $GITHUB_ENV
+        brew install gcc make
+
+    # Сборка для Windows через MSYS2
+    - name: Build (Windows)
+      if: runner.os == 'Windows'
+      shell: msys2 {0}
+      run: make all
+
+    # Сборка для Linux/macOS
+    - name: Build (Linux/macOS)
+      if: runner.os != 'Windows'
+      run: make all
+
+    # Тестирование для Windows через MSYS2
+    - name: Test (Windows)
+      if: runner.os == 'Windows'
+      shell: msys2 {0}
+      run: make run
+
+    # Тестирование для Linux/macOS
+    - name: Test (Linux/macOS)
+      if: runner.os != 'Windows'
+      run: make run
+
+    # Загрузка готового бинарного файла как артефакта
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: math-${{ runner.os }}
+        path: math${{ matrix.ext }}name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ created ]
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            ext: ''
+          - os: windows-latest
+            ext: .exe
+          - os: macos-latest
+            ext: ''
+
+    steps:
+    - uses: actions/checkout@v4
+
     - name: Install build tools (Linux)
       if: runner.os == 'Linux'
       run: sudo apt-get update && sudo apt-get install -y build-essential
