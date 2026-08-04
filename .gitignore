@@ -1,0 +1,18 @@
+# Игнорировать всё
+*
+
+# Но разрешить эти типы файлов
+!sys.h
+!main.c
+!math.c
+!makefile
+!README.md
+!LICENSE
+!NOTICE
+!.gitignore
+!.github/
+!.github/workflows/
+!.github/workflows/*
+!IIAbout/
+!IIAbout/*
+# Игнорировать
