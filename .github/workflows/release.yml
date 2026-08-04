@@ -1,55 +1,141 @@
-name: Build & Release
+name: Cross-Platform Build & Release
+
+permissions:
+  contents: write
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  release:
-    types: [ created ]
+    tags: 
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Версия (например: 1.00)'
+        required: true
+        default: 'manual'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  build:
-    name: Build on ${{ matrix.os }}
+  # 1. Честная сборка статического бинарника
+  build-musl:
+    runs-on: ubuntu-latest
+    container: alpine:latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Build Static
+        run: |
+          apk add --no-cache build-base make
+          make musl CC=gcc
+      - name: Upload
+        uses: actions/upload-artifact@main
+        with:
+          name: linux-static
+          path: math
+
+  # 2. Матрица для остальных платформ
+  build-others:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
         include:
-          - os: ubuntu-latest
-            ext: ''
-          - os: windows-latest
-            ext: .exe
-          - os: macos-latest
-            ext: ''
+          - desc: "Linux-Dynamic"
+            os: ubuntu-latest
+            cmd: make
+            artifact: linux-dynamic
+          - desc: "Windows"
+            os: windows-latest
+            cmd: make
+            artifact: windows-executable
+          - desc: "macOS"
+            os: macos-latest
+            cmd: make
+            artifact: macos-executable
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@main
+      - name: Install build tools (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+      - name: Install build tools (Windows)
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: mingw-w64-x86_64-gcc make
+      - name: Install build tools (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          export HOMEBREW_NO_REQUIRE_TAP_TRUST=1
+          brew install gcc make
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: ${{ matrix.cmd }}
+      - name: Build (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: ${{ matrix.cmd }}
+      - name: Upload
+        uses: actions/upload-artifact@main
+        with:
+          name: ${{ matrix.artifact }}
+          path: math*
 
-    - name: Install build tools (Linux)
-      if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install -y build-essential
+  # 3. Релиз, который собирает всё воедино
+  create-release:
+    needs: [build-musl, build-others]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Get Version
+        id: v
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            TAG_NAME=${GITHUB_REF#refs/tags/}
+            VERSION=${TAG_NAME#v}
+            echo "ver=$VERSION" >> $GITHUB_OUTPUT
+            echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
+          else
+            echo "ver=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+            echo "tag=v${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          fi
 
-    - name: Setup MSVC (Windows)
-      if: runner.os == 'Windows'
-      uses: ilammy/msvc-dev-cmd@v1
+      - name: Download All
+        uses: actions/download-artifact@main
+        with:
+          path: ./artefacts
 
-    - name: Setup MinGW (Windows)
-      if: runner.os == 'Windows'
-      uses: egor-tensin/setup-mingw@v2
+      - name: Assets & Upload
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NAME=$(basename ${{ github.repository }})
+          VER="${{ steps.v.outputs.ver }}"
+          TAG="v$VER"
 
-    - name: Install build tools (macOS)
-      if: runner.os == 'macOS'
-      run: brew install gcc make
+          gh release create "$TAG" --title="Release $TAG" --generate-notes --latest || echo "Exists"
 
-    - name: Build
-      run: make all
+          mkdir -p ./out
 
-    - name: Test
-      run: make run
+          for folder in ./artefacts/*; do
+            if [ -d "$folder" ]; then
+              PLATFORM=$(basename "$folder")
+              
+              find "$folder" -type f | while read -r src; do
+                ext=""
+                [[ "$src" == *.exe ]] && ext=".exe"
+                
+                dst="${NAME}-${PLATFORM}-v${VER}${ext}"
+                
+                cp "$src" "./out/$dst"
+                echo "✅ Ready: $dst"
+              done
+            fi
+          done
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: math-${{ runner.os }}
-        path: math${{ matrix.ext }}
+          cd out
+          sha256sum * > ../checksums.txt
+          gh release upload "$TAG" * ../checksums.txt --clobber

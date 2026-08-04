@@ -1,3 +1,6 @@
+[![Cross-Platform Build & Release](https://github.com/AVPscan/Math/actions/workflows/release.yml/badge.svg)](https://github.com/AVPscan/Math/actions/workflows/release.yml)
+
+
 # Math Library
 
 *Библиотека для работы с целыми числами произвольной точности*
