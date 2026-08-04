@@ -66,7 +66,7 @@ void FMUL (anu l, anu *r, anu *a, anu *b) { if (l) { Mat.Fa = 0; Mat.Fb = 0; Mat
     if (Mat.Ba < 2 || Mat.Bb < 2) { Mat.Riz++; Mat.Rnim = 0; if (!Mat.Ba || !Mat.Bb) return;
       if (Mat.Nim && (*(Mat.a - 1) == 0x80 || *(Mat.b - 1) == 0x80)) { *r = 0x80; Mat.Rnim--; return; } }
     Mat.Ba = 0; Mat.Bb = 0; do { Mat.Ba = (Mat.Ba) ? Mat.Ba : (*--Mat.a); Mat.Bb = (Mat.Bb) ? Mat.Bb : (*--Mat.b);
-      Mat.Fa = (Mat.Ba) ? Mat.Fa : --Mat.Fa; Mat.Fb = (Mat.Bb) ? Mat.Fb : --Mat.Fb; } while(!(Mat.Ba && Mat.Bb));
+      Mat.Fa = ((Mat.Ba)) ? Mat.Fa : --Mat.Fa; Mat.Fb = ((Mat.Bb)) ? Mat.Fb : --Mat.Fb; } while(!(Mat.Ba && Mat.Bb));
     Mat.Ba = *Mat.a; Mat.Bb = *Mat.b; Mat.a = &Mat.Ho.h; Mat.b = &Mat.Lo.h;
     if (Mat.Fb > Mat.Fa || (Mat.Fb == Mat.Fa && Mat.Bb > Mat.Ba)) { Mat.a = Mat.b; Mat.b = &Mat.Ho.h; l = Mat.Fa;
       Mat.Fa = Mat.Fb; Mat.Fb = l; } *(Mat.b + Mat.Fb++) = 0; r = Mat.e;
