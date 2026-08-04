@@ -1,4 +1,4 @@
-name: Build & Release
+name: Build
 
 on:
   push:
@@ -30,17 +30,15 @@ jobs:
       if: runner.os == 'Linux'
       run: sudo apt-get update && sudo apt-get install -y build-essential
 
-    - name: Setup MSVC (Windows)
-      if: runner.os == 'Windows'
-      uses: ilammy/msvc-dev-cmd@v1
-
     - name: Setup MinGW (Windows)
       if: runner.os == 'Windows'
       uses: egor-tensin/setup-mingw@v2
 
     - name: Install build tools (macOS)
       if: runner.os == 'macOS'
-      run: brew install gcc make
+      run: |
+        brew untap aws/tap 2>/dev/null || true
+        brew install gcc make
 
     - name: Build
       run: make all
