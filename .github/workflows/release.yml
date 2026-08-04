@@ -18,13 +18,10 @@ jobs:
         include:
           - os: ubuntu-latest
             ext: ''
-            cc: gcc
           - os: windows-latest
             ext: .exe
-            cc: gcc
           - os: macos-latest
             ext: ''
-            cc: gcc
 
     steps:
     - uses: actions/checkout@v4
@@ -35,80 +32,33 @@ jobs:
 
     - name: Install build tools (Windows)
       if: runner.os == 'Windows'
-      run: |
-        choco install mingw -y
-        echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $env:GITHUB_PATH
-
-    - name: Install build tools (macOS)
-      if: runner.os == 'macOS'
-      run: brew install gcc make
-
-    - name: Build
-      run: make all
-      env:
-        CC: ${{ matrix.cc }}
-
-    - name: Test
-      run: make run
-      env:
-        CC: ${{ matrix.cc }}
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: msys2/setup-msys2@v2
       with:
-        name: math-${{ runner.os }}
-        path: math${{ matrix.ext }}name: Build
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  release:
-    types: [ created ]
-
-jobs:
-  build:
-    name: Build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            ext: ''
-            cc: gcc
-          - os: windows-latest
-            ext: .exe
-            cc: cl
-          - os: macos-latest
-            ext: ''
-            cc: gcc
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Install build tools (Linux)
-      if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install -y build-essential
-
-    - name: Setup MSVC (Windows)
-      if: runner.os == 'Windows'
-      uses: ilammy/msvc-dev-cmd@v1
+        msystem: MINGW64
+        update: true
+        install: mingw-w64-x86_64-gcc make
 
     - name: Install build tools (macOS)
       if: runner.os == 'macOS'
       run: brew install gcc make
 
-    - name: Build
+    - name: Build (Windows)
+      if: runner.os == 'Windows'
+      shell: msys2 {0}
       run: make all
-      env:
-        CC: ${{ matrix.cc }}
 
-    - name: Test
+    - name: Build (Linux/macOS)
+      if: runner.os != 'Windows'
+      run: make all
+
+    - name: Test (Windows)
+      if: runner.os == 'Windows'
+      shell: msys2 {0}
       run: make run
-      env:
-        CC: ${{ matrix.cc }}
+
+    - name: Test (Linux/macOS)
+      if: runner.os != 'Windows'
+      run: make run
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
