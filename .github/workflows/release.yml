@@ -1,0 +1,55 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ created ]
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            ext: ''
+          - os: windows-latest
+            ext: .exe
+          - os: macos-latest
+            ext: ''
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install build tools (Linux)
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y build-essential
+
+    - name: Setup MSVC (Windows)
+      if: runner.os == 'Windows'
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Setup MinGW (Windows)
+      if: runner.os == 'Windows'
+      uses: egor-tensin/setup-mingw@v2
+
+    - name: Install build tools (macOS)
+      if: runner.os == 'macOS'
+      run: brew install gcc make
+
+    - name: Build
+      run: make all
+
+    - name: Test
+      run: make run
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: math-${{ runner.os }}
+        path: math${{ matrix.ext }}
