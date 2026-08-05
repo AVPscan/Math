@@ -11,15 +11,15 @@
 #include "sys.h"
 
 #define BE  0
-#define Lon 2
+#define Lon 1
 
 #if Lon == 1
  typedef uint8_t buf;
  typedef int8_t zbuf;
  typedef uint16_t Dbuf;
  typedef int16_t zDbuf;
- sanu o1 = {5}, o2 = {6};
- sanu o3 = {250}, o4 = {5};
+ sanu o1 = {128}, o2 = {128};
+ sanu o3 = {250}, o4 = {4};
 #elif Lon == 2
  typedef uint16_t buf;
  typedef int16_t zbuf;
@@ -36,16 +36,16 @@
  an o3 = {255,{255,255,250}}, o4 = {0,{0,0,2}};
 #endif
 
-void Show(void) { printf("%s%s", (Mat.Riz) ? (Mat.Rnim) ? " I" : " Z" : (Mat.Rnim) ? " -" : " +", (Mat.Carry) ? "C  " : "   "); }
+void Show(void) { printf("\t%s%s", (Mat.Riz) ? (Mat.Rnim) ? "I" : "Z" : (Mat.Rnim) ? "-" : "+", (Mat.Carry) ? "C\n" : " \n"); Mat.Carry = 0; }
 
 int main(void) {
     buf a = 0, b = 0, ra = 0, rs = 0; Dbuf rm = 0; zbuf c = 0, d = 0, za = 0, zs = 0; zDbuf zm = 0; Mat.Long = Lon; FBSWAP(Mat.Long, (anu*)&a, (anu*)&o1.h);
     FBSWAP(Mat.Long, (anu*)&b, (anu*)&o2.h); FBSWAP(Mat.Long, (anu*)&c, (anu*)&o3.h); FBSWAP(Mat.Long, (anu*)&d, (anu*)&o4.h); Mat.Nim = 0;
     if (BE) { FBSWAP(Mat.Long, (anu*)&a, (anu*)&a); FBSWAP(Mat.Long, (anu*)&b, (anu*)&b); FBSWAP(Mat.Long, (anu*)&c, (anu*)&c); FBSWAP(Mat.Long, (anu*)&d, (anu*)&d); }
-    FADD(Mat.Long, (anu*)&ra, (anu*)&o1.h, (anu*)&o2.h); if (!BE) { FBSWAP(Mat.Long, (anu*)&ra, (anu*)&ra); } Show(); printf("%d + %d = %d\n", a, b, ra);
-    FSUB(Mat.Long, (anu*)&rs, (anu*)&o1.h, (anu*)&o2.h); if (!BE) { FBSWAP(Mat.Long, (anu*)&rs, (anu*)&rs); } Show(); printf("%d - %d = %d\n", a, b, rs);
-    FMUL(Mat.Long, (anu*)&rm, (anu*)&o1.h, (anu*)&o2.h); if (!BE) { FBSWAP(Mat.Long * 2, (anu*)&rm, (anu*)&rm); } Show(); printf("%d * %d = %d\n", a, b, rm); Mat.Carry = 0;
-    Mat.Nim = 1; FADD(Mat.Long, (anu*)&za, (anu*)&o3.h, (anu*)&o4.h); if (!BE) { FBSWAP(Mat.Long, (anu*)&za, (anu*)&za); } Show(); printf("%d + %d = %d\n", c, d, za);
-    FSUB(Mat.Long, (anu*)&zs, (anu*)&o3.h, (anu*)&o4.h); if (!BE) { FBSWAP(Mat.Long, (anu*)&zs, (anu*)&zs); } Show(); printf("%d - %d = %d\n", c, d, zs);
-    FMUL(Mat.Long, (anu*)&zm, (anu*)&o3.h, (anu*)&o4.h); if (!BE) { FBSWAP(Mat.Long * 2, (anu*)&zm, (anu*)&zm); } Show(); printf("%d * %d = %d\n", c, d, zm);
+    FADD(Mat.Long, (anu*)&ra, (anu*)&o1.h, (anu*)&o2.h); if (!BE) { FBSWAP(Mat.Long, (anu*)&ra, (anu*)&ra); } printf(" %d + %d = %d", a, b, ra); Show();
+    FSUB(Mat.Long, (anu*)&rs, (anu*)&o1.h, (anu*)&o2.h); if (!BE) { FBSWAP(Mat.Long, (anu*)&rs, (anu*)&rs); } printf(" %d - %d = %d", a, b, rs); Show();
+    FMUL(Mat.Long, (anu*)&rm, (anu*)&o1.h, (anu*)&o2.h); if (!BE) { FBSWAP(Mat.Long * 2, (anu*)&rm, (anu*)&rm); } printf(" %d * %d = %d", a, b, rm); Show();
+    Mat.Nim = 1; FADD(Mat.Long, (anu*)&za, (anu*)&o3.h, (anu*)&o4.h); if (!BE) { FBSWAP(Mat.Long, (anu*)&za, (anu*)&za); } printf(" %d + %d = %d", c, d, za); Show();
+    FSUB(Mat.Long, (anu*)&zs, (anu*)&o3.h, (anu*)&o4.h); if (!BE) { FBSWAP(Mat.Long, (anu*)&zs, (anu*)&zs); } printf(" %d - %d = %d", c, d, zs); Show();
+    FMUL(Mat.Long, (anu*)&zm, (anu*)&o3.h, (anu*)&o4.h); if (!BE) { FBSWAP(Mat.Long * 2, (anu*)&zm, (anu*)&zm); } printf(" %d * %d = %d", c, d, zm); Show();
     return 0; }
