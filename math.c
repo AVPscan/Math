@@ -95,6 +95,3 @@ void FDIV (anu l, anu *r, anu *a, anu *b, anu *e) { if ((Mat.loop = l)) { Mat.fa
       Mat.fa <<= 1; }
   } }
 
-void FVDIV (anu l, anu *r, anu *a, anu *b, anu *e) { if ((Mat.loop = l)) {
-  (void)l; (void)r; (void)a; (void)b; (void)e;
-  } }
