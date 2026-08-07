@@ -26,7 +26,7 @@
 //Mat.Eiz   {Число/Состояние} Остатка
 //Mat.Rnim  {00/FF}{Не бытие/Бесконечность} Результата
 //Mat.Enim  {00/FF}{Не бытие/Бесконечность} Остатка
-//Mat.Long  Для удобства при использовании {переменная константа}
+//Mat.L  Для удобства при использовании {переменная константа}
 //Mat.VLong Для удобства при использовании h,l {переменная константа}
 
 typedef uintptr_t  As;
@@ -46,15 +46,16 @@ typedef struct { anu h, l[7]; } van;                // 8  v    [0..FFFFFFFFFFFFF
 //typedef struct { anu h, l[0..254]; };             // 1-255
 //typedef struct { anu h, l[0..254]; };             // 1-255n                 [8..2040] бит диапазон теперь доступен
 typedef struct { anu h, l[255]; } MatBuf;           // 256....................[8..2048] для умножения {сдвиговый регистр}
-typedef struct { MatBuf Ho, Sr, Lo; anu Nim, Carry, Riz, Rnim, Eiz, Enim, Long, VLongh, VLongl, Loop, Fa, Fb, Zr, Za, Zb, Br, Ba, Bb,
-  *r, *a, *b, *e; } var_;
+typedef struct { MatBuf Ho, Sr, Lo; anu Nim, Carry, Riz, Rnim, Eiz, Enim, L, Lh, Ll, loop, fa, fb, Zr, za, zb, br, ba, bb,
+  *R, *A, *B, *E, *r, *a, *b, *e; } var_;
 extern var_ Mat;
 #define MATH_VARS_INIT \
-var_ Mat = {.Nim = 0, .Long = 2, .VLongh = 0, .VLongl = 4};
+var_ Mat = {.Nim = 0, .L = 2, .Lh = 0, .Ll = 4};
 
-void FBSWAP (anu l, anu *r, anu *a);
-void FMOVB (anu l, anu *r, anu h);
-void FVMOVB (anu s, anu *r, anu h, anu l);
+void FSWAP (anu l, anu *r, anu *a);
+void FMOV (anu l, anu *r, anu *a);
+void FLDA (anu l, anu *r, anu D);
+void FLDVA (anu l, anu *r, anu Dh, anu Dl);
 void FRR (anu l, anu *r);
 void FRL (anu l, anu *r);
 void VIKARA (anu lr, anu la, anu *r, anu *a);
