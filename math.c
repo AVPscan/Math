@@ -58,24 +58,24 @@ void FSUB (anu l, anu *r, anu *a, anu *b) { if ((Mat.loop = l)) { Mat.Riz = 0; M
     else { Mat.Rnim = (*r & 0x80) ? 0xFF : 0; } Mat.Carry = 0; } if (!Mat.br && !Mat.bb) { Mat.Riz++; Mat.Rnim = 0; } } }
 
 void FMUL (anu l, anu *r, anu *a, anu *b) { if ((Mat.loop = l)) { Mat.fa = 0; Mat.fb = 0; Mat.ba = 1; Mat.bb = 1;
-    Mat.Riz = 0; Mat.za = (*a & 0x80) ? 0xFF : 0; Mat.zb = (*b & 0x80) ? 0xFF : 0; Mat.Rnim = Mat.za ^ Mat.zb;
-    Mat.r = r; r += l; Mat.e = r + l; a += l; b += l; Mat.a = &Mat.Ho.h; Mat.b = &Mat.Lo.h;
-    do { Mat.fa = (*--a) ? (Mat.fa) ? Mat.fa : l : Mat.fa; Mat.fb = (*--b) ? (Mat.fb) ? Mat.fb : l : Mat.fb;
+    Mat.Riz = 0; Mat.za = (Mat.Nim && *a & 0x80) ? 0xFF : 0; Mat.zb = (Mat.Nim && *b & 0x80) ? 0xFF : 0;
+    Mat.Rnim = Mat.za ^ Mat.zb; Mat.r = r; r += l; Mat.e = r + l; a += l; b += l; Mat.a = &Mat.Ho.h; Mat.b = &Mat.Lo.h;
+    do { Mat.fa = (*--a) ? (Mat.fa) ? Mat.fa : Mat.loop : Mat.fa; Mat.fb = (*--b) ? (Mat.fb) ? Mat.fb : Mat.loop : Mat.fb;
       Mat.ba = (Mat.fa) ? (Mat.za) ? !(*Mat.a++ = ~*a + Mat.ba) : (*Mat.a++ = *a) : Mat.ba;
       Mat.bb = (Mat.fb) ? (Mat.zb) ? !(*Mat.b++ = ~*b + Mat.bb) : (*Mat.b++ = *b) : Mat.bb;
       *--r = 0; *--Mat.e = 0; } while(--Mat.loop); Mat.ba = Mat.a - &Mat.Ho.h; Mat.bb = Mat.b - &Mat.Lo.h;
     Mat.Ll = l + l; Mat.Lh = (Mat.Ll < l); Mat.e = Mat.r + Mat.fa + Mat.fb;
-    if (Mat.ba < 2 || Mat.bb < 2) { Mat.Riz++; Mat.Rnim = 0; if (!Mat.ba || !Mat.bb) return;
-      if (Mat.Nim && (*(Mat.a - 1) == 0x80 || *(Mat.b - 1) == 0x80)) { *r = 0x80; Mat.Rnim--; return; } }
+    if (Mat.ba < 2 || Mat.bb < 2) { if (!Mat.ba || !Mat.bb) { Mat.Rnim = 0; Mat.Riz++; return; }
+      if (Mat.Nim && (*(Mat.a - 1) == 0x80 || *(Mat.b - 1) == 0x80)) { Mat.Riz++; *r = 0x80; Mat.Rnim = 0xFF; return; } }
     Mat.ba = 0; Mat.bb = 0; do { Mat.ba = (Mat.ba) ? Mat.ba : (*--Mat.a); Mat.bb = (Mat.bb) ? Mat.bb : (*--Mat.b);
       Mat.fa = ((Mat.ba)) ? Mat.fa : Mat.fa - 1; Mat.fb = ((Mat.bb)) ? Mat.fb : Mat.fb - 1; } while(!(Mat.ba && Mat.bb));
     Mat.ba = *Mat.a; Mat.bb = *Mat.b; Mat.a = &Mat.Ho.h; Mat.b = &Mat.Lo.h;
     if (Mat.fb > Mat.fa || (Mat.fb == Mat.fa && Mat.bb > Mat.ba)) { Mat.a = Mat.b; Mat.b = &Mat.Ho.h; l = Mat.fa;
       Mat.fa = Mat.fb; Mat.fb = l; } *(Mat.b + Mat.fb++) = 0; r = Mat.e;
-    do { if ((Mat.ba = *--Mat.a)) { a = &Mat.Sr.h; b = Mat.b; l = Mat.fb; do *a++ = *b++; while(--l);
+    do { if ((Mat.ba = *Mat.a++)) { a = &Mat.Sr.h; b = Mat.b; l = Mat.fb; do *a++ = *b++; while(--l);
         do { Mat.zb = 0; b = &Mat.Sr.h; l = Mat.fb; if (!(Mat.ba & 1)) do { Mat.br = (*b << 1) + Mat.zb;
             Mat.zb = ((*b & 0x80) == 0x80); *b++ = Mat.br; } while(--l);
-          else { a = r; Mat.za = 0; do { Mat.br = *b + Mat.za; *--a += Mat.br; Mat.za = (*a < Mat.br) || (Mat.br < *b);
+          else { a = r; Mat.za = 0; do { Mat.br = *--a; *a += *b + Mat.za; Mat.za = (*a < Mat.br);
             Mat.br = (*b << 1) + Mat.zb; Mat.zb = ((*b & 0x80) == 0x80); *b++ = Mat.br; } while(--l); } 
           } while(Mat.ba >>= 1); } --r; } while(--Mat.fa);
     if (Mat.Rnim) { Mat.br = 1; do { Mat.ba = *--Mat.e; Mat.br = !(*Mat.e = ~Mat.ba + Mat.br); } while(Mat.e > Mat.r); }
