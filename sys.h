@@ -46,11 +46,11 @@ typedef struct { anu h, l[7]; } van;                // 8  v    [0..FFFFFFFFFFFFF
 //typedef struct { anu h, l[0..254]; };             // 1-255
 //typedef struct { anu h, l[0..254]; };             // 1-255n                 [8..2040] бит диапазон теперь доступен
 typedef struct { anu h, l[255]; } MatBuf;           // 256....................[8..2048] для умножения {сдвиговый регистр}
-typedef struct { MatBuf Ho, Sr, Lo; anu Nim, Carry, Riz, Rnim, Eiz, Enim, L, Lh, Ll, loop, fa, fb, Zr, za, zb, br, ba, bb,
+typedef struct { MatBuf Ho, Sr, Lo; anu Nim, Carry, Riz, Rnim, Eiz, Enim, L, Lh, Ll, loop, fa, fb, zr, za, zb, br, ba, bb,
   *R, *A, *B, *E, *r, *a, *b, *e; } var_;
 extern var_ Mat;
 #define MATH_VARS_INIT \
-var_ Mat = {.Nim = 0, .L = 2, .Lh = 0, .Ll = 4};
+var_ Mat = {.Nim = 0, .L = 1, .Lh = 0, .Ll = 2};
 
 void FSWAP (anu l, anu *r, anu *a);
 void FMOV (anu l, anu *r, anu *a);

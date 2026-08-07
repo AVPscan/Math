@@ -22,11 +22,11 @@ void FLDVA (anu l, anu *r, anu Dh, anu Dl) { Mat.Carry = 0; if (l) { if (--l) { 
   Mat.Riz = (!Dl) ? (Mat.Nim && Dh == 0x80) ? 1 : (!Dh) : 0; while(--l) { *r++ = Mat.Rnim; } *r++ = Dh; *r = Dl; return; } *r = Dl;
   Mat.Rnim = (Mat.Nim) ? (Dl & 0x80) ? 0xFF : 0 : 0; Mat.Riz = (Dl) ? (Mat.Nim && Dl == 0x80) ? 1 : 0 : 1; Mat.Carry = (Dh != Mat.Rnim); } }
 
-void FRR (anu l, anu *r) { if (l) { r--; do { Mat.za = *++r & 1; *r >>= 1; if (Mat.Carry) { *r |= 0x80; } Mat.Carry = Mat.za;
-    } while(--l); Mat.Carry = (Mat.Carry != 0); } }
+void FRR (anu l, anu *r) { r--; while(l--) { Mat.za = *++r & 1; *r >>= 1; if (Mat.Carry) { *r |= 0x80; } Mat.Carry = Mat.za; }
+  Mat.Carry = (Mat.Carry != 0); }
 
-void FRL (anu l, anu *r) { if (l) { r += l; do { Mat.za = *--r & 0x80; *r <<= 1; if (Mat.Carry) { *r |= 1; } Mat.Carry = Mat.za;
-    } while(--l); Mat.Carry = (Mat.Carry != 0); } }
+void FRL (anu l, anu *r) { r += l; while(l--) { Mat.za = *--r & 0x80; *r <<= 1; if (Mat.Carry) { *r |= 1; } Mat.Carry = Mat.za; }
+  Mat.Carry = (Mat.Carry != 0); }
 
 void VIKARA (anu lr, anu la, anu *r, anu *a) { Mat.Carry = 0; if ((Mat.loop = la)) { Mat.Rnim = (Mat.Nim) ? (*a & 0x80) ? 0xFF : 0 : 0;
     Mat.a = a; if ((Mat.Riz = (*a) ? (Mat.Nim && *a == 0x80) ? 1 : 0 : 1)) while(--Mat.loop && (Mat.Riz = (*++Mat.a) ? 0 : Mat.Riz));
@@ -37,25 +37,25 @@ void VIKARA (anu lr, anu la, anu *r, anu *a) { Mat.Carry = 0; if ((Mat.loop = la
       if (Mat.Carry) { Mat.Carry--; Mat.Riz++; Mat.Rnim = 0xFF; *r++ = 0x80; while(--lr) { *r++ = 0; } return; } } *r++ = Mat.ba;
     while(--lr) { *r++ = *++a; } return ; } Mat.Rnim = 0; Mat.Riz = 0; if (lr) { Mat.Riz++; do *r++ = 0; while(--lr); } }
 
-void FADD (anu l, anu *r, anu *a, anu *b) { if ((Mat.loop = l)) { Mat.Riz = 0; Mat.Rnim = 0; Mat.za = !((*a ^ *b) & 0x80);
-  Mat.Carry = (Mat.Carry != 0); if (Mat.Nim) { Mat.fa = (*a == 0x80); Mat.fb = (*b == 0x80);
-    if (Mat.fa || Mat.fb) { Mat.a = a; Mat.b = b; while(--Mat.loop && (Mat.fa || Mat.fb)) {
-        Mat.fa = (Mat.fa) ? (*++Mat.a == 0) : Mat.fa; Mat.fb = (Mat.fb) ? (*++Mat.b == 0) : Mat.fb; }
-      if (!Mat.loop) { Mat.Riz++; Mat.Rnim--; *r++ = 0x80; while(--l) { *r++ = 0; } return; } Mat.loop = l; } }
-  r += l; a += l; b += l; Mat.br = 0; do { Mat.bb = *--b; Mat.ba = Mat.bb + Mat.Carry; *--r = *--a + Mat.ba;
-    Mat.Carry = (*r < Mat.ba) || (Mat.ba < Mat.bb); Mat.br |= *r; } while(--l);
-  if (Mat.Nim) { if (Mat.Carry && Mat.za) { Mat.Riz++; Mat.Rnim--; *r++ = 0x80; while(--Mat.loop) *r++ = 0; }
-    else { Mat.Rnim = (*r & 0x80) ? 0xFF : 0; } Mat.Carry = 0; } if (!Mat.br) { Mat.Riz = 1; Mat.Rnim = 0; } } }
+void FADD (anu l, anu *r, anu *a, anu *b) { if ((Mat.loop = l)) { Mat.Riz = 0; Mat.Rnim = 0; Mat.Carry = (Mat.Carry != 0);
+  Mat.zr = !((*a ^ *b) & 0x80); Mat.br = 0; if (Mat.Nim) { Mat.fa = (*a == 0x80); Mat.fb = (*b == 0x80);
+    if (Mat.fa || Mat.fb) { Mat.a = a; Mat.b = b; 
+      while(--Mat.loop && (Mat.fa || Mat.fb)) { Mat.fa = (Mat.fa) ? (*++Mat.a == 0) : Mat.fa; Mat.fb = (Mat.fb) ? (*++Mat.b == 0) : Mat.fb; }
+      if (!Mat.loop && (Mat.fa || Mat.fb)) { Mat.Riz++; Mat.Rnim--; *r++ = 0x80; while(--l) { *r++ = 0; } return; } Mat.loop = l; } } 
+  r += l; a += l; b += l; while(--l) { Mat.ba = *--a; Mat.br |= (*--r = Mat.ba + *--b + Mat.Carry); Mat.Carry = (*r < Mat.ba); }
+  Mat.ba = *--a; *--r = Mat.ba + *--b + Mat.Carry; Mat.Carry = (*r < Mat.ba); Mat.bb = *r; if (Mat.Nim) {
+    if ((!Mat.br && *r == 0x80) || (((Mat.bb ^ *a) & 0x80) && Mat.zr)) { Mat.Riz++; Mat.Rnim--; *r++ = 0x80; while(--Mat.loop) *r++ = 0; }
+    else { Mat.Rnim = (*r & 0x80) ? 0xFF : 0; } Mat.Carry = 0; } if (!Mat.br && !Mat.bb) { Mat.Riz++; Mat.Rnim = 0; } } }
 
-void FSUB (anu l, anu *r, anu *a, anu *b) { if ((Mat.loop = l)) { Mat.Riz = 0; Mat.Rnim = 0; Mat.za = ((*a ^ ~*b) & 0x80);
-  Mat.Carry = (Mat.Carry != 0); if (Mat.Nim) { Mat.fa = (*a == 0x80); Mat.fb = (*b == 0x80);
-    if (Mat.fa || Mat.fb) { Mat.a = a; Mat.b = b; while(--Mat.loop && (Mat.fa || Mat.fb)) {
-        Mat.fa = (Mat.fa) ? (*++Mat.a == 0) : Mat.fa; Mat.fb = (Mat.fb) ? (*++Mat.b == 0) : Mat.fb; }
-      if (!Mat.loop) { Mat.Riz++; Mat.Rnim--; *r++ = 0x80; while(--l) { *r++ = 0; } return; } Mat.loop = l; } }
-  r += l; a += l; b += l; Mat.br = 0; do { Mat.bb = *--b; Mat.ba = Mat.bb + Mat.Carry; *--r = *--a - Mat.ba;
-    Mat.Carry = (*r > Mat.ba) || (Mat.ba < Mat.bb); Mat.br |= *r; } while(--l);
-  if (Mat.Nim) { if (Mat.Carry && Mat.za) { Mat.Riz++; Mat.Rnim--; *r++ = 0x80; while(--Mat.loop) *r++ = 0; }
-    else { Mat.Rnim = (*r & 0x80) ? 0xFF : 0; } Mat.Carry = 0; } if (!Mat.br) { Mat.Riz = 1; Mat.Rnim = 0; } } }
+void FSUB (anu l, anu *r, anu *a, anu *b) { if ((Mat.loop = l)) { Mat.Riz = 0; Mat.Rnim = 0; Mat.Carry = (Mat.Carry != 0);
+  Mat.zr = !((*a ^ ~*b) & 0x80); Mat.br = 0; if (Mat.Nim) { Mat.fa = (*a == 0x80); Mat.fb = (*b == 0x80);
+    if (Mat.fa || Mat.fb) { Mat.a = a; Mat.b = b; 
+      while(--Mat.loop && (Mat.fa || Mat.fb)) { Mat.fa = (Mat.fa) ? (*++Mat.a == 0) : Mat.fa; Mat.fb = (Mat.fb) ? (*++Mat.b == 0) : Mat.fb; }
+      if (!Mat.loop && (Mat.fa || Mat.fb)) { Mat.Riz++; Mat.Rnim--; *r++ = 0x80; while(--l) { *r++ = 0; } return; } Mat.loop = l; } } 
+  r += l; a += l; b += l; while(--l) { Mat.ba = *--a; Mat.br |= (*--r = Mat.ba - *--b - Mat.Carry); Mat.Carry = (*r > Mat.ba); }
+  Mat.ba = *--a; *--r = Mat.ba - *--b - Mat.Carry; Mat.Carry = (*r > Mat.ba); Mat.bb = *r; if (Mat.Nim) {
+    if ((!Mat.br && *r == 0x80) || (((Mat.bb ^ *a) & 0x80) && Mat.zr)) { Mat.Riz++; Mat.Rnim--; *r++ = 0x80; while(--Mat.loop) *r++ = 0; }
+    else { Mat.Rnim = (*r & 0x80) ? 0xFF : 0; } Mat.Carry = 0; } if (!Mat.br && !Mat.bb) { Mat.Riz++; Mat.Rnim = 0; } } }
 
 void FMUL (anu l, anu *r, anu *a, anu *b) { if ((Mat.loop = l)) { Mat.fa = 0; Mat.fb = 0; Mat.ba = 1; Mat.bb = 1;
     Mat.Riz = 0; Mat.za = (*a & 0x80) ? 0xFF : 0; Mat.zb = (*b & 0x80) ? 0xFF : 0; Mat.Rnim = Mat.za ^ Mat.zb;
