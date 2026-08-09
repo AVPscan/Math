@@ -11,12 +11,12 @@
 #include "sys.h"
 
 #define BE  0
-#define Lon 1
+#define Lon 2
 
 #if Lon == 1
  typedef uint8_t buf; typedef int8_t zbuf;
  typedef uint16_t Dbuf; typedef int16_t zDbuf;
- sanu a = {0}, b = {128};
+ sanu a = {251}, b = {8};
 #elif Lon == 2
  typedef uint16_t buf; typedef int16_t zbuf;
  typedef uint32_t Dbuf; typedef int32_t zDbuf;
