@@ -20,7 +20,7 @@
 #elif Lon == 2
  typedef uint16_t buf; typedef int16_t zbuf;
  typedef uint32_t Dbuf; typedef int32_t zDbuf;
- vanu a = {129,{1}}, b = {2,{0}};
+ vanu a = {2,{1}}, b = {4,{0}};
 #elif Lon == 4
  typedef uint32_t buf; typedef int32_t zbuf;
  typedef uint64_t Dbuf; typedef int64_t zDbuf;

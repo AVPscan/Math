@@ -11,7 +11,7 @@ TARGET = math
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
 BASE_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra -flto
 LDFLAGS =
-# Определение команд для разных ОС
+
 ifeq ($(UNAME_S),Windows)
     EXT = .exe
     RM = del /q
