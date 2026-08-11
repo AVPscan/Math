@@ -79,11 +79,12 @@ void FMUL (anu l, anu *r, anu *a, anu *b) { if (l) { Mat.fa = 0; Mat.fb = 0; Mat
     if (Mat.Rnim) { Mat.br = 1; do { Mat.ba = *--Mat.e; Mat.br = !(*Mat.e = ~Mat.ba + Mat.br); } while(Mat.e > Mat.r); }
     Mat.Rnim = (Mat.Nim) ? Mat.Rnim : 0; } }
 
-void FDIV (anu l, anu *r, anu *a, anu *b, anu *e) { if ((Mat.loop = l)) { Mat.fa = 0; Mat.fb = 0; Mat.ba = 1; Mat.bb = 1; Mat.Riz = 0;
-    Mat.za = (Mat.Nim && (*a & 0x80)) ? 0xFF : 0; Mat.zb = (Mat.Nim && (*b & 0x80)) ? 0xFF : 0; Mat.Rnim = Mat.za ^ Mat.zb;
-    r += l; a += l; b += l; e += l; Mat.b = &Mat.Lo.h; do { Mat.fa = (*--a) ? (Mat.fa) ? Mat.fa : l : Mat.fa;
-      Mat.fb = (*--b) ? (Mat.fb) ? Mat.fb : l : Mat.fb; Mat.bb = (Mat.fb) ? (Mat.zb) ? !(*Mat.b++ = ~*b + Mat.bb) : (*Mat.b++ = *b) : Mat.bb;
-      Mat.ba = (Mat.za) ? !(*--e = ~*a + Mat.ba) : (*--e = *a); *--r = 0; } while(--l); if (Mat.fa < 2 || Mat.fb < 2) {
-      if (!Mat.fa || !Mat.fb || (Mat.Nim && *b == 0x80)) { Mat.Riz++; Mat.Rnim = 0; return; }
-      if (Mat.Nim && (*a == 0x80)) { Mat.Riz++; *r = 0x80; Mat.Rnim = 0xFF; return; } } e += Mat.fb - 1; Mat.b = &Mat.Lo.h; Mat.zr = 0xFF;
-    while(!(*Mat.b & (Mat.zr <<= 1))); } }
+void FDIV (anu l, anu *r, anu *a, anu *b, anu *e) { if ((Mat.loop = l)) { Mat.fa = 0; Mat.fb = 0;
+    Mat.Riz = 0; Mat.za = (Mat.Nim && (*a & 0x80)) ? 0xFF : 0; Mat.zb = (Mat.Nim && (*b & 0x80)) ? 0xFF : 0;
+    Mat.Rnim = Mat.za ^ Mat.zb; r += l; a += l; b += l; e += l; Mat.b = &Mat.Lo.h; Mat.ba = 1; Mat.bb = 1;
+    do { Mat.fa = (*--a) ? (Mat.fa) ? Mat.fa : l : Mat.fa; Mat.fb = (*--b) ? (Mat.fb) ? Mat.fb : l : Mat.fb;
+      Mat.bb = (Mat.fb) ? (Mat.zb) ? !(*Mat.b++ = ~*b + Mat.bb) : (*Mat.b++ = *b) : Mat.bb;
+      Mat.ba = (Mat.za) ? !(*--e = ~*a + Mat.ba) : (*--e = *a); *--r = 0; } while(--l);
+    if (Mat.fa < 2 || Mat.fb < 2) { if (!Mat.fa || !Mat.fb || (Mat.Nim && *b == 0x80)) { Mat.Riz++; Mat.Rnim = 0; return; }
+      if (Mat.Nim && (*a == 0x80)) { *r = 0x80; Mat.Riz++; Mat.Rnim = 0xFF; return; } } 
+    } }
