@@ -1,68 +1,58 @@
-/*
- * Math (C) 2026 A.Pozdnyakov GPLv3 - see LICENSE
+/* Math (C) 2026 A.Pozdnyakov GPLv3 - see LICENSE
  * E-mail: avp70ru@mail.ru
- * 
  * Данная программа является свободным программным обеспечением: вы можете
  * распространять ее и/или изменять согласно условиям Стандартной общественной
- * лицензии GNU (GPLv3).
- */
- 
+ * лицензии GNU (GPLv3). */
 #ifndef SYS_H
 #define SYS_H
 #include <stdint.h>
-
 //Begin 05.07.2026 in Russia
-//  As      (санскр. As      — основа, бытие, существовать) अः
-// anu      (санскр. anu     — атом) अणु 
-// an       (санскр. anka    — цифра) अङ्क 
-// n        (санскр. Nimitta — знак{овое}) निमित्त 
-// v        (санскр. Vṛddhi  — увеличение {разрядности вдвое}) वृद्धि
-// Vikara   (санскр. Vikāra  — модификация, изменение состояния) विकार
-
-//{Состояние} Возникает только в знаковом представлении чисел
-//Mat.Nim   {Без знаковое/Знаковое}
-//Mat.Carry {Нет переполнения/Переполнение} Результата
-//Mat.Riz   {Число/Состояние} Результата
-//Mat.Eiz   {Число/Состояние} Остатка
-//Mat.Rnim  {00/FF}{Не бытие/Бесконечность} Результата
-//Mat.Enim  {00/FF}{Не бытие/Бесконечность} Остатка
-//Mat.L  Для удобства при использовании {переменная константа}
-//Mat.VLong Для удобства при использовании h,l {переменная константа}
-
-typedef uintptr_t  As;
-typedef uint8_t anu;                                // 1   anu [0..FF]
-//typedef uint8_t nanu;                             // 1  n    [0,-7F..-1,80,+1..+7F]
-typedef struct { anu h; } sanu;                     // 1       возможность работать с anu как со структурой
-typedef struct { anu h, l[1]; } vanu;               // 2  v    [0..FFFF]
-//typedef struct { anu h, l[1]; } vnanu             // 2 vn    [0,+1..+7FFF,8000,-7FFF..-1]
-//typedef struct { anu h, l[2]; };                  // 3       [0..FFFFFF]    [17..24] бит диапазон теперь доступен
-//typedef struct { anu h, l[2]; };                  // 3       [0,+1..+7FFFFF,800000,-7FFFFF..-1]
-typedef struct { anu h, l[3]; } an;                 // 4   an  [0..FFFFFFFF]
-//typedef struct { anu h, l[3]; } nan;              // 4  n    [0,+1..+7FFFFFFF,80000000,-7FFFFFFF..-1]
-//typedef struct { anu h, l[4..6]; };               // 5-7
-//typedef struct { anu h, l[4..6]; };               // 5-7n                   [33..56] бит диапазон теперь доступен
-typedef struct { anu h, l[7]; } van;                // 8  v    [0..FFFFFFFFFFFFFFFF]
-//typedef struct { anu h, l[7]; } vnan;             // 8 vn    [0,+1..+7FFFFFFFFFFFFFFF,8000000000000000,-7FFFFFFFFFFFFFFF..-1]
-//typedef struct { anu h, l[0..254]; };             // 1-255
-//typedef struct { anu h, l[0..254]; };             // 1-255n                 [8..2040] бит диапазон теперь доступен
-typedef struct { anu h, l[255]; } MatBuf;           // 256....................[8..2048] для умножения {сдвиговый регистр}
-typedef struct { MatBuf Ho, Sr, Lo; anu Nim, Carry, Riz, Rnim, Eiz, Enim, L, Lh, Ll, loop, fa, fb, zr, za, zb, br, ba, bb,
-  *R, *A, *B, *E, *r, *a, *b, *e; } var_;
-extern var_ Mat;
-#define MATH_VARS_INIT \
-var_ Mat = {.Nim = 0, .L = 1, .Lh = 0, .Ll = 2};
-
-void FSWAP (anu l, anu *r, anu *a);
-void FMOV (anu l, anu *r, anu *a);
-void FLDA (anu l, anu *r, anu D);
-void FLDVA (anu l, anu *r, anu Dh, anu Dl);
-void FRR (anu l, anu *r);
-void FRL (anu l, anu *r);
-void VIKARA (anu lr, anu la, anu *r, anu *a);
-void FADD (anu l, anu *r, anu *a, anu *b);
-void FSUB (anu l, anu *r, anu *a, anu *b);
-void FMUL (anu l, anu *r, anu *a, anu *b);
-void FDIV (anu l, anu *r, anu *a, anu *b, anu *e);
-void FVDIV (anu l, anu *r, anu *a, anu *b, anu *e);
-
-#endif /* SYS_H */
+//  As		(As	 основа, бытие, существовать) अः
+// anu		(anu	 атом) अणु 
+// an		(anka	 цифра) अङ्क 
+// n		(Nimitta знак{овое}) निमित्त 
+// v		(Vṛddhi	 увеличение {разрядности вдвое}) वृद्धि
+// Vikara	(Vikāra	 модификация, изменение состояния) विकार
+//	  Не бытие как состояние определяется в любом представлении чисел
+//	  Бесконечность как состояние возникает только в знаковом представлении чисел
+//	  при нахождении состояний длина результата схлопывается до одного байта
+//Mat.Nim	{00/XX} Без знаковое/Знаковое представление
+//Mat.C		{00/XX} Нет переполнения/Переполнение результата
+//Mat.{F, Fe}	{00/01} Число/Состояние результата
+//Mat.{Z, Ze}	{00/FF} Если число то {+/-} иначе состояние {Не бытие/Бесконечность - байт равен 0/0x80}
+//Mat.{Ll, Lh}	Длина первого операнда/результата
+//Mat.L		Для удобства при использовании
+typedef uintptr_t  As;						//         разрядность процессора
+typedef uint8_t anu;                                		// 1   anu [0..FF]        		[1..8] бит
+//typedef int8_t nanu;                             		// 1  n    [0,+1..+7F,80,-7F..-1]
+typedef struct { anu l; union {anu m[1]; anu h;}; } vanu;       // 2  v    [0..FFFF]      		[1..16] бит
+//typedef struct { anu l; union {anu m[1]; nanu h;}; } vnanu;	// 2 vn    [0,+1..+7FFF,8000,-7FFF..-1]
+//typedef struct { anu l, m[1], h; };               		// 3       [0..FFFFFF]    		+[17..24] бит
+//typedef struct { anu l, m[1] nanu h; };              		// 3       [0,+1..+7FFFFF,800000,-7FFFFF..-1]
+typedef struct { anu l, m[2], h; } an;              		// 4   an  [0..FFFFFFFF]  		[1..32] бит
+//typedef struct { anu l, m[2]; nanu h; } nan;      		// 4  n    [0,+1..+7FFFFFFF,80000000,-7FFFFFFF..-1]
+//typedef struct { anu l, m[3..5], h; };            		// 5-7                    		+[33..56] бит
+//typedef struct { anu l, m[3..5] nanu h; };			// 5-7n
+typedef struct { anu l, m[6], h; } van;             		// 8  v    [0..FFFFFFFFFFFFFFFF]	[1..64] бит
+//typedef struct { anu l, m[6]; nanu h; } vnan;			// 8 vn    [0,+1..+7FFFFFFFFFFFFFFF,8000000000000000,-7FFFFFFFFFFFFFFF..-1]
+//typedef struct { anu l, m[1..253], h; };          		// 1-255                  		[1..2040] весь диапазон доступен
+//typedef struct { anu l, m[1..253]; nanu h; };			// 1-255n
+typedef struct { anu l, m[254], h; } MatBuf;        		// 256					+[2041..2048] бит
+typedef struct { union {anu l; anu m[1]; anu h;}; } Sanu;	// 1       возможность работать с anu как со структурой
+typedef struct { MatBuf Ho, Sr, Lo; anu Nim, C, L, Ll, Lh, Lc,
+  F, Fe, Z, Ze, fa, fb, za, zb, br, ba, bb, be, *r, *a, *b, *e, *R, *A, *B, *E; } Cache;
+extern Cache Mat;
+void FINIT (anu Nim, anu l);
+void FLD (anu *r, anu D);
+void FLVD (anu *r, anu Dl, anu Dh);
+void FRR (anu *r);
+void FRL (anu *r);
+void FMOV (anu lra, anu *r, anu *a);
+void FSWAP (anu lra, anu *r, anu *a);
+void VIKARA (anu lra, anu *r, anu *a);
+void FCold (anu BigEndian, anu *r, anu *a);
+void FADD (anu lb, anu *r, anu *a, anu *b);
+void FSUB (anu lb, anu *r, anu *a, anu *b);
+void FMUL (anu lb, anu *r, anu *a, anu *b);
+void FDIV (anu lbe, anu *r, anu *a, anu *b, anu *e);
+#endif
