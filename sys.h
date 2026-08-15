@@ -35,11 +35,11 @@ typedef struct { anu l, m[2], h; } an;                          // 4   an  [0..F
 //typedef struct { anu l, m[2]; nanu h; } nan;                  // 4  n    [0,+1..+7FFFFFFF,80000000,-7FFFFFFF..-1]
 //typedef struct { anu l, m[3..5], h; };                        // 5-7                    	+++ бит	[33..56] 10^12, 10^14, 10^16
 //typedef struct { anu l, m[3..5] nanu h; };                    // 5-7n
-typedef struct { anu l, m[6], h; } van;                         // 8  v    [0..FFFFFFFFFFFFFFFF]     бит [1..64] 10^19
+typedef struct { anu l, m[6], h; } van;                         // 8  v    [0..FFFFFFFFFFFFFFFF]    бит [1..64] 10^19
 //typedef struct { anu l, m[6]; nanu h; } vnan;                 // 8 vn    [0,+1..+7FFFFFFFFFFFFFFF,8000000000000000,-7FFFFFFFFFFFFFFF..-1]
-//typedef struct { anu l, m[1..253], h; };                      // 1-255        + весь диапазон доступен [1..2040] 10^614
+//typedef struct { anu l, m[1..253], h; };                      // 1-255       + весь диапазон доступен [1..2040] 10^614
 //typedef struct { anu l, m[1..253]; nanu h; };                 // 1-255n
-typedef struct { anu l, m[254], h; } MatBuf;                    // 256                             + бит [2041..2048] 10^616 v{10^1228}
+typedef struct { anu l, m[254], h; } MatBuf;                    // 256                            + бит [2041..2048] 10^616 v{10^1228}
 typedef struct { union {anu l; anu m[1]; anu h;}; } Sanu;       // 1       возможность работать с anu как со структурой
 typedef struct { MatBuf Ho, Sr, Lo; anu Nim, Over, C, F, N, Fre, Nre,
   lb, lar, clar, tl, fa, fb, na, nb, dr, da, db, *r, *a, *b, *re, *R, *A, *B, *RE; } Cache; extern Cache Mat;
