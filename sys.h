@@ -53,5 +53,6 @@ void FADD (anu lb, anu *r, anu *a, anu *b);
 void FSUB (anu lb, anu *r, anu *a, anu *b);
 void FMUL (anu lb, anu *r, anu *a, anu *b);
 void FDIV (anu lb, anu *r, anu *a, anu *b, anu *re);
-#define FINIT(...) _MatInit((anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1)
+#define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
+#define FINI(...) _MatInit(_anu(__VA_ARGS__))
 #endif
