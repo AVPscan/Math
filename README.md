@@ -6,9 +6,9 @@
 *Библиотека для работы с целыми числами произвольной точности*
 
 ```c
-//  As (As   основа, бытие, существовать) अः      n      (Nimitta знак{овое}) निमित्त 
-// anu (anu  атом) अणु                                                            v      (Vṛddhi  увеличение {разрядности вдвое}) वृद्धि
-// an  (anka цифра) अङ्क                                                      Vikara (Vikāra  модификация, изменение состояния) विकार
+//  As (As   основа, бытие, существовать) अः       n      (Nimitta знак{овое}) निमित्त 
+// anu (anu  атом) अणु                             v      (Vṛddhi  увеличение {разрядности вдвое}) वृद्धि
+// an  (anka цифра) अङ्क                           Vikara (Vikāra  модификация, изменение состояния) विकार
 
 //	   Не бытие как состояние определяется в любом представлении чисел. Бесконечность как состояние возникает
 // только в знаковом представлении чисел. При нахождении состояний длина схлопывается до одного байта.
@@ -31,13 +31,13 @@ typedef struct { anu l; union {anu m[1]; anu h;}; } vanu;       // 2  v    [0..F
 //typedef struct { anu l, m[1] nanu h; };                        //3       [0,+1..+7FFFFF,800000,-7FFFFF..-1]
 typedef struct { anu l, m[2], h; } an;                          // 4   an  [0..FFFFFFFF]  	    бит	[1..32] 10^9
 //typedef struct { anu l, m[2]; nanu h; } nan;                   //4  n    [0,+1..+7FFFFFFF,80000000,-7FFFFFFF..-1]
-//typedef struct { anu l, m[3..5], h; };                         //5..7                         +++ бит [33..56] 10^12, 10^14, 10^16
+//typedef struct { anu l, m[3..5], h; };                         //5..7                     +++ бит [33..56] 10^12, 10^14, 10^16
 //typedef struct { anu l, m[3..5] nanu h; };                     //5..7n
-typedef struct { anu l, m[6], h; } van;                         // 8  v    [0..FFFFFFFFFFFFFFFF]    бит [1..64] 10^19
+typedef struct { anu l, m[6], h; } van;                         // 8  v    [0..FFFFFFFFFFFFFFFF]бит [1..64] 10^19
 //typedef struct { anu l, m[6]; nanu h; } vnan;                  //8 vn    [0,+1..+7FFFFFFFFFFFFFFF,8000000000000000,-7FFFFFFFFFFFFFFF..-1]
-//typedef struct { anu l, m[1..253], h; };                       //3..255      + весь диапазон доступен [17..2040] 10^614
+//typedef struct { anu l, m[1..253], h; };                       //3..255  + весь диапазон доступен [17..2040] 10^614
 //typedef struct { anu l, m[1..253]; nanu h; };                  //3..255n
-typedef struct { anu l, m[254], h; } MatBuf;                    // 256                            + бит [2041..2048] 10^616 v{10^1228}
+typedef struct { anu l, m[254], h; } MatBuf;                    // 256                        + бит [2041..2048] 10^616 v{10^1228}
 
 typedef struct { union {anu l; anu m[1]; anu h;}; } Sanu;       // 1       возможность работать с anu как со структурой
 typedef struct { MatBuf Ho, Sr, Lo; anu Nim, Over, C, F, N, Fre, Nre,
