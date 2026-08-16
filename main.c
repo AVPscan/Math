@@ -36,7 +36,7 @@ void Show(anu i, const char *str, void *r, void *e) {
   if (Mat.Nim) { printf("%d %s %d = ", o3, str, o4); if (i > 1) printf("%d", *(zDbuf*)r); else printf("%d", *(zbuf*)r); }
   else { printf("%d %s %d = ", o1, str, o2); if (i > 1) printf("%d", *(Dbuf*)r); else printf("%d", *(buf*)r); }
 #endif
-  if (str[0] == '*') { printf(" long %d", ((Mat.clar << 8) | Mat.lar)); }
+  if (str[0] == '*') { printf(" long %d", ((Mat.cl << 8) | Mat.l)); }
   else if (str[0] == '/') { if (Mat.Nim) printf(" tile %d", *(zbuf*)e); else printf(" tile %d", *(buf*)e);
     printf(" %s", (Mat.Fre) ? (Mat.Nre) ? " I" : " Z" : (Mat.Nre) ? " -" : " +"); } printf("\n"); }
 
@@ -46,7 +46,7 @@ int main(void) {
   if (BE) { FSWAP(Mat.lb, (anu*)&o1, (anu*)&o1); FSWAP(Mat.lb, (anu*)&o2, (anu*)&o2); FSWAP(Mat.lb, (anu*)&o3, (anu*)&o3);
     FSWAP(Mat.lb, (anu*)&o4, (anu*)&o4); }
   Mat.Nim = 0; FADD(Mat.lb, (anu*)&r, Mat.A, Mat.B); Show(1, "+", &r, &e); FSUB(Mat.lb, (anu*)&r, Mat.A, Mat.B); Show(1, "-", &r, &e);
-  FMUL(Mat.lb, (anu*)&rm, Mat.A, Mat.B); Show(2, "*", &rm, &e); Mat.clar = 0; Mat.lar = Mat.lb; FDIV(Mat.lb, (anu*)&r, Mat.A, Mat.B, (anu*)&e); Show(1, "/", &r, &e);
+  FMUL(Mat.lb, (anu*)&rm, Mat.A, Mat.B); Show(2, "*", &rm, &e); Mat.cl = 0; Mat.l = Mat.lb; FDIV(Mat.lb, (anu*)&r, Mat.A, Mat.B, (anu*)&e); Show(1, "/", &r, &e);
   Mat.Nim = 1; FADD(Mat.lb, (anu*)&zr, Mat.A, Mat.B); Show(1, "+", &zr, &ze); FSUB(Mat.lb, (anu*)&zr, Mat.A, Mat.B); Show(1, "-", &zr, &ze);
-  FMUL(Mat.lb, (anu*)&zm, Mat.A, Mat.B); Show(2, "*", &zm, &ze); Mat.clar = 0; Mat.lar = Mat.lb; FDIV(Mat.lb, (anu*)&zr, Mat.A, Mat.B, (anu*)&ze); Show(1, "/", &zr, &ze);
+  FMUL(Mat.lb, (anu*)&zm, Mat.A, Mat.B); Show(2, "*", &zm, &ze); Mat.cl = 0; Mat.l = Mat.lb; FDIV(Mat.lb, (anu*)&zr, Mat.A, Mat.B, (anu*)&ze); Show(1, "/", &zr, &ze);
   return 0; }

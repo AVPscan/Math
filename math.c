@@ -9,44 +9,44 @@
 
 Cache Mat = {0};
 
-void FINIT (anu lb, anu n, anu o) { Mat.Nim = (n != 0); Mat.Over = (o != 0); Mat.lb = lb; Mat.lar = lb; Mat.clar = 0;
+void FINIT (anu lb, anu n, anu o) { Mat.Nim = (n != 0); Mat.Over = (o != 0); Mat.lb = lb; Mat.l = lb; Mat.cl = 0;
   Mat.C = 0; Mat.F = 0; Mat.N = 0; Mat.Fre = 0; Mat.Nre = 0; }
 
-void FLD (anu *r, anu D) { *r = D; Mat.lar = 1; Mat.clar = 0; Mat.N = (Mat.Nim && (D & 0x80)) ? 0xFF : 0;
+void FLD (anu *r, anu D) { *r = D; Mat.l = 1; Mat.cl = 0; Mat.N = (Mat.Nim && (D & 0x80)) ? 0xFF : 0;
   Mat.F = (D) ? (Mat.Nim && (D == 0x80)) ? 1 : 0 : 1; }
 
-void FLVD (anu *r, anu Dl, anu Dh) { Mat.lar = 2; Mat.clar = 0; *r++ = Dl; Mat.N = (Mat.Nim && (Dh & 0x80)) ? 0xFF : 0;
-  if ((Mat.F = (Dh || Dl) ? (Mat.Nim && (Dh == 0x80) && !Dl) ? 1 : 0 : 1)) { Mat.lar--; r--; } *r = Dh; }
+void FLVD (anu *r, anu Dl, anu Dh) { Mat.l = 2; Mat.cl = 0; *r++ = Dl; Mat.N = (Mat.Nim && (Dh & 0x80)) ? 0xFF : 0;
+  if ((Mat.F = (Dh || Dl) ? (Mat.Nim && (Dh == 0x80) && !Dl) ? 1 : 0 : 1)) { Mat.l--; r--; } *r = Dh; }
 
-void FRR (anu *r) { r--; Mat.lre = Mat.lar;
-  while(Mat.lre--) { Mat.na = *++r & 1; *r >>= 1; if (Mat.C) { *r |= 0x80; } Mat.C = Mat.na; } if (Mat.clar) { --Mat.lre;
+void FRR (anu *r) { r--; Mat.lre = Mat.l;
+  while(Mat.lre--) { Mat.na = *++r & 1; *r >>= 1; if (Mat.C) { *r |= 0x80; } Mat.C = Mat.na; } if (Mat.cl) { --Mat.lre;
     while(Mat.lre--) { Mat.na = *++r & 1; *r >>= 1; if (Mat.C) { *r |= 0x80; } Mat.C = Mat.na; } } Mat.C = (Mat.C != 0); }
 
-void FRL (anu *r) { r += Mat.lar + ((Mat.clar) ? 255 : 0); Mat.lre = Mat.lar;
-  while(Mat.lre--) { Mat.na = *--r & 0x80; *r <<= 1; if (Mat.C) { *r |= 1; } Mat.C = Mat.na; } if (Mat.clar) { --Mat.lre;
+void FRL (anu *r) { r += Mat.l + ((Mat.cl) ? 255 : 0); Mat.lre = Mat.l;
+  while(Mat.lre--) { Mat.na = *--r & 0x80; *r <<= 1; if (Mat.C) { *r |= 1; } Mat.C = Mat.na; } if (Mat.cl) { --Mat.lre;
     while(Mat.lre--) { Mat.na = *--r & 0x80; *r <<= 1; if (Mat.C) { *r |= 1; } Mat.C = Mat.na; } } Mat.C = (Mat.C != 0); }
 
-void FMOV (anu l, anu *r, anu *a) { if (l) { Mat.r = r; Mat.lar = l; Mat.clar = 0; Mat.dr = 0;
+void FMOV (anu l, anu *r, anu *a) { if (l) { Mat.r = r; Mat.l = l; Mat.cl = 0; Mat.dr = 0;
     if (r < a) { while(--l) Mat.dr |= (*r++ = *a++); } else { r += l; a += l; while(--l) { Mat.dr |= (*--r = *--a); } r--; a--; } 
     Mat.N = (Mat.Nim && ((*r = *a) & 0x80)) ? 0xFF : 0; if ((Mat.F = (*r || Mat.dr) ? (Mat.Nim && (*r == 0x80) && !Mat.dr) ? 1 : 0 : 1)) {
-      *Mat.r = *r; Mat.lar = 1; } } }
+      *Mat.r = *r; Mat.l = 1; } } }
 
 void FSWAP (anu l, anu *r, anu *a) { if (l) { Mat.r = r + l; Mat.a = a + l; Mat.fa = (l & 1); l >>= 1;
     while(l--) { Mat.da = *--Mat.a; Mat.dr = *a++; *r++ = Mat.da; *--Mat.r = Mat.dr; } if (Mat.fa) *r = *a; } }
 
-void VIKARA (anu l, anu *r, anu *a) { Mat.C = 0; if ((Mat.lre = l)) { Mat.a = a; Mat.N = (Mat.Nim && (*a & 0x80)) ? 0xFF : 0;
-    if ((Mat.F = (*a) ? (Mat.Nim && *a == 0x80) ? 1 : 0 : 1)) while(--Mat.lre && (Mat.F = (*++Mat.a) ? 0 : Mat.F));
-    if (Mat.F) { Mat.N = (*r = *a) ? 0xFF : 0; Mat.clar = 0; Mat.lar = 1; return; }
-    if (Mat.clar || (Mat.lar >= l)) { r += Mat.lar + ((Mat.clar) ? 255 : 0); a += l; Mat.lre = Mat.lar; Mat.lre -= l - (Mat.clar != 0);
-      do *--r = *--a; while(--l); while(Mat.lre--) { *--r = Mat.N; } return; }
-    l -= Mat.lar; do Mat.C = (*a++ == Mat.N) ? Mat.C : 1; while(--l); Mat.da = *a;
-    if (Mat.Nim) { Mat.C = ((Mat.da ^ Mat.N) & 0x80) ? 1 : Mat.C; Mat.da &= 0x7F; Mat.da |= (Mat.N & 0x80);
-      if (Mat.C) { Mat.C--; Mat.F++; Mat.N = 0xFF; *r = 0x80; Mat.lar = 1; return; } }
-    *r++ = Mat.da; l = Mat.lar; while(--l) { *r++ = *++a; } return ; }
-  Mat.F = 0; Mat.N = 0; Mat.clar = 0; if (Mat.lar) { Mat.F++; *r = 0; Mat.lar = 1;  } }
+void VIKARA (anu lb, anu *r, anu *b) { Mat.C = 0; if ((Mat.lre = lb)) { Mat.b = b; Mat.N = (Mat.Nim && (*b & 0x80)) ? 0xFF : 0;
+    if ((Mat.F = (*b) ? (Mat.Nim && *b == 0x80) ? 1 : 0 : 1)) while(--Mat.lre && (Mat.F = (*++Mat.b) ? 0 : Mat.F));
+    if (Mat.F) { Mat.N = (*r = *b) ? 0xFF : 0; Mat.l = 1; Mat.cl = 0; return; }
+    if (Mat.cl || (Mat.l >= lb)) { r += Mat.l + ((Mat.cl) ? 255 : 0); b += lb; Mat.lre = Mat.l; Mat.lre -= lb - (Mat.cl != 0);
+      do *--r = *--b; while(--lb); while(Mat.lre--) { *--r = Mat.N; } return; }
+    lb -= Mat.l; do Mat.C = (*b++ == Mat.N) ? Mat.C : 1; while(--lb); Mat.db = *b;
+    if (Mat.Nim) { Mat.C = ((Mat.db ^ Mat.N) & 0x80) ? 1 : Mat.C; Mat.db &= 0x7F; Mat.db |= (Mat.N & 0x80);
+      if (Mat.C) { Mat.C--; Mat.F++; Mat.N = 0xFF; *r = 0x80; Mat.l = 1; return; } }
+    *r++ = Mat.db; lb = Mat.l; while(--lb) { *r++ = *++b; } return ; }
+  Mat.F = 0; Mat.N = 0; Mat.cl = 0; if (Mat.l) { Mat.F++; *r = 0; Mat.l = 1; Mat.cl = 0; } }
 
-void FCold (anu BigEndian, anu lb, anu *r, anu *b) { if ((Mat.lre = lb)) { Mat.clar = 0; if (lb > 2) {
-      Mat.lre = (lb - 1) >> 1; Mat.lar = 2; do Mat.lar <<= 1; while((Mat.lre >>= 1)); } Mat.lre = Mat.lar; VIKARA(lb, r, b); Mat.lar = lb;
+void FCold (anu BigEndian, anu lb, anu *r, anu *b) { if ((Mat.lre = lb)) { Mat.cl = 0; if (lb > 2) {
+      Mat.lre = (lb - 1) >> 1; Mat.l = 2; do Mat.l <<= 1; while((Mat.lre >>= 1)); } Mat.lre = Mat.l; VIKARA(lb, r, b); Mat.l = lb;
     if (Mat.F) { lb = Mat.lre; Mat.dr = *(Mat.r = r); while(--lb) { *Mat.r++ = 0; } *Mat.r = Mat.dr; } if (BigEndian) FSWAP(Mat.lre, r, r); } }
 
 void FADD (anu l, anu *r, anu *a, anu *b) {
@@ -71,7 +71,7 @@ void FSUB (anu l, anu *r, anu *a, anu *b) {
 
 void FMUL (anu l, anu *r, anu *a, anu *b) {
   if (l) { Mat.F = 0; Mat.na = (Mat.Nim && *a & 0x80) ? 0xFF : 0; Mat.nb = (Mat.Nim && *b & 0x80) ? 0xFF : 0;
-    Mat.N = Mat.na ^ Mat.nb; Mat.a = &Mat.Ho.l; Mat.b = &Mat.Lo.l; Mat.lar = l; Mat.clar = ((Mat.lar += l) < l);
+    Mat.N = Mat.na ^ Mat.nb; Mat.a = &Mat.Ho.l; Mat.b = &Mat.Lo.l; Mat.l = l; Mat.cl = ((Mat.l += l) < l);
     Mat.fa = 0; Mat.fb = 0; Mat.da = 1; Mat.db = 1; Mat.r = r; r += l; Mat.re = r + l; a += l; b += l;
     do { Mat.fa = (*--a) ? (Mat.fa) ? Mat.fa : l : Mat.fa; Mat.fb = (*--b) ? (Mat.fb) ? Mat.fb : l : Mat.fb;
       Mat.da = (Mat.fa) ? (Mat.na) ? !(*Mat.a++ = ~*a + Mat.da) : (*Mat.a++ = *a) : Mat.da;

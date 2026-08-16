@@ -8,22 +8,19 @@
 #define SYS_H
 #include <stdint.h>
 //Begin 05.07.2026 in Russia
-//  As		(As	 основа, бытие, существовать) अः
-// anu		(anu	 атом) अणु 
-// an		(anka	 цифра) अङ्क 
-// n		(Nimitta знак{овое}) निमित्त 
-// v		(Vṛddhi	 увеличение {разрядности вдвое}) वृद्धि
-// Vikara	(Vikāra	 модификация, изменение состояния) विकार
-//	  Не бытие как состояние определяется в любом представлении чисел
-//	  Бесконечность как состояние возникает только в знаковом представлении чисел
-//	  при нахождении состояний длина результата схлопывается до одного байта
+//  As (As   основа, бытие, существовать) अः      n      (Nimitta знак{овое}) निमित्त 
+// anu (anu  атом) अणु                                                            v      (Vṛddhi  увеличение {разрядности вдвое}) वृद्धि
+// an  (anka цифра) अङ्क                                                      Vikara (Vikāra  модификация, изменение состояния) विकार
+//	   Не бытие как состояние определяется в любом представлении чисел. Бесконечность как состояние возникает
+// только в знаковом представлении чисел. При нахождении состояний длина схлопывается до одного байта.
 //Mat.Nim         {00/XX} Без знаковое/Знаковое представление
-//Mat.Over        {00/XX} Возможность роста размера результата при беззнаковом сложении
-//Mat.C           {00/XX} Нет переполнения/Переполнение результата
-//Mat.{F, Fre}    {00/01} Число/Состояние результата
-//Mat.{Z, Zre}    {00/FF} Если число то {+/-} иначе состояние {Не бытие/Бесконечность - байт равен 0/0x80}
-//Mat.{lar, clar} Длина первого операнда, на выходе длина результата
-//Mat.lb          Для удобства при использовании
+//Mat.Over        {00/XX} Возможность роста размера результата
+//Mat.C           {00/XX} Нет переполнения/Переполнение
+//Mat.{F, Fre}    {00/01} Число/Состояние
+//Mat.{Z, Zre}    {00/FF} Если число то {+/-} иначе состояние {Не бытие 0x00/0x80 Бесконечность}
+//Mat.{l, cl}     длина операнда a, на выходе длина результата r {l = l + ((cl) ? 255 : 0);}
+//Mat.lb          длина операнда b {не полдежит изменению внутри функций}
+//Mat.lre         FDIV длина остатка re, FCold длина результата r
 typedef uintptr_t  As;                                          //        разрядность процессора
 typedef uint8_t anu;                                            // 1   anu [0..FF]        	    бит	[1..8] 10^2
 //typedef int8_t nanu;                                           //1  n    [0,+1..+7F,80,-7F..-1]
@@ -33,7 +30,7 @@ typedef struct { anu l; union {anu m[1]; anu h;}; } vanu;       // 2  v    [0..F
 //typedef struct { anu l, m[1] nanu h; };                        //3       [0,+1..+7FFFFF,800000,-7FFFFF..-1]
 typedef struct { anu l, m[2], h; } an;                          // 4   an  [0..FFFFFFFF]  	    бит	[1..32] 10^9
 //typedef struct { anu l, m[2]; nanu h; } nan;                   //4  n    [0,+1..+7FFFFFFF,80000000,-7FFFFFFF..-1]
-//typedef struct { anu l, m[3..5], h; };                         //5..7                          +++ бит [33..56] 10^12, 10^14, 10^16
+//typedef struct { anu l, m[3..5], h; };                         //5..7                         +++ бит [33..56] 10^12, 10^14, 10^16
 //typedef struct { anu l, m[3..5] nanu h; };                     //5..7n
 typedef struct { anu l, m[6], h; } van;                         // 8  v    [0..FFFFFFFFFFFFFFFF]    бит [1..64] 10^19
 //typedef struct { anu l, m[6]; nanu h; } vnan;                  //8 vn    [0,+1..+7FFFFFFFFFFFFFFF,8000000000000000,-7FFFFFFFFFFFFFFF..-1]
@@ -42,7 +39,7 @@ typedef struct { anu l, m[6], h; } van;                         // 8  v    [0..F
 typedef struct { anu l, m[254], h; } MatBuf;                    // 256                            + бит [2041..2048] 10^616 v{10^1228}
 typedef struct { union {anu l; anu m[1]; anu h;}; } Sanu;       // 1       возможность работать с anu как со структурой
 typedef struct { MatBuf Ho, Sr, Lo; anu Nim, Over, C, F, N, Fre, Nre,
-  lar, clar, lb, lre, fa, fb, na, nb, dr, da, db, *r, *a, *b, *re, *R, *A, *B, *RE; } Cache; extern Cache Mat;
+  l, cl, lb, lre, fa, fb, na, nb, dr, da, db, *r, *a, *b, *re, *R, *A, *B, *RE; } Cache; extern Cache Mat;
 void FINIT (anu lb, anu n, anu o);
 void FLD (anu *r, anu D);
 void FLVD (anu *r, anu Dl, anu Dh);
