@@ -14,15 +14,12 @@
 #if Lon == 1
  typedef uint8_t buf; typedef int8_t zbuf;
  typedef uint16_t Dbuf; typedef int16_t zDbuf;
- anu a_data[] = {251}, b_data[] = {6};
 #elif Lon == 2
  typedef uint16_t buf; typedef int16_t zbuf;
  typedef uint32_t Dbuf; typedef int32_t zDbuf;
- anu a_data[] = {2,1}, b_data[] = {4,0};
 #elif Lon == 4
  typedef uint32_t buf; typedef int32_t zbuf;
  typedef uint64_t Dbuf; typedef int64_t zDbuf;
- anu a_data[] = {128,5,0,0}, b_data[] = {127,0,0,0};
 #endif
 buf o1, o2; zbuf o3, o4;
 
@@ -41,8 +38,9 @@ void Show(anu i, const char *str, void *r, void *e) {
     printf(" %s", (Mat.Fre) ? (Mat.Nre) ? " I" : " Z" : (Mat.Nre) ? " -" : " +"); } printf("\n"); }
 
 int main(void) {
-  FINI(Lon); printf("Long = %d\n", Mat.lb); buf r, e; Dbuf rm; zbuf zr, ze; zDbuf zm; Mat.A = (an)a_data;
-  Mat.B = (an)b_data; FSWAP(Mat.lb, (an)&o1, Mat.A); FSWAP(Mat.lb, (an)&o2, Mat.B); FSWAP(Mat.lb, (an)&o3, Mat.A);
+  FINI(Lon); printf("Long = %d\n", Mat.lb); buf r, e; Dbuf rm; zbuf zr, ze; zDbuf zm;
+  anu a_data[] = {251,1,0,0}, b_data[] = {6,0,0,0}; Mat.A = (an)a_data; Mat.B = (an)b_data;
+  FSWAP(Mat.lb, (an)&o1, Mat.A); FSWAP(Mat.lb, (an)&o2, Mat.B); FSWAP(Mat.lb, (an)&o3, Mat.A);
   FSWAP(Mat.lb, (an)&o4, Mat.B); if (BE) { FSWAP(Mat.lb, (an)&o1, (an)&o1); FSWAP(Mat.lb, (an)&o2, (an)&o2);
     FSWAP(Mat.lb, (an)&o3, (an)&o3); FSWAP(Mat.lb, (an)&o4, (an)&o4); }
   FADD(Mat.lb, (an)&r, Mat.A, Mat.B); Show(1, "+", &r, &e); FSUB(Mat.lb, (an)&r, Mat.A, Mat.B); Show(1, "-", &r, &e);
