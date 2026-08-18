@@ -25,7 +25,6 @@
  anu a_data[] = {128,5,0,0}, b_data[] = {127,0,0,0};
 #endif
 buf o1, o2; zbuf o3, o4;
-an a = a_data, b = b_data;
 
 void Show(anu i, const char *str, void *r, void *e) {
   printf(" %s%s", (Mat.C) ? "C" : " ", (Mat.F) ? (Mat.N) ? "I " : "Z " : (Mat.N) ? "- " : "+ ");
@@ -42,9 +41,9 @@ void Show(anu i, const char *str, void *r, void *e) {
     printf(" %s", (Mat.Fre) ? (Mat.Nre) ? " I" : " Z" : (Mat.Nre) ? " -" : " +"); } printf("\n"); }
 
 int main(void) {
-  FINI(Lon); printf("Long = %d\n", Mat.lb); buf r, e; Dbuf rm; zbuf zr, ze; zDbuf zm; Mat.A = a; Mat.B = b;
-  FSWAP(Mat.lb, (an)&o1, Mat.A); FSWAP(Mat.lb, (an)&o2, Mat.B); FSWAP(Mat.lb, (an)&o3, (an)&a);
-  FSWAP(Mat.lb, (an)&o4, (an)&b); if (BE) { FSWAP(Mat.lb, (an)&o1, (an)&o1); FSWAP(Mat.lb, (an)&o2, (an)&o2);
+  FINI(Lon); printf("Long = %d\n", Mat.lb); buf r, e; Dbuf rm; zbuf zr, ze; zDbuf zm; Mat.A = (an)a_data;
+  Mat.B = (an)b_data; FSWAP(Mat.lb, (an)&o1, Mat.A); FSWAP(Mat.lb, (an)&o2, Mat.B); FSWAP(Mat.lb, (an)&o3, Mat.A);
+  FSWAP(Mat.lb, (an)&o4, Mat.B); if (BE) { FSWAP(Mat.lb, (an)&o1, (an)&o1); FSWAP(Mat.lb, (an)&o2, (an)&o2);
     FSWAP(Mat.lb, (an)&o3, (an)&o3); FSWAP(Mat.lb, (an)&o4, (an)&o4); }
   FADD(Mat.lb, (an)&r, Mat.A, Mat.B); Show(1, "+", &r, &e); FSUB(Mat.lb, (an)&r, Mat.A, Mat.B); Show(1, "-", &r, &e);
   FMUL(Mat.lb, (an)&rm, Mat.A, Mat.B); Show(2, "*", &rm, &e); Mat.cl = 0; Mat.l = Mat.lb; FDIV(Mat.lb, (an)&r, Mat.A, Mat.B, (an)&e);

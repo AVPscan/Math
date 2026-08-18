@@ -36,9 +36,8 @@ typedef uint8_t anu;                                            // 1   anu [0..F
 //typedef struct { anu l, m[6]; nanu h; };                       //8  n    [0,+1..+7FFFFFFFFFFFFFFF,8000000000000000,-7FFFFFFFFFFFFFFF..-1]
 //typedef struct { anu l, m[1..253], h; };                       //3..255      + весь диапазон доступен [17..2040] 10^614 v{10^1228}
 //typedef struct { anu l, m[1..253]; nanu h; };                  //3..255n
-typedef struct { union {anu l; anu m[1]; anu h;}; } Sanu;       // 1       возможность работать с anu как со структурой
-typedef anu* an;						//         адрес начала числа состоящего из атомов
 typedef struct { anu l, m[254], h; } MatBuf;                    // 256     для внутренних буферов ибо нужен дополнительный байт для сдвига
+typedef anu* an;						//         адрес начала числа состоящего из атомов
 typedef struct { MatBuf Ho, Sr, Lo; anu lb, Nim, Over, C, F, N, Fre, Nre,
   cl, l, lre, fa, fb, na, nb, dr, da, db; an r, a, b, re, R, A, B, RE; } Cache; extern Cache Mat;
 void _MatInit (anu c, an a);
