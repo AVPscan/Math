@@ -31,7 +31,7 @@ void Show(const char *s) { anu i = (s[0] == '*');
     printf(" %s", (Mat.Fre) ? (Mat.Nre) ? " I" : " Z" : (Mat.Nre) ? " -" : " +"); }
   printf("\n"); }
 
-int main(void) { FINI(lb); printf("lbg = %d\n", Mat.lb); Mat.A = (an)a; Mat.B = (an)b;
+int main(void) { FINI(lb); printf("long b %d\n", Mat.lb); Mat.A = (an)a; Mat.B = (an)b;
   FSWAP(Mat.lb, (an)c, Mat.A); FSWAP(Mat.lb, (an)d, Mat.B); if (BE) { FSWAP(Mat.lb, (an)c, (an)c); FSWAP(Mat.lb, (an)d, (an)d); }
   Mat.cl = cl; Mat.l = l; FADD(Mat.lb, r, Mat.A, Mat.B); Show("+");
   Mat.cl = cl; Mat.l = l; FSUB(Mat.lb, r, Mat.A, Mat.B); Show("-");
