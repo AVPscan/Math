@@ -28,18 +28,23 @@ void FMOV (anu lb, an r, an b) {
 void VIKARA (anu lb, an r, an b) {
   Mat.C = 0; if (lb) {
     if (Mat.cl || Mat.l) {
-      if (Mat.cl || (Mat.l >= lb)) { Mat.fb = ((Mat.cl) ? 255 : Mat.l) - lb;
+      if (Mat.cl || (Mat.l >= lb)) { Mat.fa = (Mat.cl ? 255 : Mat.l) - lb; Mat.fb = Mat.fa + (Mat.cl ? Mat.l : 0);
+        Mat.fb += (Mat.fa = (Mat.fb < Mat.fa));
+	
 	}
       else { Mat.fb = lb - Mat.l;
+	
 	}
       return; } Mat.dr = *(b + lb - 1); Mat.N = (Mat.Nim && (Mat.dr & 0x80)) ? 0xFF : 0; Mat.fb = 0;
     while(--lb && !(Mat.fb |= *b++)){}; Mat.F = (Mat.dr || Mat.fb) ? (Mat.Nim && (Mat.dr == 0x80) && !Mat.fb) ? 1 : 0 : 1; 
     return; } Mat.F = 1; Mat.N = ((*r = (Mat.Nim && (Mat.l || Mat.cl)) ? 0x80 : 0)) ? 0xFF : 0; Mat.l = 1; Mat.cl = 0; }
 void FSWAP (anu lb, an r, an b) {
   if (lb) { Mat.r = r + lb; Mat.b = b + lb; Mat.fb = (lb & 1);
-    if ((lb >>= 1)) do { Mat.db = *--Mat.b; Mat.dr = *b++; *r++ = Mat.db; *--Mat.r = Mat.dr; } while(--lb); if (Mat.fb) *r = *b; } }
+    if ((lb >>= 1)) do { Mat.db = *--Mat.b; Mat.dr = *b++; *r++ = Mat.db; *--Mat.r = Mat.dr; } while(--lb);
+    if (Mat.fb) *r = *b; } }
 void FCold (anu BigEndian, anu lb, an r, an b) {
-  if ((Mat.lre = lb)) { Mat.cl = 0; if (lb > 2) { Mat.lre = (lb - 1) >> 1; Mat.l = 2; do Mat.l <<= 1; while((Mat.lre >>= 1)); }
+  if ((Mat.lre = lb)) { Mat.cl = 0;
+    if (lb > 2) { Mat.lre = (lb - 1) >> 1; Mat.l = 2; do Mat.l <<= 1; while((Mat.lre >>= 1)); }
     Mat.lre = Mat.l; VIKARA(lb, r, b); Mat.l = lb; if (BigEndian) FSWAP(Mat.lre, r, r); } }
 
 void FRR (an r) {
