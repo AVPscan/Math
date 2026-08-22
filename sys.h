@@ -20,7 +20,7 @@
 //Mat.C           {00/XX} Нет переполнения/Переполнение
 //Mat.{F, Fre}    {00/01} Число/Состояние {Результата/Остатка}
 //Mat.{Z, Zre}    {00/FF} Если число то {+/-} иначе состояние {Не бытие 0x00/0x80 Бесконечность}
-//Mat.{l, cl}     длина операнда a, на выходе длина результата r {l = Mat.l + ((Mat.cl) ? 255 : 0);}
+//Mat.{l, cl}     длина операнда a, на выходе длина результата r {l = Mat.l + ((Mat.cl) ? 256 : 0);}
 //Mat.lb          длина операнда b {не полдежит изменению внутри функций}
 //Mat.lre         FDIV длина остатка re, FCold длина результата r
 
@@ -28,21 +28,22 @@ typedef uintptr_t  As;
 typedef uint8_t anu;
 typedef anu* an;                                // Начальный адрес расположения числа
 typedef struct { anu l, m[254], h, e; } MatBuf;	// На байт больше для организации сдвига
-typedef struct { MatBuf Ho, Sr, Lo; anu lb, Nim, Be, V, l, cl, C, F, N, Fre, Nre, lre,
+typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, l, lb, cl, C, F, N, Fre, Nre, lre,
   fa, fb, na, nb, dr, da, db; an r, a, b, re, R, A, B, RE; } Cache;
 extern Cache Mat;
 
-void _MatInit (anu c, an a);
-void FLD (an r, anu D);
-void FLVD (an r, anu Dl, anu Dh);
-void FMOV (anu lb, an r, an b);
-void VIKARA (anu lb, an b, an a);
-void FSWAP (anu lb, an r, an b);
+void _MatInit (anu x, anu y, an r, anu c, an a);
+void Fld (an r, anu D);
+void Flvd (an r, anu Dl, anu Dh);
+void Fmov (anu lb, an r, an b);
+void Fvikara (anu lb, an r, an b);
+void Fswap (anu lb, an r, an b);
 void FCold (anu lb, an r, an b);
 void FADD (anu lb, an r, an a, an b);
 void FSUB (anu lb, an r, an a, an b);
 void FMUL (anu lb, an r, an a, an b);
 void FDIV (anu lb, an r, an a, an b, an re);
 #define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
-#define FINI(...) _MatInit(_anu(__VA_ARGS__))
+#define Fini(...) _MatInit(12,6,&Mat.lre,_anu(__VA_ARGS__))
+#define Flong(...) _MatInit(3,3,&Mat.cl,_anu(__VA_ARGS__))
 #endif
