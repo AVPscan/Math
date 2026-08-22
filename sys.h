@@ -4,9 +4,11 @@
  * распространять ее и/или изменять согласно условиям Стандартной общественной
  * лицензии GNU (GPLv3).
  */
+ 
 #ifndef SYS_H
 #define SYS_H
 #include <stdint.h>
+
 //Begin 05.07.2026 in Russia
 //  As (As   основа, бытие, существовать) अः       n (Nimitta знак{овое}) निमित्त 
 // anu (anu  атом) अणु                                                             v (Vṛddhi  увеличение {разрядности}) वृद्धि
@@ -21,12 +23,15 @@
 //Mat.{l, cl}     длина операнда a, на выходе длина результата r {l = Mat.l + ((Mat.cl) ? 255 : 0);}
 //Mat.lb          длина операнда b {не полдежит изменению внутри функций}
 //Mat.lre         FDIV длина остатка re, FCold длина результата r
+
 typedef uintptr_t  As;
 typedef uint8_t anu;
 typedef anu* an;                                // Начальный адрес расположения числа
 typedef struct { anu l, m[254], h, e; } MatBuf;	// На байт больше для организации сдвига
-typedef struct { MatBuf Ho, Sr, Lo; anu lb, Nim, Be, V, C, F, N, Fre, Nre, cl, l, lre, fa, fb, na, nb, dr, da, db; an r, a, b, re, R, A, B, RE; } Cache;
+typedef struct { MatBuf Ho, Sr, Lo; anu lb, Nim, Be, V, C, F, N, Fre, Nre, cl, l, lre,
+  fa, fb, na, nb, dr, da, db; an r, a, b, re, R, A, B, RE; } Cache;
 extern Cache Mat;
+
 void _MatInit (anu c, an a);
 void FLD (an r, anu D);
 void FLVD (an r, anu Dl, anu Dh);
