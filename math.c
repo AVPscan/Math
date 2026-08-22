@@ -9,8 +9,8 @@
 
 Cache Mat = {0};
 
-void _MatInit (anu c, an a) { Mat.r = &Mat.cl; Mat.l = 9; do *Mat.r-- = 0; while(--Mat.l);
-  if (c) { c = (c > 4) ? 4 : c; do *Mat.r++ = *a++; while(--c); } Mat.l = Mat.lb; }
+void _MatInit (anu c, an a) { Mat.r = &Mat.lre; Mat.db = 12; do *Mat.r-- = 0; while(--Mat.db);
+  if (c) { c = (c > 6) ? 6 : c; *++Mat.r = *a++; Mat.l = Mat.lb; while(--c) *++Mat.r = *a++; } }
 
 void FLD (an r, anu D) { Mat.l = 1; Mat.cl = 0; *r = D;
   Mat.N = (Mat.Nim && (D & 0x80)) ? 0xFF : 0; Mat.F = (D) ? (Mat.Nim && (D == 0x80)) ? 1 : 0 : 1; }

@@ -28,7 +28,7 @@ typedef uintptr_t  As;
 typedef uint8_t anu;
 typedef anu* an;                                // Начальный адрес расположения числа
 typedef struct { anu l, m[254], h, e; } MatBuf;	// На байт больше для организации сдвига
-typedef struct { MatBuf Ho, Sr, Lo; anu lb, Nim, Be, V, C, F, N, Fre, Nre, cl, l, lre,
+typedef struct { MatBuf Ho, Sr, Lo; anu lb, Nim, Be, V, l, cl, C, F, N, Fre, Nre, lre,
   fa, fb, na, nb, dr, da, db; an r, a, b, re, R, A, B, RE; } Cache;
 extern Cache Mat;
 
