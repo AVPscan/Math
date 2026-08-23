@@ -23,20 +23,20 @@
 //Mat.{l, cl}     длина операнда a, на выходе длина результата r {l = Mat.l + ((Mat.cl) ? 256 : 0);}
 //Mat.lb          длина операнда b {не полдежит изменению внутри функций}
 //Mat.lre         FDIV длина остатка re, FCold длина результата r
-
+//Mat.{R,A,B,RE}  для удобства {не подлежат изменению внутри функций}
 typedef uintptr_t  As;
 typedef uint8_t anu;
 typedef anu* an;                                // Начальный адрес расположения числа
 typedef struct { anu l, m[254], h, e; } MatBuf;	// На байт больше для организации сдвига
-typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, l, lb, cl, C, F, N, Fre, Nre, lre,
-  fa, fb, na, nb, dr, da, db; an r, a, b, re, R, A, B, RE; } Cache;
+typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, cl, l, lb, lre, C, F, N, Fre, Nre,
+  fc, fa, fb, na, nb, dr, da, db, de; an r, a, b, re, R, A, B, RE; } Cache;
 extern Cache Mat;
 
-void _MatInit (anu x, anu y, an r, anu c, an a);
+void _FInit (anu x, anu y, an r, anu c, an a);
+void Fvikara (anu l, an r, an a);
 void Fld (an r, anu D);
 void Flvd (an r, anu Dl, anu Dh);
 void Fmov (anu lb, an r, an b);
-void Fvikara (anu lb, an r, an b);
 void Fswap (anu lb, an r, an b);
 void FCold (anu lb, an r, an b);
 void FADD (anu lb, an r, an a, an b);
@@ -44,6 +44,6 @@ void FSUB (anu lb, an r, an a, an b);
 void FMUL (anu lb, an r, an a, an b);
 void FDIV (anu lb, an r, an a, an b, an re);
 #define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
-#define Fini(...) _MatInit(12,6,&Mat.lre,_anu(__VA_ARGS__))
-#define Flong(...) _MatInit(3,3,&Mat.cl,_anu(__VA_ARGS__))
+#define Fini(...) _FInit(12,6,&Mat.Nre,_anu(__VA_ARGS__))
+#define Flong(...) _FInit(0,3,&Mat.Be,_anu(__VA_ARGS__))
 #endif
