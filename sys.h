@@ -31,8 +31,10 @@ typedef struct { anu l, m[254], h, e; } MatBuf;	// На байт больше д
 typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, cl, l, lb, lre, C, F, N, Fre, Nre,
   fc, fa, fb, na, nb, dr, da, db, de; an r, a, b, re, R, A, B, RE; } Cache;
 extern Cache Mat;
-
+#define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 void _FInit (anu x, anu y, an r, anu c, an a);
+#define Fini(...) _FInit(12,6,&Mat.Nre,_anu(__VA_ARGS__))
+#define Flong(...) _FInit(0,3,&Mat.Be,_anu(__VA_ARGS__))
 void Fvikara (anu l, an r, an a);
 void Fld (an r, anu D);
 void Flvd (an r, anu Dl, anu Dh);
@@ -43,7 +45,4 @@ void FADD (anu lb, an r, an a, an b);
 void FSUB (anu lb, an r, an a, an b);
 void FMUL (anu lb, an r, an a, an b);
 void FDIV (anu lb, an r, an a, an b, an re);
-#define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
-#define Fini(...) _FInit(12,6,&Mat.Nre,_anu(__VA_ARGS__))
-#define Flong(...) _FInit(0,3,&Mat.Be,_anu(__VA_ARGS__))
 #endif
