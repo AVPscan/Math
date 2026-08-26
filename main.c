@@ -7,7 +7,8 @@
  
 #include <stdio.h>
 #include "sys.h"
-#define T 3
+
+#define T 4
 anu a[] = {251,5,0,0,0,0,0,0}, b[] = {6,0,0,0,0,0,0,0}, c[16], r[16], e[8];
 anu cl = 0, la = T, lb = T, Nim = 0, Be = 0, V = 0;
 
