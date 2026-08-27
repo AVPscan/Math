@@ -43,6 +43,7 @@ void Flvd (an r, anu Dl, anu Dh);
 void Fmov (anu lb, an r, an b);
 void Fswap (anu lb, an r, an b);
 void FCold (anu lb, an r, an b);
+void Fadd (anu lb, an r, an a, an b);
 void FADD (anu lb, an r, an a, an b);
 void FSUB (anu lb, an r, an a, an b);
 void FMUL (anu lb, an r, an a, an b);
