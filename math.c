@@ -11,7 +11,8 @@ Cache Mat = {0};
 
 void _FInit (anu x, anu y, an r, anu c, an a) { while(x--) { *r-- = 0; } if (c) { c = (c > y) ? y : c; do *++r = *a++; while(--c); } }
 
-void Fvikara (anu l, an r, an a) { Mat.cl = (Mat.cl != 0); Mat.dr = 0; if ((Mat.fa = Mat.cl - (Mat.l < (Mat.fb = Mat.l - l))) == 0xFF) {
+void Fvikara (anu l, an r, an a) { Mat.cl = (Mat.cl != 0); Mat.dr = 0;
+  if ((Mat.fa = Mat.cl - (Mat.l < (Mat.fb = Mat.l - l))) == 0xFF) {
     Mat.fb = l - Mat.l; Mat.cl = Mat.l; Mat.fa = *(a + l); Mat.N = (Mat.Nim && (Mat.fa & 0x80)) ? 0xFF : 0;
     if (r > a) { Mat.r = (r += Mat.l); Mat.a = (a += Mat.l); while(Mat.cl--) Mat.dr |= (*--Mat.r = *--Mat.a); }
     else { while(Mat.cl--) Mat.dr |= (*r++ = *a++); } Mat.F = (*a || Mat.dr) ? (Mat.Nim && (*a == 0x80) && !Mat.dr) ? 1 : 0 : 1;
@@ -67,7 +68,7 @@ void FSUB (anu l, an r, an a, an b) {
 
 void FMUL (anu l, an r, an a, an b) {
   if (l) { Mat.F = 0; Mat.na = (Mat.Nim && *a & 0x80) ? 0xFF : 0; Mat.nb = (Mat.Nim && *b & 0x80) ? 0xFF : 0;
-    Mat.N = Mat.na ^ Mat.nb; Mat.a = &Mat.Ho.l; Mat.b = &Mat.Lo.l; Mat.cl = ((Mat.l = (l << 1)) < l);
+    Mat.N = Mat.na ^ Mat.nb; Mat.a = &Mat.Ho.l; Mat.b = &Mat.Lo.l; Mat.cl = ((Mat.l = (l << 1)) < l); Mat.l--;
     Mat.fa = 0; Mat.fb = 0; Mat.da = 1; Mat.db = 1; Mat.r = r; r += l; Mat.re = r + l; a += l; b += l;
     do { Mat.fa = (*--a) ? (Mat.fa) ? Mat.fa : l : Mat.fa; Mat.fb = (*--b) ? (Mat.fb) ? Mat.fb : l : Mat.fb;
       Mat.da = (Mat.fa) ? (Mat.na) ? !(*Mat.a++ = ~*a + Mat.da) : (*Mat.a++ = *a) : Mat.da;
