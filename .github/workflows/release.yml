@@ -81,9 +81,7 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: ${{ matrix.artifact }}
-              path: |
-      math
-      math.exe
+              path: math*
 
   # 3. Релиз, который собирает всё воедино
   create-release:
