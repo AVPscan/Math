@@ -29,8 +29,9 @@ all: clean
 c: clean
 	@clang $(CLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
-musl:
+musl: clean
 	@gcc $(BASE_CFLAGS) -static -o $(TARGET)-static $(SOURCES) $(LDFLAGS)
+	@$(MAKE) --no-print-directory size
 size:
 	@SIZE=$$($(GET_SIZE)); echo "$(TARGET)$(EXT) $$SIZE byte"
 run: clean
