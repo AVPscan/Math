@@ -6,7 +6,7 @@
  */
  
 #include <stdio.h>
-#include "sys.h"
+#include "math.h"
 
 #define T 0
 anu a[] = {255,0,0,0,0,0,0,0}, b[] = {255,254,0,0,0,0,0,0}, c[16], r[16], e[8];

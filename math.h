@@ -5,8 +5,8 @@
  * лицензии GNU (GPLv3).
  */
  
-#ifndef SYS_H
-#define SYS_H
+#ifndef MATH_H
+#define MATH_H
 #include <stdint.h>
 
 //Begin 05.07.2026 in Russia

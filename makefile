@@ -5,6 +5,7 @@
 # лицензии GNU (GPLv3).
 
 TARGET = math
+SOURCES = main.c math.c
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
 GLANG_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra
 CLANG_CFLAGS = -std=c11 -Oz -DNDEBUG -Wall -Wextra -Wno-stringop-overflow -Wno-unknown-warning-option
@@ -13,7 +14,7 @@ ifeq ($(UNAME_S),Windows)
     EXT = .exe
     RM = del /q
     GET_SIZE = wc -c < $(TARGET)$(EXT) 2>nul || echo 0
-    RUN_CMD = ./$(TARGET)$(EXT)
+    RUN_CMD = $(TARGET)$(EXT)
 else
     EXT =
     RM = rm -f
@@ -21,25 +22,18 @@ else
     RUN_CMD = ./$(TARGET)
 endif
 
-SOURCES = main.c math.c $(SYS_SRC)
-
 .PHONY: all c run clean size
-
 all: clean
 	@gcc $(GLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
-
 c: clean
 	@clang $(CLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
-
 size:
 	@SIZE=$$($(GET_SIZE)); echo "$(TARGET)$(EXT) $$SIZE byte"
-
 run: clean
 	@gcc $(GLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 	@$(RUN_CMD) || echo "(exit $$?)"
-
 clean:
 	@$(RM) $(TARGET)$(EXT) 2>/dev/null || true
