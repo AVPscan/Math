@@ -10,8 +10,10 @@ UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
 
 BASE_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra -ffunction-sections -fdata-sections
 CLANG_CFLAGS = -std=c11 -Oz -DNDEBUG -Wall -Wextra -Wno-stringop-overflow -Wno-unknown-warning-option
-LDFLAGS = -s -Wl,--gc-sections -Wl,--strip-all
-
+LDFLAGS = -s
+ifeq ($(UNAME_S),Linux)
+    LDFLAGS += -Wl,--gc-sections -Wl,--strip-all
+endif
 ifeq ($(UNAME_S),Windows)
     EXT = .exe
     RM = del /q
