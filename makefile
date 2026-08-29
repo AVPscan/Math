@@ -22,13 +22,15 @@ else
     RUN_CMD = ./$(TARGET)
 endif
 
-.PHONY: all c run clean size
+.PHONY: all c musl run clean size
 all: clean
 	@gcc $(GLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 c: clean
 	@clang $(CLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
+musl:
+	@gcc $(BASE_CFLAGS) -static -o $(TARGET)-static $(SOURCES) $(LDFLAGS)
 size:
 	@SIZE=$$($(GET_SIZE)); echo "$(TARGET)$(EXT) $$SIZE byte"
 run: clean
