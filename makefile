@@ -7,9 +7,9 @@
 TARGET = math
 SOURCES = main.c math.c
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
-GLANG_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra
+GLANG_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra -ffunction-sections -fdata-sections
 CLANG_CFLAGS = -std=c11 -Oz -DNDEBUG -Wall -Wextra -Wno-stringop-overflow -Wno-unknown-warning-option
-LDFLAGS = -s
+LDFLAGS = -s -Wl,--gc-sections -Wl,--strip-all
 ifeq ($(UNAME_S),Windows)
     EXT = .exe
     RM = del /q
