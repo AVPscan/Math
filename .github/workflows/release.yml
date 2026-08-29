@@ -27,7 +27,7 @@ jobs:
       - name: Build Static
         run: |
           apk add --no-cache build-base make
-          make LDFLAGS="-s -static -Wl,--gc-sections -Wl,--strip-all"
+          make musl
       - name: Upload
         uses: actions/upload-artifact@main
         with:

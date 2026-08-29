@@ -7,9 +7,11 @@
 TARGET = math
 SOURCES = main.c math.c
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
-GLANG_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra -ffunction-sections -fdata-sections
+
+BASE_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra -ffunction-sections -fdata-sections
 CLANG_CFLAGS = -std=c11 -Oz -DNDEBUG -Wall -Wextra -Wno-stringop-overflow -Wno-unknown-warning-option
 LDFLAGS = -s -Wl,--gc-sections -Wl,--strip-all
+
 ifeq ($(UNAME_S),Windows)
     EXT = .exe
     RM = del /q
@@ -23,20 +25,26 @@ else
 endif
 
 .PHONY: all c musl run clean size
+
 all: clean
-	@gcc $(GLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
+	@gcc $(BASE_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
+
 c: clean
 	@clang $(CLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
+
 musl: clean
-	@gcc $(BASE_CFLAGS) -static -o $(TARGET)-static $(SOURCES) $(LDFLAGS)
+	@gcc $(BASE_CFLAGS) -static -o $(TARGET) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
+
 size:
 	@SIZE=$$($(GET_SIZE)); echo "$(TARGET)$(EXT) $$SIZE byte"
+
 run: clean
-	@gcc $(GLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
+	@gcc $(BASE_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 	@$(RUN_CMD) || echo "(exit $$?)"
+
 clean:
 	@$(RM) $(TARGET)$(EXT) 2>/dev/null || true
