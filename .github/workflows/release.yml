@@ -27,7 +27,7 @@ jobs:
       - name: Build Static
         run: |
           apk add --no-cache build-base make
-          make musl CC=gcc
+          make
       - name: Upload
         uses: actions/upload-artifact@main
         with:
