@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "math.h"
 
-#define T 2
+#define T 3
 anu a[] = {255,0,0,0,0,0,0,0}, b[] = {255,254,0,0,0,0,0,0}, c[16], r[16], e[8];
 anu cl = 0, la = T, lb = T, Nim = 0, Be = 0, V = 0;
 
@@ -16,8 +16,8 @@ void Num(anu s, an a) { printf("(%d) ", s + 1); if (s > 7) { printf("XxX "); ret
   if (Mat.Be) Fmov(s, (an)c, a); else { Fswap(s, (an)c, a); } a = (an)c; FCold(s, a, a); s = Mat.lre;
   if (Mat.Nim) { if (s > 3) printf("%ld " , *(int64_t*)a); else if (s > 1) printf("%d ", *(int32_t*)a);
     else if (s) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
-  else { if (s > 3) printf("%ld ", *(uint64_t*)a); else if (s > 1) printf("%d ", *(uint32_t*)a);
-    else if (s) printf("%d ", *(uint16_t*)a); else printf("%d ", *(uint8_t*)a); } }
+  else { if (s > 3) printf("%lu ", *(uint64_t*)a); else if (s > 1) printf("%u ", *(uint32_t*)a);
+    else if (s) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } }
 
 void Si(void) { Fswap(la, Mat.A, Mat.A); Fswap(Mat.lb, Mat.B, Mat.B); }
 void Se(void) { Fswap(la, Mat.A, Mat.A); Fswap(Mat.lb, Mat.B, Mat.B); Fswap(Mat.l, Mat.R, Mat.R); }
