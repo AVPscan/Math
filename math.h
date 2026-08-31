@@ -4,15 +4,15 @@
  * распространять ее и/или изменять согласно условиям Стандартной общественной
  * лицензии GNU (GPLv3).
  */
- 
+
 #ifndef MATH_H
 #define MATH_H
 #include <stdint.h>
 
 //Begin 05.07.2026 in Russia
 //  As (As   основа, бытие, существовать) अः       n (Nimitta знак{овое}) निमित्त
-// anu (anu  атом) अणु                                                             v (Vṛddhi  увеличение {разрядности}) वृद्धि
-//  an (anka цифра, число) अङ्क                          Vikara (Vikāra  модификация, изменение состояния) विकार
+// anu (anu  атом) अणु                                                         v (Vṛddhi  увеличение {разрядности}) वृद्धि
+//  an (anka цифра, число) अङ्क                            Vikara (Vikāra  модификация, изменение состояния) विकार
 // Не бытие как состояние определяется в любом представлении.
 // Бесконечность как состояние определяется только в знаковом представлении.
 //Mat.Nim         {00/XX} Без знаковое/Знаковое представление
@@ -24,14 +24,14 @@
 //Mat.lb          длина операнда b {не полдежит изменению внутри функций}
 //Mat.lre         FDIV длина остатка re, FCold длина результата r
 //Mat.{R,A,B,RE}  для удобства {не подлежат изменению внутри функций}
-typedef uintptr_t  As;
-typedef uint8_t anu;
+typedef uintptr_t As;                           // Разрядность процессора
+typedef uint8_t anu;                            // Байт - атом для чисел
 typedef anu* an;                                // Начальный адрес расположения числа
-typedef struct { anu l, m[254], h, e; } MatBuf;	// На байт больше для организации сдвига
+typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 для сдвига {умножение/деление}
 typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, cl, l, lb, lre, C, F, N, Fre, Nre,
   fc, fa, fb, na, nb, dr, da, db, de; an r, a, b, re, R, A, B, RE; } Cache;
-extern Cache Mat;
 
+extern Cache Mat;
 #define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 void _FInit (anu x, anu y, an r, anu c, an a);
 #define Fini(...) _FInit(12,6,&Mat.Nre,_anu(__VA_ARGS__))

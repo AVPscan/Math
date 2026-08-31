@@ -6,8 +6,8 @@
  */
 
 #include "math.h"
-Cache Mat = {0};
 
+Cache Mat = {0};
 void _FInit (anu x, anu y, an r, anu c, an a) { while(x--) { *r-- = 0; } if (c) { c = (c > y) ? y : c; do *++r = *a++; while(--c); } }
 
 void Fvikara (anu l, an r, an a) { Mat.cl = (Mat.cl != 0); Mat.F = 0;
