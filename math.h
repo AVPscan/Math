@@ -8,44 +8,50 @@
 #ifndef MATH_H
 #define MATH_H
 #include <stdint.h>
-
 //Begin 05.07.2026 in Russia
 //  As (As   अः     основа, бытие, существовать) Nim (Nimitta निमित्त  знак{овое})
-// anu (anu  अणु   атом)                          V (Vṛddhi  वृद्धि     увеличение {разрядности})
-//  an (anka अङ्क    цифра, число)             Vikara (Vikāra  विकार   модификация, изменение состояния)
+// anu (anu  अणु   атом)                          V (Vṛddhi  वृद्धि     увеличение {изменение разрядности})
+//  an (anka अङ्क    цифра, число)             Vikara (Vikāra  विकार   модификация {изменение})
 // Не бытие как состояние определяется в любом представлении.
 // Бесконечность как состояние определяется только в знаковом представлении.
 //Mat.Nim         {00/XX} Без знаковое/Знаковое представление
-//Mat.V           {00/XX} Возможность увеличения разрядности результата по мере необходимости
+//Mat.V           {00/XX} Возможность изменить разрядность результата по мере необходимости
+//Mat.{R,A,B,E}   не подлежат изменению внутри функций
 //Mat.C           {00/XX} Нет переполнения/Переполнение
-//Mat.{F, Fre}    {00/01} Число/Состояние {Результата/Остатка}
-//Mat.{Z, Zre}    {00/FF} Если число то {+/-} иначе состояние {Не бытие 0x00/0x80 Бесконечность}
-//Mat.{l, cl}     длина операнда a, на выходе длина результата r {l = Mat.l + ((Mat.cl) ? 256 : 0);}
-//Mat.lb          длина операнда b {не полдежит изменению внутри функций}
-//Mat.lre         FDIV длина остатка re, FCold длина результата r
-//Mat.{R,A,B,RE}  для удобства {не подлежат изменению внутри функций}
+//Mat.{F, Fe}     {00/01} Число/Состояние {Результата/Остатка}
+//Mat.{N, Ne}     {00/FF} Если число то {+/-} иначе состояние {Не бытие/Бесконечность}
+//Mat.l           длина операнда b, длина результата r {FCold}, длина остатка re {FDIV} [0..255]
+//Mat.{L, cL}     длина операнда a, длина результата r {l = Mat.L + ((Mat.cL) ? 256 : 0)} [0..511]
 typedef uintptr_t As;                           // Разрядность процессора
 typedef uint8_t anu;                            // Байт - атом для чисел
 typedef anu* an;                                // Начальный адрес расположения числа
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 для сдвига {умножение/деление}
-typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, cl, l, lb, lre, C, F, N, Fre, Nre,
-  fc, fa, fb, na, nb, dr, da, db, de; an r, a, b, re, R, A, B, RE; } Cache;
-
+typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, l, L, cL, C, F, N, Fe, Ne, fa, na, fb, nb,
+  dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
 extern Cache Mat;
+
 #define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 void _FInit (anu x, anu y, an r, anu c, an a);
-#define Fini(...) _FInit(12,6,&Mat.Nre,_anu(__VA_ARGS__))
+#define Fini(...) _FInit(11,6,&Mat.Ne,_anu(__VA_ARGS__))
 #define Flong(...) _FInit(0,3,&Mat.Be,_anu(__VA_ARGS__))
-
-void Fvikara (anu l, an r, an a);
-void Fld (an r, anu D);
-void Flvd (an r, anu Dl, anu Dh);
-void Fmov (anu lb, an r, an b);
-void Fswap (anu lb, an r, an b);
-void FCold (anu lb, an r, an b);
-void Fadd (anu lb, an r, an a, an b);
-void FADD (anu lb, an r, an a, an b);
-void FSUB (anu lb, an r, an a, an b);
-void FMUL (anu lb, an r, an a, an b);
-void FDIV (anu lb, an r, an a, an b, an re);
+void FLD(an r, anu D);
+#define Fld(D) FLD(Mat.R, D)
+void FLVD(an r, anu Dl, anu Dh);
+#define Flvd(Dl, Dh) FLVD(Mat.R, Dl, Dh)
+void FMOV(an r, an a, anu l, anu cl);
+#define Fmov(l, cl) FMOV(Mat.R, Mat.A, l, cl)
+void FSWAP(an r, an a, anu l, anu cl);
+#define Fswap(l, cl) FSWAP(Mat.R, Mat.A, l, cl)
+void FVIKARA(an r, an a, anu l, anu cl);
+#define Fvikara(l, cl) FVIKARA(Mat.R, Mat.A, l, cl)
+void FCOLD(an r, an a, anu l, anu cl);
+#define Fcold(l, cl) FCOLD(Mat.R, Mat.A, l, cl)
+void FADD(an r, an a, anu l, an b);
+#define Fadd(l, b) FADD(Mat.R, Mat.A, l, b)
+void FSUB(an r, an a, anu l, an b);
+#define Fsub(l, b) FSUB(Mat.R, Mat.A, l, b)
+void FMUL(an r, an a, anu l, an b);
+#define Fmul(l, b) FMUL(Mat.R, Mat.A, l, b)
+void FDIV(an r, an e, an a, anu l, an b);
+#define Fdiv(l, b) FDIV(Mat.R, Mat.E, Mat.A, l, b)
 #endif
