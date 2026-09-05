@@ -21,8 +21,8 @@
 //Mat.C           [00/XX] Нет переполнения/Переполнение
 //Mat.{F, Fe}     [00/XX] {0}число/состояние{{1}не бытиё,{2}бесконечность} {результат,остаток}
 //Mat.{N, Ne}     [00/FF] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
-//Mat.l           [0..255] длина операнда b, длина остатка при делении re
-//Mat.{L, cL}     [0..511] длина операнда a, длина результата r {l = Mat.L+((Mat.cL) ? 256:0)}
+//Mat.l           [0.255] длина операнда b, длина остатка при делении re
+//Mat.{L, cL}     [0.511] длина операнда a, длина результата r {l = Mat.L+((Mat.cL) ? 256:0)}
 typedef uintptr_t As;                           // Разрядность процессора
 typedef uint8_t anu;                            // Байт - атом для чисел
 typedef anu* an;                                // Начальный адрес расположения числа
@@ -32,9 +32,12 @@ typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, l, L, cL, C, F, N, Fe, Ne, f
 extern Cache Mat;
 
 #define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
-void _FInit (anu x, anu y, an r, anu c, an a);  // Инициализация библиотеки
+#define _adr(...) (sizeof((As[]){0, ##__VA_ARGS__}) / sizeof(As)) - 1, (As[]){0, ##__VA_ARGS__} + 1
+void _FInit(anu x, anu y, an r, anu c, an a);   // Инициализация библиотеки
+void _FAddr (anu y, As* r, anu c, As* a);
 #define Fini(...) _FInit(11,6,&Mat.Ne,_anu(__VA_ARGS__))
 #define Flong(...) _FInit(0,3,&Mat.Be,_anu(__VA_ARGS__))
+#define Faddr(...) _FAddr(4,(As*)&Mat.R,_adr(__VA_ARGS__))
 void FLD(an r, anu D);                          // Создание числа из атома
 #define Fld(D) FLD(Mat.R, D)
 void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов

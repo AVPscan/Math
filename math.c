@@ -8,7 +8,8 @@
 #include "math.h"
 
 Cache Mat = {0};
-void _FInit (anu x, anu y, an r, anu c, an a) { while(x--) { *r-- = 0; } if (c) { c = (c > y) ? y : c; do *++r = *a++; while(--c); } }
+void _FInit (anu x, anu y, an r, anu c, an a) { while(x--) { *r-- = 0; } c = (c > y) ? y : c; while(c--) *++r = *a++; }
+void _FAddr (anu y, As* r, anu c, As* a) { c = (c > y) ? y : c; while(c--) *r++ = *a++; }
 
 void FVIKARA (an r, an a, anu l, anu cl) { Mat.cL = (cl != 0); Mat.F = 0;
   if ((Mat.fa = Mat.cL - (Mat.L < (Mat.fb = Mat.L - l))) == 0xFF) { Mat.fb = l - Mat.L;

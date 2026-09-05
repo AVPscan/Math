@@ -25,5 +25,5 @@ void Show(char s) { anu i = 4; printf("\nA%cB\n", s); while(i--) { Mat.Nim = ((3
     if (s == '/') { printf("%c tile ", (Mat.Fe) ? (Mat.Ne) ? 'I' : 'Z' : (Mat.Ne) ? '-' : '+'); Num(Mat.l, Mat.E); }
     printf("\n"); Mat.C = 0; Flong(lb, la, cl); } }
  
-int main(void) { anu r[16], e[8]; Fini(0, 0, 0, lb, la, cl); Mat.A = (an)a; Mat.B = (an)b; Mat.R = (an)r; Mat.E = (an)e;  // Nim,V,Be
+int main(void) { anu r[16], e[8]; Fini(0, 0, 0, lb, la, cl); Faddr((As)r, (As)e, (As)a, (As)b); // Nim,V,Be
   Show('+'); Show('-'); Show('*'); Show('/'); return 0; }
