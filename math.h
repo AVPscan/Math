@@ -23,39 +23,39 @@
 //Mat.{N, Ne}     [00/FF] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
 //Mat.l           [0.255] длина операнда b, длина остатка при делении re
 //Mat.{L, cL}     [0.511] длина операнда a, длина результата r {l = Mat.L+((Mat.cL) ? 256:0)}
-typedef uintptr_t As;                           // Разрядность процессора
-typedef uint8_t anu;                            // Байт - атом для чисел
-typedef anu* an;                                // Начальный адрес расположения числа
+typedef uintptr_t As;                           // Разрядность процессора - основа
+typedef uint8_t anu;                            // Байт - атом
+typedef anu* an;                                // Начальный адрес расположения - число
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 сдвиг {умножение/деление}
 typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, l, L, cL, C, F, N, Fe, Ne, fa, na, fb, nb,
   dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
 extern Cache Mat;
 
+void _FInit(anu x, anu y, an r, anu c, an a);               // Инициализация библиотеки
+void _FAddr (anu y, As* r, anu c, As* a);
+void FLD(an r, anu D);                                      // Создание числа из атома
+#define Fld(D) FLD(Mat.R, D)
+void FLVD(an r, anu Dl, anu Dh);                            // Создание числа из двух атомов
+#define Flvd(Dl, Dh) FLVD(Mat.R, Dl, Dh)
+void FMOV(an r, an a, anu l, anu cl);                       // Копирование числа
+#define Fmov(l, cl) FMOV(Mat.R, Mat.A, l, cl)
+void FSWAP(an r, an a, anu l, anu cl);                      // Зеркалирование относительно центра числа атомов внутри
+#define Fswap(l, cl) FSWAP(Mat.R, Mat.A, l, cl)
+void FVIKARA(an r, an a, anu l, anu cl);                    // Модификация изменение длин чисел
+#define Fvikara(l, cl) FVIKARA(Mat.R, Mat.A, l, cl)
+void FCOLD(an r, an a, anu l, anu cl);                      // Приведение к старым форматам l = 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 байт 
+#define Fcold(l, cl) FCOLD(Mat.R, Mat.A, l, cl)
+void FADD(an r, an a, anu l, an b);                         // Сложение r = a + b
+#define Fadd(l, b) FADD(Mat.R, Mat.A, l, b)
+void FSUB(an r, an a, anu l, an b);                         // Вычитание r = a - b
+#define Fsub(l, b) FSUB(Mat.R, Mat.A, l, b)
+void FMUL(an r, an a, anu l, an b);                         // Умножение r = a * b
+#define Fmul(l, b) FMUL(Mat.R, Mat.A, l, b)
+void FDIV(an r, an e, an a, anu l, an b);                   // Деление r = a / b, e = a mod b
+#define Fdiv(l, b) FDIV(Mat.R, Mat.E, Mat.A, l, b)
 #define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 #define _adr(...) (sizeof((As[]){0, ##__VA_ARGS__}) / sizeof(As)) - 1, (As[]){0, ##__VA_ARGS__} + 1
-void _FInit(anu x, anu y, an r, anu c, an a);   // Инициализация библиотеки
-void _FAddr (anu y, As* r, anu c, As* a);
-#define Fini(...) _FInit(11,6,&Mat.Ne,_anu(__VA_ARGS__))
-#define Flong(...) _FInit(0,3,&Mat.Be,_anu(__VA_ARGS__))
-#define Faddr(...) _FAddr(4,(As*)&Mat.R,_adr(__VA_ARGS__))
-void FLD(an r, anu D);                          // Создание числа из атома
-#define Fld(D) FLD(Mat.R, D)
-void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов
-#define Flvd(Dl, Dh) FLVD(Mat.R, Dl, Dh)
-void FMOV(an r, an a, anu l, anu cl);           // Копирование числа
-#define Fmov(l, cl) FMOV(Mat.R, Mat.A, l, cl)
-void FSWAP(an r, an a, anu l, anu cl);          // Зеркалирование относительно центра числа атомов внутри
-#define Fswap(l, cl) FSWAP(Mat.R, Mat.A, l, cl)
-void FVIKARA(an r, an a, anu l, anu cl);        // Модификация изменение длин чисел
-#define Fvikara(l, cl) FVIKARA(Mat.R, Mat.A, l, cl)
-void FCOLD(an r, an a, anu l, anu cl);          // Приведение к старым форматам
-#define Fcold(l, cl) FCOLD(Mat.R, Mat.A, l, cl)
-void FADD(an r, an a, anu l, an b);             // Сложение
-#define Fadd(l, b) FADD(Mat.R, Mat.A, l, b)
-void FSUB(an r, an a, anu l, an b);             // Вычитание
-#define Fsub(l, b) FSUB(Mat.R, Mat.A, l, b)
-void FMUL(an r, an a, anu l, an b);             // Умножение
-#define Fmul(l, b) FMUL(Mat.R, Mat.A, l, b)
-void FDIV(an r, an e, an a, anu l, an b);       // Деление
-#define Fdiv(l, b) FDIV(Mat.R, Mat.E, Mat.A, l, b)
+#define Fini(...) _FInit(11,6,&Mat.Ne,_anu(__VA_ARGS__))    // Nim=V=Be=lb=la=cl=C=F=Fe=Ne=0, {Nim{,V{,Be{,lb{,la{,cl}}}}}} (Mat.Nim = Nim; Mat.V = V; ..)
+#define Flong(...) _FInit(0,3,&Mat.Be,_anu(__VA_ARGS__))    // {lb{,la{,cl}}} (Mat.l = lb; Mat.L = la; Mat.cL = cl;)
+#define Faddr(...) _FAddr(4,(As*)&Mat.R,_adr(__VA_ARGS__))  // {r{,e{,a{,b}}}} (Mat.R = r; Mat.E = e; Mat.A = a; Mat.B = b;)
 #endif

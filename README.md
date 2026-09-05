@@ -22,7 +22,7 @@
 //Mat.l           [0.255] длина операнда b, длина остатка при делении re
 //Mat.{L, cL}     [0.511] длина операнда a, длина результата r {l = Mat.L+((Mat.cL) ? 256:0)}
 typedef uintptr_t As;                           // Разрядность процессора - основа
-typedef uint8_t anu;                            // Байт - атом для чисел
+typedef uint8_t anu;                            // Байт - атом
 typedef anu* an;                                // Начальный адрес расположения - число
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 сдвиг {умножение/деление}
 typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, l, L, cL, C, F, N, Fe, Ne, fa, na, fb, nb,
