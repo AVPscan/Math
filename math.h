@@ -25,7 +25,7 @@
 typedef uintptr_t As;                           // Разрядность процессора
 typedef uint8_t anu;                            // Байт - атом для чисел
 typedef anu* an;                                // Начальный адрес расположения числа
-typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 для сдвига {умножение/деление}
+typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 для сдвига{умножение/деление}
 typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, l, L, cL, C, F, N, Fe, Ne, fa, na, fb, nb,
   dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
 extern Cache Mat;

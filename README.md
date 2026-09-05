@@ -8,7 +8,7 @@
 ```c
 //Begin 05.07.2026 in Russia
 //  As (As   अः    основа, бытие, существовать) Nim (Nimitta निमित्त  знак{овое})
-// anu (anu  अणु   атом)                          V (Vṛddhi  वृद्धि    увеличение {разрядности})
+// anu (anu  अणु   атом)                          V (Vṛddhi  वृद्धि    изменение {разрядности})
 //  an (anka अङ्क  цифра, число)             Vikara (Vikāra  विकार  модификация {изменение})
 // Не бытие как состояние определяется в любом представлении.
 // Бесконечность как состояние определяется только в знаковом представлении.
@@ -23,7 +23,7 @@
 typedef uintptr_t As;                           // Разрядность процессора
 typedef uint8_t anu;                            // Байт - атом для чисел
 typedef anu* an;                                // Начальный адрес расположения числа
-typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 для сдвига {умножение/деление}
+typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 для сдвига{умножение/деление}
 typedef struct { MatBuf Ho, Sr, Lo; anu Nim, V, Be, l, L, cL, C, F, N, Fe, Ne, fa, na, fb, nb,
   dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
 extern Cache Mat;
