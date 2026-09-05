@@ -21,13 +21,13 @@
 // Mat.C          [00/XX] Нет переполнения/Переполнение
 // Mat.{F, Fe}    [00/XX] {0}число/состояние{{1}не бытиё,{2}бесконечность} {результат,остаток}
 // Mat.{N, Ne}    [00/FF] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
-// Mat.l          [0.255] длина операнда b, длина остатка при делении re
-// Mat.L          [0.255] длина операнда a, длина результата r
+// Mat.lar        [0.255] длина операнда a, длина результата r
+// Mat.lbe        [0.255] длина операнда b, длина остатка при делении re
 typedef uintptr_t As;                           // Разрядность процессора - основа
 typedef uint8_t anu;                            // Байт - атом
 typedef anu* an;                                // Начальный адрес расположения - число
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 сдвиг {умножение/деление}
-typedef struct { MatBuf Li, Hi; anu Nim, V, Be, l, L, C, F, N, Fe, Ne, fa, na, fb, nb,
+typedef struct { MatBuf Li, Hi; anu Nim, V, Be, lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb,
   dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
 extern Cache Mat;
 
@@ -38,13 +38,13 @@ void FLD(an r, anu D);                                      // Создание 
 void FLVD(an r, anu Dl, anu Dh);                            // Создание числа из двух атомов
 #define Flvd(Dl, Dh) FLVD(Mat.R, Dl, Dh)
 void FMOV(an r, an a, anu l);                               // Копирование числа
-#define Fmov(l, cl) FMOV(Mat.R, Mat.A, l)
-void FSWAP(an r, an a, anu l);                              // Зеркалирование относительно центра числа атомов внутри
-#define Fswap(l, cl) FSWAP(Mat.R, Mat.A, l)
-void FVIKARA(an r, an a, anu l);                            // Модификация изменение длин чисел
-#define Fvikara(l, cl) FVIKARA(Mat.R, Mat.A, l)
+#define Fmov(l) FMOV(Mat.R, Mat.A, l)
+void FSWAP(an r, an a, anu l);                              // Зеркалирование атомов внутри относительно центра числа
+#define Fswap(l) FSWAP(Mat.R, Mat.A, l)
+void FVIKARA(an r, an a, anu l);                            // Модификация длины числа
+#define Fvikara(l) FVIKARA(Mat.R, Mat.A, l)
 void FCOLD(an r, an a, anu l);                              // Приведение к старым форматам l = 1, 2, 4, 8, 16, 32, 64, 128, 256 байт 
-#define Fcold(l, cl) FCOLD(Mat.R, Mat.A, l)
+#define Fcold(l) FCOLD(Mat.R, Mat.A, l)
 void FADD(an r, an a, anu l, an b);                         // Сложение r = a + b
 #define Fadd(l, b) FADD(Mat.R, Mat.A, l, b)
 void FSUB(an r, an a, anu l, an b);                         // Вычитание r = a - b
@@ -56,6 +56,6 @@ void FDIV(an r, an e, an a, anu l, an b);                   // Деление r 
 #define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__}) / sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 #define _adr(...) (sizeof((As[]){0, ##__VA_ARGS__}) / sizeof(As)) - 1, (As[]){0, ##__VA_ARGS__} + 1
 #define Fini(...) _FInit(10,5,&Mat.Ne,_anu(__VA_ARGS__))    // Nim=V=Be=lb=la=cl=C=F=Fe=Ne=0, {Nim{,V{,Be{,lb{,la}}}}} (Mat.Nim = Nim; Mat.V = V; ..)
-#define Flong(...) _FInit(0,2,&Mat.Be,_anu(__VA_ARGS__))    // {lb{,la}} (Mat.l = lb; Mat.L = la;)
+#define Flong(...) _FInit(0,2,&Mat.Be,_anu(__VA_ARGS__))    // {lb{,la}} (Mat.lbe = lb; Mat.lar = la;)
 #define Faddr(...) _FAddr(4,(As*)&Mat.R,_adr(__VA_ARGS__))  // {r{,e{,a{,b}}}} (Mat.R = r; Mat.E = e; Mat.A = a; Mat.B = b;)
 #endif

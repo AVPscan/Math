@@ -19,13 +19,13 @@
 // Mat.C          [00/XX] Нет переполнения/Переполнение
 // Mat.{F, Fe}    [00/XX] {0}число/состояние{{1}не бытиё,{2}бесконечность} {результат,остаток}
 // Mat.{N, Ne}    [00/FF] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
-// Mat.l          [0.255] длина операнда b, длина остатка при делении re
-// Mat.L          [0.255] длина операнда a, длина результата r
+// Mat.lar        [0.255] длина операнда a, длина результата r
+// Mat.lbe        [0.255] длина операнда b, длина остатка при делении re
 typedef uintptr_t As;                           // Разрядность процессора - основа
 typedef uint8_t anu;                            // Байт - атом
 typedef anu* an;                                // Начальный адрес расположения - число
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 сдвиг {умножение/деление}
-typedef struct { MatBuf Li, Hi; anu Nim, V, Be, l, L, C, F, N, Fe, Ne, fa, na, fb, nb,
+typedef struct { MatBuf Li, Hi; anu Nim, V, Be, lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb,
   dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
 extern Cache Mat;
 
