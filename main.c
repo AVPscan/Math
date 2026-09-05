@@ -17,13 +17,11 @@ void Num(anu s, an a) { anu t[8]; printf("(%d) ", s + 1); if (s > 7) { printf("X
     else if (s) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
   else { if (s > 3) printf("%lu ", *(uint64_t*)a); else if (s > 1) printf("%u ", *(uint32_t*)a);
     else if (s) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } }
- 
 void Show(char s) { anu i = 4; printf("\nA%cB\n", s); while(i--) { Mat.Nim = ((3 - i) & 2) ? 1 : 0; Mat.V = ((3 - i) & 1) ? 1 : 0;
-	FMOV(Mat.B, Mat.B, lb, 0); lb = Mat.L; FMOV(Mat.A, Mat.A, la, cl); la = Mat.L; cl = Mat.cL;
-    if (s == '+') { Fadd(Mat.l, Mat.B); } else if (s == '-') { Fsub(Mat.l, Mat.B); }
-    else if (s == '*') { Fmul(Mat.l, Mat.B); } else if (s == '/') { Fdiv(Mat.l, Mat.B); }
-    printf("%c%c%c", Mat.C ? 'C' : ' ', Mat.F ? Mat.N ? 'I' : 'Z' : Mat.N ? '-' : '+', Mat.V ? 'v' : ' ');
-    printf("%c ", Mat.Nim ? 'n' : ' '); Num(Mat.L, Mat.R); if (!Mat.V) { Num(la, Mat.A); Num(Mat.l, Mat.B); }
+	FMOV(Mat.B, Mat.B, lb, 0); lb = Mat.L; FMOV(Mat.A, Mat.A, la, cl); la = Mat.L; cl = Mat.cL; if (s == '+') Fadd(Mat.l, Mat.B);
+	else if (s == '-') Fsub(Mat.l, Mat.B); else if (s == '*') Fmul(Mat.l, Mat.B); else if (s == '/') Fdiv(Mat.l, Mat.B);
+    printf("%c%c%c%c ", Mat.C ? 'C' : ' ', Mat.F ? Mat.N ? 'I' : 'Z' : Mat.N ? '-' : '+', Mat.V ? 'v' : ' ', Mat.Nim ? 'n' : ' ');
+    Num(Mat.L, Mat.R); if (!Mat.V) { Num(la, Mat.A); Num(Mat.l, Mat.B); }
     if (s == '/') { printf("%c tile ", (Mat.Fe) ? (Mat.Ne) ? 'I' : 'Z' : (Mat.Ne) ? '-' : '+'); Num(Mat.l, Mat.E); }
     printf("\n"); Mat.C = 0; Flong(lb, la, cl); } }
  
