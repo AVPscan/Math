@@ -45,7 +45,13 @@ void FSWAP(anu l, an r, an a) { Mat.lar = l; Mat.b = r; Mat.r = r + l; Mat.a = a
 void FCOLD(anu l, an r, an a) { Mat.lbe = 1; if ((Mat.nb = l)) { do Mat.lbe <<= 1; while((Mat.nb >>= 1)); } Mat.nb = Mat.lar; Mat.lar = --Mat.lbe;
   FVIKARA(l, r, a); if (Mat.Be) { Fswap(Mat.lbe, r) } Mat.lar = Mat.nb; }
 
-void _FADD(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; }
-void _FSUB(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; }
-void _FMUL(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; l = Mat.lar; Mat.C = (l > (Mat.lar += 1 + Mat.lbe)); }
-void _FDIV(an r, an e, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; (void)e; }
+void FADD(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; }
+void FSUB(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; }
+void FMUL(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; l = Mat.lar; Mat.C = (l > (Mat.lar += 1 + Mat.lbe)); }
+void FDIV(an r, an e, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; (void)e; }
+
+void FADDc(an r, an a, anu l, an c) { if (!l) FMOV(Mat.lar, r, a); else FADD(r, a, --l, c); }
+void FSUBc(an r, an a, anu l, an c) { if (!l) FMOV(Mat.lar, r, a); else FSUB(r, a, --l, c); }
+void FMULc(an r, an a, anu l, an c) { if (!l) FMOV(Mat.lar, r, a); else FMUL(r, a, --l, c); }
+void FDIVc(an r, an e, an a, anu l, an c) {
+  if (!l) { FMOV(Mat.lar, r, a); *e = 0; Mat.lbe = 0; Mat.Ne = 0; Mat.Fe = 1; } else FDIV(r, e, a, --l, c); }

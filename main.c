@@ -20,7 +20,7 @@ void Num(anu s, an a) {
 
 void Show(char s) {
   anu i = 4; printf("\nA%cB\n", s); while(i--) { Mat.Nim = ((3 - i) & 2) ? 1 : 0; Mat.V = ((3 - i) & 1) ? 1 : 0;
-	if (s == '+') FADD(Mat.R) else if (s == '-') FSUB(Mat.R) else if (s == '*') FMUL(Mat.R) else if (s == '/') FDIV(Mat.R, Mat.E)
+	if (s == '+') FAdd(Mat.R) else if (s == '-') FSub(Mat.R) else if (s == '*') FMul(Mat.R) else if (s == '/') FDiv(Mat.R, Mat.E)
     printf("%c%c%c%c ", Mat.C ? 'C' : ' ', Mat.F ? Mat.N ? 'I' : 'Z' : Mat.N ? '-' : '+', Mat.V ? 'v' : ' ', Mat.Nim ? 'n' : ' ');
     Num(Mat.lar, Mat.R); if (!Mat.V) { Num(la, Mat.A); Num(lb, Mat.B); }
     if (s == '/') { printf("%c tile ", (Mat.Fe) ? (Mat.Ne) ? 'I' : 'Z' : (Mat.Ne) ? '-' : '+'); Num(Mat.lbe, Mat.E); Flong(la, lb) }

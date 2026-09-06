@@ -30,6 +30,7 @@ typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 сдви
 typedef struct { MatBuf Li, Hi; anu Nim, V, Be, // Структура реализации библиотеки
   lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
 extern Cache Mat;
+
 void _FInit(anu x, anu y, an r, anu c, an a);   // Инициализация библиотеки
 void _FAddr (anu y, As* r, anu c, As* a);
 void FLD(an r, anu D);                          // Создание числа из атома
@@ -44,26 +45,33 @@ void FVIKARA(anu l, an r, an a);                // Модификация дли
 #define Fvikara(l) FVIKARA(l, Mat.R, Mat.A);
 void FCOLD(anu l, an r, an a);                  // Приведение к формату l = 1,2,4,8,16,32,64,128,256 атомов
 #define Fcold(l) FCOLD(l, Mat.R, Mat.A);
-void _FADD(an r, an a, anu l, an b);            // Сложение r = a + b
-#define FADD(r) _FADD(r, Mat.A, Mat.lbe, Mat.B);
-void _FSUB(an r, an a, anu l, an b);            // Вычитание r = a - b
-#define FSUB(r) _FSUB(r, Mat.A, Mat.lbe, Mat.B);
-void _FMUL(an r, an a, anu l, an b);            // Умножение r = a * b
-#define FMUL(r) _FMUL(r, Mat.A, Mat.lbe, Mat.B);
-void _FDIV(an r, an e, an a, anu l, an b);      // Деление r = a / b, e = a mod b - Евклид {положительный}
-#define FDIV(r, e) _FDIV(r, e, Mat.A, Mat.lbe, Mat.B);
-#define _num(x) (anu)((sizeof(x)/sizeof(anu)) - 1), (an)&x
-#define FAdd(r, a, x) _FADD(r, a, _num(x));     // Работа с константой {малые буквы в названии функции}
-#define FSub(r, a, x) _FSUB(r, a, _num(x));
-#define FMul(r, a, x) _FMUL(r, a, _num(x));
-#define FDiv(r, e, a, x) _FDIV(r, e, a, _num(x));
-#define Fadd(x) _FADD(Mat.R, Mat.A, _num(x));   // Все буквы малые - используются адреса по умолчанию
-#define Fsub(x) _FSUB(Mat.R, Mat.A, _num(x));
-#define Fmul(x) _FMUL(Mat.R, Mat.A, _num(x));
-#define Fdiv(x) _FDIV(Mat.R, Mat.E, Mat.A, _num(x));
-#define _anu(...) (anu)((sizeof((anu[]){0, ##__VA_ARGS__})/sizeof(anu)) - 1), (anu[]){0, ##__VA_ARGS__} + 1
-#define _adr(...) (sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1, (As[]){0, ##__VA_ARGS__} + 1
+#define _anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__}) - 1), (anu[]){0, ##__VA_ARGS__} + 1
+#define _adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1), (As[]){0, ##__VA_ARGS__} + 1
 #define Faddr(...) _FAddr(4,(As*)&Mat.R,_adr(__VA_ARGS__));// {r{,e{,a{,b}}}} (Mat.R = r; ..)
 #define Fini(...) _FInit(10,5,&Mat.Ne,_anu(__VA_ARGS__));  // Nim=V=Be=..Ne=0 {Nim{,V{,Be{,la{,lb}}}}}
 #define Flong(...) _FInit(0,2,&Mat.Be,_anu(__VA_ARGS__));  // {la{,lb}} (Mat.lar = la; Mat.lbe = lb;)
+void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
+void FADDc(an r, an a, anu l, an c);            // r = a + Const { массив атомов LE пример
+#define FAdd(r) FADD(r, Mat.A, Mat.lbe, Mat.B); //       a = a + 256 -> FAddc(Mat.A, 0, 1) }
+#define FAddc(r, ...) FADDc(r, Mat.A, _anu(__VA_ARGS__));
+#define Fadd(l, b) FADD(Mat.R, Mat.A, l, b);
+#define Faddc(...) FADDc(Mat.R, Mat.A, _anu(__VA_ARGS__));
+void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
+void FSUBc(an r, an a, anu l, an c);            // r = a - Const
+#define FSub(r) FSUB(r, Mat.A, Mat.lbe, Mat.B);
+#define FSubc(r, ...) FSUBc(r, Mat.A, _anu(__VA_ARGS__));
+#define Fsub(l, b) FSUB(Mat.R, Mat.A, l, b);
+#define Fsubc(...) FSUBc(Mat.R, Mat.A, _anu(__VA_ARGS__));
+void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
+void FMULc(an r, an a, anu l, an c);            // r = a * Const
+#define FMul(r) FMUL(r, Mat.A, Mat.lbe, Mat.B);
+#define FMulc(r, ...) FMULc(r, Mat.A, _anu(__VA_ARGS__));
+#define Fmul(l, b) FMUL(Mat.R, Mat.A, l, b);
+#define Fmulc(...) FMULc(Mat.R, Mat.A, _anu(__VA_ARGS__));
+void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {положительный}
+void FDIVc(an r, an e, an a, anu l, an c);      // r = a / Const, e = a mod Const
+#define FDiv(r, e) FDIV(r, e, Mat.A, Mat.lbe, Mat.B);
+#define FDivc(r, e, ...) FDIVc(r, e, Mat.A, _anu(__VA_ARGS__));
+#define Fdiv(l, b) FADD(Mat.R, Mat.E, Mat.A, l, b);
+#define Fdivc(...) FDIVc(Mat.R, Mat.E, Mat.A, _anu(__VA_ARGS__));
 #endif
