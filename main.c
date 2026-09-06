@@ -8,11 +8,11 @@
 #include <stdio.h>
 #include "math.h"
 
-#define T 7
-anu la = T, a[] = {0,1,0,0,0,0,0,0}, lb = T, b[] = {0,0,128,0,0,0,0,0,0};
+#define T 1
+anu la = T, a[] = {0,0,0,0,0,0,0,0}, lb = T, b[] = {0,128,128,0,0,0,0,0,0};
 
 void Num(anu s, an a) {
-  anu t[8]; printf("(%d) ", s + 1); if (s > 7) { printf("XxX "); return; } FCOLD((an)t, a, s); s = Mat.lbe; a = (an)t;
+  anu t[8]; printf("(%d) ", s + 1); if (s > 7) { printf("XxX "); return; } FCOLD(s, (an)t, a); s = Mat.lbe; a = (an)t;
   if (Mat.Nim) { if (s > 3) printf("%ld " , *(int64_t*)a); else if (s > 1) printf("%d ", *(int32_t*)a);
     else if (s) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
   else { if (s > 3) printf("%lu ", *(uint64_t*)a); else if (s > 1) printf("%u ", *(uint32_t*)a);
@@ -20,13 +20,12 @@ void Num(anu s, an a) {
 
 void Show(char s) {
   anu i = 4; printf("\nA%cB\n", s); while(i--) { Mat.Nim = ((3 - i) & 2) ? 1 : 0; Mat.V = ((3 - i) & 1) ? 1 : 0;
-	if (s == '+') Fadd(Mat.lbe, Mat.B); else if (s == '-') Fsub(Mat.lbe, Mat.B);
-	else if (s == '*') Fmul(Mat.lbe, Mat.B); else if (s == '/') Fdiv(Mat.lbe, Mat.B);
+	if (s == '+') FADD(Mat.R) else if (s == '-') FSUB(Mat.R) else if (s == '*') FMUL(Mat.R) else if (s == '/') FDIV(Mat.R, Mat.E)
     printf("%c%c%c%c ", Mat.C ? 'C' : ' ', Mat.F ? Mat.N ? 'I' : 'Z' : Mat.N ? '-' : '+', Mat.V ? 'v' : ' ', Mat.Nim ? 'n' : ' ');
     Num(Mat.lar, Mat.R); if (!Mat.V) { Num(la, Mat.A); Num(lb, Mat.B); }
-    if (s == '/') { printf("%c tile ", (Mat.Fe) ? (Mat.Ne) ? 'I' : 'Z' : (Mat.Ne) ? '-' : '+'); Num(Mat.lbe, Mat.E); Flong(la, lb); }
-    else { Flong(la); } printf("\n"); Mat.C = 0; } }
+    if (s == '/') { printf("%c tile ", (Mat.Fe) ? (Mat.Ne) ? 'I' : 'Z' : (Mat.Ne) ? '-' : '+'); Num(Mat.lbe, Mat.E); Flong(la, lb) }
+    else { Flong(la) } printf("\n"); Mat.C = 0; } }
 
 int main(void) { printf("%d %d", la + 1, lb + 1);
-  anu r[16], e[8]; Fini(); Faddr((As)r, (As)e, (As)a, (As)b); FMOV(Mat.B, Mat.B, lb); lb = Mat.lar;
-  FMOV(Mat.A, Mat.A, la); la = Mat.lar; Show('+'); Show('-'); Show('*'); Show('/'); return 0; }
+  anu r[16], e[8]; Fini() Faddr((As)r, (As)e, (As)a, (As)b) Fmov(lb, Mat.B) lb = Mat.lar;
+  Fmov(la, Mat.A) la = Mat.lar; Show('+'); Show('-'); Show('*'); Show('/'); return 0; }

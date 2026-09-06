@@ -26,8 +26,7 @@ typedef uint8_t anu;                            // Байт - атом
 typedef anu* an;                                // Начальный адрес расположения - число
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 сдвиг {умножение/деление}
 typedef struct { MatBuf Li, Hi; anu Nim, V, Be, // Структура реализации библиотеки
-  lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb,
-  dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
+  lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
 extern Cache Mat;
 
 ```
