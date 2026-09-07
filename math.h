@@ -54,24 +54,24 @@ void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FADDc(an r, an a, anu l, an c);            // r = a + Const { массив атомов LE пример
 #define FAdd(r) FADD(r, Mat.A, Mat.lbe, Mat.B); //       a = a + 256 -> FAddc(Mat.A, 0, 1) }
 #define FAddc(r, ...) FADDc(r, Mat.A, _anu(__VA_ARGS__));
-#define Fadd(l, b) FADD(Mat.R, Mat.A, l, b);
-#define Faddc(...) FADDc(Mat.R, Mat.A, _anu(__VA_ARGS__));
+#define Fadd(r, l, b) FADD(r, r, l, b);
+#define Faddc(r, ...) FADDc(r, r, _anu(__VA_ARGS__));
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
 void FSUBc(an r, an a, anu l, an c);            // r = a - Const
 #define FSub(r) FSUB(r, Mat.A, Mat.lbe, Mat.B);
 #define FSubc(r, ...) FSUBc(r, Mat.A, _anu(__VA_ARGS__));
-#define Fsub(l, b) FSUB(Mat.R, Mat.A, l, b);
-#define Fsubc(...) FSUBc(Mat.R, Mat.A, _anu(__VA_ARGS__));
+#define Fsub(r, l, b) FSUB(r, r, l, b);
+#define Fsubc(r, ...) FSUBc(r, r, _anu(__VA_ARGS__));
 void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
 void FMULc(an r, an a, anu l, an c);            // r = a * Const
 #define FMul(r) FMUL(r, Mat.A, Mat.lbe, Mat.B);
 #define FMulc(r, ...) FMULc(r, Mat.A, _anu(__VA_ARGS__));
-#define Fmul(l, b) FMUL(Mat.R, Mat.A, l, b);
-#define Fmulc(...) FMULc(Mat.R, Mat.A, _anu(__VA_ARGS__));
+#define Fmul(r, l, b) FMUL(r, r, l, b);
+#define Fmulc(r, ...) FMULc(r, r, _anu(__VA_ARGS__));
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {положительный}
 void FDIVc(an r, an e, an a, anu l, an c);      // r = a / Const, e = a mod Const
 #define FDiv(r, e) FDIV(r, e, Mat.A, Mat.lbe, Mat.B);
 #define FDivc(r, e, ...) FDIVc(r, e, Mat.A, _anu(__VA_ARGS__));
-#define Fdiv(l, b) FADD(Mat.R, Mat.E, Mat.A, l, b);
-#define Fdivc(...) FDIVc(Mat.R, Mat.E, Mat.A, _anu(__VA_ARGS__));
+#define Fdiv(r, e, l, b) FDIV(r, e, r, l, b);
+#define Fdivc(r, e, ...) FDIVc(r, e, r, _anu(__VA_ARGS__));
 #endif
