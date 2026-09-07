@@ -27,6 +27,6 @@ void Show(char s) { anu i = 4; printf("\nA%cB\n", s);
     if (s == '/') { printf("%c tile ", (Mat.Fe) ? (Mat.Ne) ? 'I' : 'Z' : (Mat.Ne) ? '-' : '+'); Num(Mat.lbe, Mat.E); Flong(la, lb) }
     else { Flong(la) } printf("\n"); Mat.C = 0; } }
 
-int main(void) { anu r[el], e[l]; Fini(0, 0, OutputBigEndian) Faddr((As)r, (As)e, (As)a, (As)b)
+int main(void) { anu r[el], e[l]; Fini(OutputBigEndian) Faddr((As)r, (As)e, (As)a, (As)b)
   if (InputBigEndian) { Fswap(lb, Mat.B) Fswap(la, Mat.A) } printf("%d %d", la + 1, lb + 1);
   Fmov(lb, Mat.B) lb = Mat.lar; Fmov(la, Mat.A) la = Mat.lar; Show('+'); Show('-'); Show('*'); Show('/'); return 0; }
