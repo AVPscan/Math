@@ -39,11 +39,10 @@ void FSWAP(anu l, an r, an a) { Mat.lar = l; Mat.b = r; Mat.r = r + l; Mat.a = a
   Mat.F = (l) ? *Mat.a-- : 0; *r++ = Mat.F; *Mat.r-- = Mat.da; if ((l >>= 1)) {
 	while(--l) { Mat.F |= (Mat.dr = *a++) | (Mat.db = *Mat.a--); *r++ = Mat.db; *Mat.r-- = Mat.dr; }
     if (!Mat.fb) Mat.F |= (*r = *a); } Mat.N = (Mat.Nim && (Mat.da & 0x80)) ? 0xFF : 0;
-  if ((Mat.F = (Mat.da || Mat.F) ? (!Mat.F && Mat.Nim && (Mat.da == 0x80)) ? 2 : 0 : 1)) { *Mat.b = Mat.da; Mat.lar = 0; return; }
-  }
+  Mat.F = (Mat.da || Mat.F) ? (!Mat.F && Mat.Nim && (Mat.da == 0x80)) ? 2 : 0 : 1; }
 
-void FCOLD(anu l, an r, an a) { Mat.lbe = 1; if ((Mat.nb = l)) { do Mat.lbe <<= 1; while((Mat.nb >>= 1)); } Mat.nb = Mat.lar; Mat.lar = --Mat.lbe;
-  FVIKARA(l, r, a); if (Mat.Be) { Fswap(Mat.lbe, r) } Mat.lar = Mat.nb; }
+void FCOLD(anu l, an r, an a) { Mat.dr = ((Mat.lar = l)) ? 2 : 1; while((l >>= 1)) { Mat.dr <<= 1; } FVIKARA(--Mat.dr, r, a);
+  if (Mat.Be) Fswap(Mat.lar, r) }
 
 void FADD(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; }
 void FSUB(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; }
