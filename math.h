@@ -44,7 +44,7 @@ void FSWAP(anu l, an r, an a);                  // Зеркалирование 
 void FVIKARA(anu l, an r, an a);                // Модификация длины числа
 #define Fvikara(l) FVIKARA(l, Mat.R, Mat.A);
 void FCOLD(anu l, an r, an a);                  // Приведение к формату l = 1,2,4,8,16,32,64,128,256 атомов
-#define Fcold(l) FCOLD(l, Mat.R, Mat.A);
+#define Fcold(l, x) FCOLD(l, x, x);
 #define _anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__}) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 #define _adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1), (As[]){0, ##__VA_ARGS__} + 1
 #define Faddr(...) _FAddr(4,(As*)&Mat.R,_adr(__VA_ARGS__));// {r{,e{,a{,b}}}} (Mat.R = r; ..)
