@@ -7,9 +7,9 @@
 
 ```c
 // Begin 05.07.2026 in Russia
-//  As (As   अः    основа, бытие, существовать) Nim (Nimitta निमित्त {знаковое} представление)
+// As  (As   अः    основа, бытие, существовать) Nim (Nimitta निमित्त {знаковое} представление)
 // anu (anu  अणु   атом)                          V (Vṛddhi  वृद्धि   {изменение} разрядности)
-//  an (anka अङ्क  цифра, число)             Vikara (Vikāra  विकार {модификация} чисел)
+// an  (anka अङ्क  цифра, число)             Vikara (Vikāra  विकार {модификация} чисел)
 // [{0..0}0x00] Не бытие - состояние {нет пары} находится в любом представлении чисел
 // [{0..0}0x80] Бесконечность - состояние {нет пары} находится только в знаковом представлении
 // Mar.Be       [00/XX] {нет/да} сначала записан старший иначе младший байт числа, для FCOLD
@@ -25,9 +25,8 @@ typedef uintptr_t As;                           // Разрядность про
 typedef uint8_t anu;                            // Байт - атом
 typedef anu* an;                                // Начальный адрес расположения - число
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 сдвиг {умножение/деление}
-typedef struct { MatBuf Li, Hi; anu Be, Nim, V, // Структура реализации библиотеки {proc cache}
-  lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db; an r, e, a, b, R, E, A, B; } Cache;
-extern Cache Mat;
+typedef struct { MatBuf Li, Hi; anu Be, Nim, V, // Структура реализации библиотеки
+  lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db; an r, e, a, b, R, E, A, B; } Math;
 
 ```
 

@@ -7,9 +7,9 @@
 
 #include "math.h"
 
-Cache Mat = {0};
-void _FInit(anu x, anu y, an r, anu c, an a) { while(x--) { *r-- = 0; } c = (c > y) ? y : c; while(c--) *++r = *a++; }
-void _FAddr(anu y, As* r, anu c, As* a) { c = (c > y) ? y : c; while(c--) *r++ = *a++; }
+MATH_CACHE_INIT
+void FInit(anu x, anu y, an r, anu c, an a) { while(x--) { *r-- = 0; } c = (c > y) ? y : c; while(c--) *++r = *a++; }
+void FAddr(anu y, As* r, anu c, As* a) { c = (c > y) ? y : c; while(c--) *r++ = *a++; }
 
 void FVIKARA(anu l, an r, an a) { Mat.F = 0;
   if (Mat.lar > (Mat.fb = Mat.lar - l)) { Mat.lar = l; Mat.N = (Mat.Nim && (Mat.fa & 0x80)) ? 0xFF : 0;
@@ -51,5 +51,5 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)
 void FADDc(an r, an a, anu l, an c) { if (!l) FMOV(Mat.lar, r, a); else FADD(r, a, --l, c); }
 void FSUBc(an r, an a, anu l, an c) { if (!l) FMOV(Mat.lar, r, a); else FSUB(r, a, --l, c); }
 void FMULc(an r, an a, anu l, an c) { if (!l) FMOV(Mat.lar, r, a); else FMUL(r, a, --l, c); }
-void FDIVc(an r, an e, an a, anu l, an c) {
-  if (!l) { FMOV(Mat.lar, r, a); *e = 0; Mat.lbe = 0; Mat.Ne = 0; Mat.Fe = 1; } else FDIV(r, e, a, --l, c); }
+void FDIVc(an r, an e, an a, anu l, an c) { if (!l) { FMOV(Mat.lar, r, a); *e = 0; Mat.lbe = 0; Mat.Ne = 0; Mat.Fe = 1; }
+  else FDIV(r, e, a, --l, c); }
