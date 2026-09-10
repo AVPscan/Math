@@ -27,21 +27,18 @@ void FVIKARA(anu l, an r, an a) { Mat.F = 0;
 void FLD(an r, anu D) { Mat.lar = 0; Mat.N = (Mat.Nim && (D & 0x80)) ? 0xFF : 0;
   Mat.F = (D) ? (Mat.Nim && (D == 0x80)) ? 2 : 0 : 1; *r = D; }
 void FLVD(an r, anu Dl, anu Dh) { Mat.lar = 1; *r++ = Dl; Mat.N = (Mat.Nim && (Dh & 0x80)) ? 0xFF : 0;
-  if ((Mat.F = (Dh || Dl) ? (!Dl && Mat.Nim && (Dh == 0x80)) ? 2 : 0 : 1)) { Mat.lar--; r--; } *r = Dh; }
-
-void FMOV(anu l, an r, an a) { Mat.lar = l; Mat.b = r; Mat.F = 0;
+  if ((Mat.F = (Dl || Dh) ? (!Dl && Mat.Nim && (Dh == 0x80)) ? 2 : 0 : 1)) { Mat.lar--; r--; } *r = Dh; }
+void FMOV(anu l, an r, an a) { Mat.lar = l; Mat.e = r; Mat.F = 0;
   if (r > a) { Mat.r = (r += l); Mat.a = (a += l); while(l--) Mat.F |= (*--Mat.r = *--Mat.a); }
   else { while(l--) Mat.F |= (*r++ = *a++); } *r = *a; Mat.N = (Mat.Nim && (*r & 0x80)) ? 0xFF : 0;
-  if ((Mat.F = (*r || Mat.F) ? (Mat.Nim && !Mat.F && (*r == 0x80)) ? 2 : 0 : 1)) { *Mat.b = *r; Mat.lar = 0; return; }
-  do l = (*r-- == Mat.N) ? Mat.Nim ? ((*r ^ Mat.N) & 0x80) ? 0 : 1 : 1 : 0; while(Mat.lar-- && l);
-  l = ++Mat.lar; if (*++r == 0x80) { while(l-- && *--r == 0) { } Mat.lar += !++l; } }
-
+  if ((Mat.F = (*r || Mat.F) ? (Mat.Nim && !Mat.F && (*r == 0x80)) ? 2 : 0 : 1)) { *Mat.e = *r; Mat.lar = 0; }
+  else { do l = (*r-- == Mat.N && !((*r ^ Mat.N) & 0x80)); while(Mat.lar-- && l); l = ++Mat.lar;
+	if (*++r == 0x80) { while(l-- && *--r == 0) { } Mat.lar += !++l; } } }
 void FSWAP(anu l, an r, an a) { Mat.lar = l; Mat.b = r; Mat.r = r + l; Mat.a = a + l; Mat.fb = l & 1;
   Mat.da = *a++; Mat.F = (l) ? *Mat.a-- : 0; *r++ = Mat.F; *Mat.r-- = Mat.da; if ((l >>= 1)) {
 	while(--l) { Mat.F |= (Mat.dr = *a++) | (Mat.db = *Mat.a--); *r++ = Mat.db; *Mat.r-- = Mat.dr; }
     if (!Mat.fb) Mat.F |= (*r = *a); } Mat.N = (Mat.Nim && (Mat.da & 0x80)) ? 0xFF : 0;
   Mat.F = (Mat.da || Mat.F) ? (Mat.Nim && !Mat.F && (Mat.da == 0x80)) ? 2 : 0 : 1; }
-
 void FCOLD(anu l, an r, an a) { Mat.dr = ((Mat.lar = l)) ? 2 : 1; while((l >>= 1)) Mat.dr <<= 1;
   FVIKARA(--Mat.dr, r, a); if (Mat.Be) Fswap(Mat.lar, r) }
 
