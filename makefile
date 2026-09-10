@@ -11,7 +11,7 @@ UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
 BASE_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra -ffunction-sections -fdata-sections
 CLANG_CFLAGS = -std=c11 -Oz -DNDEBUG -Wall -Wextra -Wno-stringop-overflow -Wno-unknown-warning-option
 LDFLAGS = -s
-ifeq ($(UNAME_S),Linux)
+ifeq ($(UNAME_S),Linux) 
     LDFLAGS += -Wl,--gc-sections -Wl,--strip-all
 endif
 ifeq ($(UNAME_S),Windows)
@@ -25,28 +25,22 @@ else
     GET_SIZE = wc -c < $(TARGET)$(EXT) 2>/dev/null || echo 0
     RUN_CMD = ./$(TARGET)
 endif
-
 .PHONY: all c musl run clean size
 
 all: clean
 	@gcc $(BASE_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
-
 c: clean
 	@clang $(CLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
-
 musl: clean
 	@gcc $(BASE_CFLAGS) -static -o $(TARGET) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
-
 size:
 	@SIZE=$$($(GET_SIZE)); echo "$(TARGET)$(EXT) $$SIZE byte"
-
 run: clean
 	@gcc $(BASE_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 	@$(RUN_CMD) || echo "(exit $$?)"
-
 clean:
 	@$(RM) $(TARGET)$(EXT) 2>/dev/null || true

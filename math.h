@@ -11,7 +11,7 @@
 // Begin 05.07.2026 in Russia
 // As  (As   अः    основа, бытие, существовать) Nim (Nimitta निमित्त {знаковое} представление)
 // anu (anu  अणु   атом)                          V (Vṛddhi  वृद्धि  {изменение} разрядности)
-// an  (anka अङ्क  цифра, число)             Vikara (Vikāra  विकार  {модификация} чисел)
+// an  (anka अङ्क  цифра, число)
 // [{0..0}0x00] Не бытие - состояние {нет пары} находится в любом представлении чисел
 // [{0..0}0x80] Бесконечность - состояние {нет пары} находится только в знаковом представлении
 // Mar.Be       [00/XX] {нет/да} сначала записан старший иначе младший байт числа, для FCOLD
@@ -35,7 +35,6 @@ void FLD(an r, anu D);                          // Создание числа �
 void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов
 void FMOV(anu l, an r, an a);                   // Копирование числа
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов относительно центра числа
-void FVIKARA(anu l, an r, an a);                // Модификация длины числа
 void FCOLD(anu l, an r, an a);                  // Приведение к формату l = 1,2,4,8,16,32,64,128,256
 void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FADDc(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
@@ -58,7 +57,6 @@ extern Math Mat;
 #define Flvd(Dl, Dh) FLVD(Mat.R, Dl, Dh);
 #define Fmov(l, x) FMOV(l, x, x);
 #define Fswap(l, x) FSWAP(l, x, x);
-#define Fvikara(l, x) FVIKARA(l, x, x);
 #define Fcold(l, x) FCOLD(l, x, x);
 #define FAdd(r) FADD(r, Mat.A, Mat.lbe, Mat.B);  
 #define FAddc(r, ...) FADDc(r, Mat.A, Anu(__VA_ARGS__));
