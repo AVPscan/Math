@@ -32,8 +32,8 @@ typedef struct { MatBuf Li, Hi; anu Be, Nim, V, // Структура реали
 void FInit(anu x, anu y, an r, anu c, an a);    // Инициализация библиотеки
 void FAddr(anu y, As* r, anu c, As* a);         //
 void FLD(an r, anu D);                          // Создание числа из атома
-void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов
-void FMOV(anu l, an r, an a);                   // Копирование числа
+void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов и автонормализация
+void FMOV(anu l, an r, an a);                   // Копирование числа и автонормализация
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов относительно центра числа
 void FCOLD(anu l, an r, an a);                  // Приведение к формату l = 1,2,4,8,16,32,64,128,256
 void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
@@ -47,7 +47,6 @@ void FDIVc(an r, an e, an a, anu l, an c);      // r = a / Const, e = a mod Cons
 
 extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
-
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__}) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1), (As[]){0, ##__VA_ARGS__} + 1
 #define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__)); // {r{,e{,a{,b}}}} (Mat.R = r; ..)

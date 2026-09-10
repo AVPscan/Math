@@ -10,8 +10,8 @@
 
 #define InputBigEndian 1
 #define OutputBigEndian 0
-anu la = 2, a[] = {0,0,127,3,4,5,6,7}, l = 8;
-anu lb = 7, b[] = {255,255,255,255,255,255,255,129};
+anu la = 1, a[] = {0,128,0,1,2,3,4,5}, l = 8;
+anu lb = 7, b[] = {255,255,255,255,255,255,128,0};
 
 void Num(anu s, an a) { anu t[l]; if (s >= l) { printf("(%d) XxX ", s + 1); return; }
   FMOV(s, (an)t, a); a = (an)t; printf("(%d) ", Mat.lar + 1); Fcold(Mat.lar, a)
