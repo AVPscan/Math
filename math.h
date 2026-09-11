@@ -50,7 +50,7 @@ extern Math Mat;
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1), (As[]){0, ##__VA_ARGS__} + 1
 #define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__)); // {r{,e{,a{,b}}}} (Mat.R = r; ..)
 #define Fini(...) FInit(10, 5, &Mat.Ne, Anu(__VA_ARGS__));  // Be=Nim=V=..Ne=0 {Be{,Nim{,V{,la{,lb}}}}}
-#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__));  // {la{,lb}} (Mat.lar = la; Mat.lbe = lb;)
+#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__));   // {la{,lb}} (Mat.lar = la; Mat.lbe = lb;)
 #define Fld(D) FLD(Mat.R, D);
 #define Flvd(Dl, Dh) FLVD(Mat.R, Dl, Dh);
 #define Fmov(l, x) FMOV(l, x, x);
