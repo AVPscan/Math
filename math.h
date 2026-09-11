@@ -8,9 +8,9 @@
 #ifndef MATH_H
 #define MATH_H
 #include <stdint.h>
-// Begin 05.07.2026 in Russia                  As (As      अः     основа, бытие, существовать)
-// anu (anu     अणु      атом)                     an (anka    अङ्क   цифра, число)
-// Nim (Nimitta निमित्त {знаковое} представление) V  (Vṛddhi  वृद्धि {изменение} разрядности)
+// Begin 05.07.2026 in Russia                  As (As      अः   основа, бытие, существовать)
+// anu (anu     अणु   атом)                     an (anka    अङ्क цифра, число)
+// Nim (Nimitta निमित्त {знаковое} представление)  V  (Vṛddhi  वृद्धि  {изменение} разрядности)
 // [{0..0}0x00] Не бытие - состояние {нет пары} находится в любом представлении чисел
 // [{0..0}0x80] Бесконечность - состояние {нет пары} находится только в знаковом представлении
 // Mar.Be       [00/XX] {нет/да} сначала записан старший иначе младший байт числа, для FCOLD
@@ -50,7 +50,7 @@ extern Math Mat;
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1), (As[]){0, ##__VA_ARGS__} + 1
 #define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__)); // {r{,e{,a{,b}}}} (Mat.R = r; ..)
 #define Fini(...) FInit(10, 5, &Mat.Ne, Anu(__VA_ARGS__));  // Be=Nim=V=..Ne=0 {Be{,Nim{,V{,la{,lb}}}}}
-#define Flong(...) FInit(0, 2, &Mat.Be, Anu(__VA_ARGS__));  // {la{,lb}} (Mat.lar = la; Mat.lbe = lb;)
+#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__));  // {la{,lb}} (Mat.lar = la; Mat.lbe = lb;)
 #define Fld(D) FLD(Mat.R, D);
 #define Flvd(Dl, Dh) FLVD(Mat.R, Dl, Dh);
 #define Fmov(l, x) FMOV(l, x, x);
