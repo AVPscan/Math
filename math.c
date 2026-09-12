@@ -33,8 +33,8 @@ void FCOLD(anu l, an r, an a) { Mat.lar = ((Mat.dr = l)) ? 2 : 1; while((Mat.dr 
   if ((Mat.F = (Mat.F || *r) ? (!Mat.F && Mat.Nim && (*r == 0x80)) ? 2 : 0 : 1)) { Mat.dr = *r; *r = 0; }
   while(Mat.fb--) { *++r = Mat.N; } *r = Mat.F ? Mat.dr : *r; if (Mat.Be) Fswap(Mat.lar, r) }
 
-void FADD(an r, an a, anu l, an b) { Mat.e = r; Mat.C = (Mat.C != 0); Mat.da = 0; Mat.db = 0; Mat.r = 0; Mat.lbe = l;
-  if (Mat.lar < l) { Mat.a = b; b = a; a = Mat.a; l = Mat.lar; Mat.lar = Mat.lbe; } Mat.N = Mat.lar - l;
+void FADD(an r, an a, anu l, an b) { Mat.e = r; Mat.C = (Mat.C != 0); Mat.da = 0; Mat.db = 0; Mat.r = 0;
+  Mat.lbe = l; if (Mat.lar < l) { Mat.a = b; b = a; a = Mat.a; l = Mat.lar; Mat.lar = Mat.lbe; } Mat.N = Mat.lar - l;
   while(l--) { Mat.da |= (Mat.fa = *a); Mat.db |= (Mat.fb = *b); Mat.dr |= (*r = *a++ + *b++ + Mat.C);
 	Mat.C = (Mat.fa > *r++) || (Mat.C && Mat.fb == 255); } Mat.fb = *b; Mat.nb = (Mat.Nim && (*b & 0x80)) ? 0xFF : 0;
   if (!Mat.db && Mat.Nim && (*b == 0x80)) { Mat.F = 2; Mat.N = 0xFF; *Mat.e = *b; Mat.lar = 0; Mat.C = 1; return; }
@@ -43,11 +43,11 @@ void FADD(an r, an a, anu l, an b) { Mat.e = r; Mat.C = (Mat.C != 0); Mat.da = 0
   if (!Mat.da && Mat.Nim && (*a == 0x80)) { Mat.F = 2; Mat.N = 0xFF; *Mat.e = *a; Mat.lar = 0; Mat.C = 1; return; }
   Mat.na = (Mat.Nim && (*a & 0x80)) ? 0xFF : 0; l = *a + Mat.fb + Mat.C; Mat.C = (*a > l) || (Mat.C && Mat.fb == 255);
   *r = l; Mat.C = ((Mat.Nim ? ((Mat.na & 0x80) ^ (l & 0x80)) : Mat.C) != 0);
-  if (Mat.C && Mat.V && Mat.lar != 0xFF) { Mat.dr |= *r++; *r = Mat.Nim ? Mat.na : Mat.C; Mat.lar++; Mat.C = 0; }
-  Mat.N = (Mat.Nim && (*r & 0x80)) ? 0xFF : 0;
-  if ((Mat.F = (Mat.dr || *r) ? (!Mat.dr && Mat.Nim && (*r == 0x80)) ? 2 : 0 : 1)) {
-	*Mat.e = l; Mat.lar = 0; Mat.C = (Mat.F == 2) ? 1 : Mat.C; return; } 
-  if (Mat.Nim && Mat.na == Mat.nb && Mat.N != Mat.na) { Mat.F = 2; Mat.N = 0xFF; *Mat.e = 0xFF; Mat.lar = 0; Mat.C = 1; } }
+  if (Mat.V) { if (Mat.C && Mat.na == Mat.nb && Mat.lar != 0xFF) { Mat.dr |= *r++; *r = Mat.Nim ? Mat.na : Mat.C;
+	Mat.lar++; Mat.C = 0; } } Mat.N = (Mat.Nim && (*r & 0x80)) ? 0xFF : 0;
+  if ((Mat.F = (Mat.dr || *r) ? (!Mat.dr && Mat.Nim && (*r == 0x80)) ? 2 : 0 : 1)) { *Mat.e = l; Mat.lar = 0;
+	Mat.C = (Mat.F == 2) ? 1 : Mat.C; return; } if (Mat.Nim && Mat.na == Mat.nb && Mat.N != Mat.na) { *Mat.e = 0xFF;
+	Mat.lar = 0; Mat.F = 2; Mat.N = 0xFF; Mat.C = 1; } }
 
 void FSUB(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; }
 void FMUL(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; l = Mat.lar; Mat.C = (l > (Mat.lar += 1 + Mat.lbe)); }

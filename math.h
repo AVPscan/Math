@@ -43,7 +43,6 @@ void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
 void FMULc(an r, an a, anu l, an c);            // r = a * Const
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {+}
 void FDIVc(an r, an e, an a, anu l, an c);      // r = a / Const, e = a mod Const
-
 extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__}) - 1), (anu[]){0, ##__VA_ARGS__} + 1
