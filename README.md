@@ -1,17 +1,19 @@
 [![Cross-Platform Build & Release](https://github.com/AVPscan/Math/actions/workflows/release.yml/badge.svg)](https://github.com/AVPscan/Math/actions/workflows/release.yml)
 
-# Math Library
-
 <div align="center">
+  <h1>Math Library</h1>
+  
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="Plus/971b.jpeg">
     <source media="(prefers-color-scheme: light)" srcset="Plus/971w.jpeg">
     <img alt="Math Library Logo" src="Plus/971w.jpeg" width="50%">
   </picture>
+  
+  <br><br>
+  
+  *Библиотека для работы с целыми числами произвольной точности*
 </div>
 
-
-*Библиотека для работы с целыми числами произвольной точности*
 
 ```c
 // Begin 05.07.2026 in Russia                  As (As      अः   основа, бытие, существовать)
@@ -44,7 +46,9 @@ P.S.: Закончил обучение на водителя троллейбу
 
 точку на подарке для нас - инженеров, всех поздравляю с сием событием!
 
-## Лицензия
+<div align="center">
+  <h2>Лицензия</h2>
+</div>
 
 Распространяется под условиями Стандартной общественной лицензии GNU (GPLv3).
 
