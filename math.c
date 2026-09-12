@@ -42,12 +42,12 @@ void FADD(an r, an a, anu l, an b) { Mat.e = r; Mat.C = (Mat.C != 0); Mat.da = 0
 	  Mat.C = (Mat.fa > *r++) || (Mat.C && Mat.fb == 255); Mat.fb = Mat.nb; }
   if (!Mat.da && Mat.Nim && (*a == 0x80)) { Mat.F = 2; Mat.N = 0xFF; *Mat.e = *a; Mat.lar = 0; Mat.C = 1; return; }
   Mat.na = (Mat.Nim && (*a & 0x80)) ? 0xFF : 0; l = *a + Mat.fb + Mat.C; Mat.C = (*a > l) || (Mat.C && Mat.fb == 255);
-  *r = l; Mat.C = Mat.Nim ? 0 : Mat.C;
-  if ((Mat.C || (Mat.Nim && Mat.na != (((l & 0x80) ? 0xFF : 0)) && Mat.na == Mat.nb)) && Mat.V && Mat.lar != 0xFF) {
-	Mat.dr |= *r++; *r = Mat.Nim ? Mat.na : Mat.C; Mat.lar++; Mat.C = 0; } Mat.N = (Mat.Nim && (*r & 0x80)) ? 0xFF : 0;
+  *r = l; Mat.C = ((Mat.Nim ? ((Mat.na & 0x80) ^ (l & 0x80)) : Mat.C) != 0);
+  if (Mat.C && Mat.V && Mat.lar != 0xFF) { Mat.dr |= *r++; *r = Mat.Nim ? Mat.na : Mat.C; Mat.lar++; Mat.C = 0; }
+  Mat.N = (Mat.Nim && (*r & 0x80)) ? 0xFF : 0;
   if ((Mat.F = (Mat.dr || *r) ? (!Mat.dr && Mat.Nim && (*r == 0x80)) ? 2 : 0 : 1)) {
-	*Mat.e = l; Mat.lar = 0; Mat.C = (Mat.F == 2) ? 1 : Mat.C; return; }
-  if (Mat.Nim && Mat.na == Mat.nb && Mat.N != Mat.na) { Mat.F = 2; Mat.N = 0xFF; *Mat.e = 0xFF; Mat.lar = 0; } }
+	*Mat.e = l; Mat.lar = 0; Mat.C = (Mat.F == 2) ? 1 : Mat.C; return; } 
+  if (Mat.Nim && Mat.na == Mat.nb && Mat.N != Mat.na) { Mat.F = 2; Mat.N = 0xFF; *Mat.e = 0xFF; Mat.lar = 0; Mat.C = 1; } }
 
 void FSUB(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; }
 void FMUL(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; l = Mat.lar; Mat.C = (l > (Mat.lar += 1 + Mat.lbe)); }
