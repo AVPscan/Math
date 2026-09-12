@@ -2,7 +2,10 @@
 
 # Math Library
 
-![Math 9.71](Plus/971w.jpeg)
+![Имя для светлой](Plus/971w.jpeg#gh-light-mode-only)
+![Имя для темной](Plus/971b.jpeg#gh-dark-mode-only)
+
+
 
 *Библиотека для работы с целыми числами произвольной точности*
 
