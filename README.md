@@ -6,7 +6,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="Plus/971b.jpeg">
     <source media="(prefers-color-scheme: light)" srcset="Plus/971w.jpeg">
-    <img alt="Math Library Logo" src="Plus/971w.jpeg" width="80%">
+    <img alt="Math Library Logo" src="Plus/971w.jpeg" width="50%">
   </picture>
 </div>
 
