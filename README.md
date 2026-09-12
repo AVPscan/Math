@@ -2,10 +2,11 @@
 
 # Math Library
 
-![Имя для светлой](Plus/971w.jpeg#gh-light-mode-only)
-![Имя для темной](Plus/971b.jpeg#gh-dark-mode-only)
-
-
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Plus/971b.jpeg">
+  <source media="(prefers-color-scheme: light)" srcset="Plus/971w.jpeg">
+  <img alt="Math Library Logo" src="Plus/971w.jpeg">
+</picture>
 
 *Библиотека для работы с целыми числами произвольной точности*
 
