@@ -2,11 +2,14 @@
 
 # Math Library
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="Plus/971b.jpeg">
-  <source media="(prefers-color-scheme: light)" srcset="Plus/971w.jpeg">
-  <img alt="Math Library Logo" src="Plus/971w.jpeg">
-</picture>
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="Plus/971b.jpeg">
+    <source media="(prefers-color-scheme: light)" srcset="Plus/971w.jpeg">
+    <img alt="Math Library Logo" src="Plus/971w.jpeg" width="80%">
+  </picture>
+</div>
+
 
 *Библиотека для работы с целыми числами произвольной точности*
 
