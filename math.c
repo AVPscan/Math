@@ -42,7 +42,7 @@ void FADD(an r, an a, anu l, an b) { Mat.e = r; Mat.C = (Mat.C != 0); Mat.da = 0
 	  Mat.C = (Mat.fa > *r++) || (Mat.C && Mat.fb == 255); Mat.fb = Mat.nb; }
   if (!Mat.da && Mat.Nim && (*a == 0x80)) { Mat.F = 2; Mat.N = 0xFF; *Mat.e = *a; Mat.lar = 0; Mat.C = 1; return; }
   Mat.na = (Mat.Nim && (*a & 0x80)) ? 0xFF : 0; l = *a + Mat.fb + Mat.C; Mat.C = (*a > l) || (Mat.C && Mat.fb == 255);
-  *r = l; Mat.C = ((Mat.Nim ? ((Mat.na & 0x80) ^ (l & 0x80)) : Mat.C) != 0);
+  *r = l; Mat.C = ((Mat.Nim ? (((Mat.na & 0x80) ^ (l & 0x80)) || (l == 0x80 && !Mat.dr)) : Mat.C) != 0);
   if (Mat.V) { if (Mat.C && Mat.na == Mat.nb && Mat.lar != 0xFF) { Mat.dr |= *r++; *r = Mat.Nim ? Mat.na : Mat.C;
 	Mat.lar++; Mat.C = 0; } } Mat.N = (Mat.Nim && (*r & 0x80)) ? 0xFF : 0;
   if ((Mat.F = (Mat.dr || *r) ? (!Mat.dr && Mat.Nim && (*r == 0x80)) ? 2 : 0 : 1)) { *Mat.e = l; Mat.lar = 0;
