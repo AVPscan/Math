@@ -22,7 +22,7 @@ void FMOV(anu l, an r, an a) { Mat.lar = l; Mat.e = r; Mat.F = 0;
   if ((Mat.F = (Mat.F || *r) ? (!Mat.F && Mat.Nim && (*r == 0x80)) ? 2:0:1)) { *Mat.e = *r; Mat.lar = 0; }
   else { l = Mat.lar; Mat.N = Mat.Nim ? (*r & 0x80) ? 0xFF:0:0;
 	while(Mat.lar && *r == Mat.N && !(Mat.Nim && ((*(r - 1) ^ Mat.N) & 0x80))) { Mat.lar--; r--; }
-	if ((l - Mat.lar) && *r == 0x80) { l = Mat.lar; while(l && *--r == 0) { l--; } Mat.lar += !l; } } }
+	if (Mat.Nim && (l - Mat.lar) && *r == 0x80) { l = Mat.lar; while(l && *--r == 0) { l--; } Mat.lar += !l; } } }
 void FSWAP(anu l, an r, an a) { Mat.lar = l; Mat.b = r; Mat.r = r + l; Mat.a = a + l; Mat.fa = l & 1;
   Mat.da = *a++; Mat.F = (l) ? *Mat.a-- : 0; *r++ = Mat.F; *Mat.r-- = Mat.da; if ((l >>= 1)) {
 	while(--l) { Mat.F |= (Mat.dr = *a++) | (Mat.na = *Mat.a--); *r++ = Mat.na; *Mat.r-- = Mat.dr; }
@@ -50,7 +50,7 @@ void FADD(an r, an a, anu l, an b) { Mat.e = r; Mat.C = (Mat.C != 0); Mat.da = 0
   if ((Mat.F = (Mat.dr || *r) ? (!Mat.dr && Mat.Nim && (*r == 0x80)) ? 2:0:1)) { *Mat.e = l; Mat.lar = 0;
 	Mat.C = (Mat.F == 2) ? 1 : Mat.C; return; } l = Mat.lar; Mat.N = Mat.Nim ? ((*r & 0x80) ? 0xFF:0):0;
   while(Mat.lar && *r == Mat.N && !(Mat.Nim && ((*(r - 1) ^ Mat.N) & 0x80))) { Mat.lar--; r--; }
-  if ((l - Mat.lar) && *r == 0x80) { l = Mat.lar; while(l && *--r == 0) { l--; } Mat.lar += !l; }
+  if (Mat.Nim && (l - Mat.lar) && *r == 0x80) { l = Mat.lar; while(l && *--r == 0) { l--; } Mat.lar += !l; }
   if (Mat.Nim && Mat.na == Mat.nb && Mat.N != Mat.na) { *Mat.e = 0xFF; Mat.lar = 0; Mat.F = 2; Mat.N = 0xFF; Mat.C = 1; } }
 
 void FSUB(an r, an a, anu l, an b) { Mat.lbe = l; (void)r; (void)a; (void)b; }
