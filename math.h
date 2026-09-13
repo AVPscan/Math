@@ -30,7 +30,7 @@ typedef struct { MatBuf Li, Hi; anu Be, Nim, V, // Структура реали
   lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db; an r, e, a, b, R, E, A, B; } Math;
 void FInit(anu x, anu y, an r, anu c, an a);    // Инициализация библиотеки
 void FAddr(anu y, As* r, anu c, As* a);         //
-void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов относительно центра
+void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
 void FLD(an r, anu D);                          // Создание числа из атома
 void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов и автонормализация
 void FMOV(anu l, an r, an a);                   // Копирование числа и автонормализация

@@ -1,7 +1,7 @@
 [![Cross-Platform Build & Release](https://github.com/AVPscan/Math/actions/workflows/release.yml/badge.svg)](https://github.com/AVPscan/Math/actions/workflows/release.yml)
 
 <div align="center">
-  <h1>Math Library</h1>
+  <h1>Пример вычислений `v 9.73`</h1>
   
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="Plus/971b.jpeg">
