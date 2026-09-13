@@ -30,10 +30,10 @@ typedef struct { MatBuf Li, Hi; anu Be, Nim, V, // Структура реали
   lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db; an r, e, a, b, R, E, A, B; } Math;
 void FInit(anu x, anu y, an r, anu c, an a);    // Инициализация библиотеки
 void FAddr(anu y, As* r, anu c, As* a);         //
+void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов относительно центра числа
 void FLD(an r, anu D);                          // Создание числа из атома
 void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов и автонормализация
 void FMOV(anu l, an r, an a);                   // Копирование числа и автонормализация
-void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов относительно центра числа
 void FCOLD(anu l, an r, an a);                  // Приведение к формату l = 1,2,4,8,16,32,64,128,256
 void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FADDc(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
