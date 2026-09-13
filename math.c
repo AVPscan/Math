@@ -13,8 +13,8 @@ void FInit(anu x, anu y, an r, anu c, an a) { while(x--) *r-- = 0;
 void FAddr(anu y, As* r, anu c, As* a) {
   c = (c > y) ? y : c; while(c--) *r++ = *a++; }
 void FSWAP(anu l, an r, an a) { Mat.fa = l & 1; Mat.r = r + l; Mat.a = a + l;
-  Mat.na = *a++; *r++ = (l) ? *Mat.a--:0; *Mat.r-- = Mat.na;
-  if ((l >>= 1)) { while(--l) { Mat.na = *a++; *r++ = *Mat.a--; *Mat.r-- = Mat.na; } if (!Mat.fa) *r = *a; } }
+  Mat.na = *a++; *r++ = (l) ? *Mat.a--:0; *Mat.r-- = Mat.na; if ((l >>= 1)) {
+	while(--l) { Mat.na = *a++; *r++ = *Mat.a--; *Mat.r-- = Mat.na; } if (!Mat.fa) *r = *a; } }
 
 void FLD(an r, anu D) { Mat.lar = 0; Mat.N = Mat.Nim ? (D & 0x80) ? 0xFF:0:0;
   Mat.F = (D) ? (Mat.Nim && (D == 0x80)) ? 2 : 0 : 1; *r = D; }
