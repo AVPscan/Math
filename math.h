@@ -25,11 +25,12 @@
 typedef uintptr_t As;                           // Разрядность процессора - основа
 typedef uint8_t anu;                            // Байт - атом
 typedef anu* an;                                // Начальный адрес расположения - число
-typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 сдвиг {умножение/деление}
-typedef struct { MatBuf Li, Hi; anu Be, Nim, V, // Структура реализации библиотеки
-  lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db; an r, e, a, b, R, E, A, B; } Math;
-void FInit(anu x, anu y, an r, anu c, an a);    // Инициализация библиотеки
-void FAddr(anu y, As* r, anu c, As* a);         //
+typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 атом {умножение/деление}
+typedef struct { MatBuf Li, Hi; anu Be, Nim, V, //  представление, возможность изменения длин чисел
+  lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb, dr,//  длины, перенос, флаг состояний, знак {r,e,a,b}
+  de, da, db; an r, e, a, b, R, E, A, B; } Math;// Структура реализации библиотеки
+void FInit(anu x, anu y, an r, anu c, an a);    // Be=Nim=V=..Ne=0{Be{,Nim{,V{,la{,lb}}}}}, {la{,lb}}
+void FAddr(anu y, As* r, anu c, As* a);         // {r{,e{,a{,b}}}} (Mat.R = r; ..)
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
 void FLD(an r, anu D);                          // Создание числа из атома
 void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов и автонормализация
@@ -47,9 +48,9 @@ extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__}) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1), (As[]){0, ##__VA_ARGS__} + 1
-#define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__)); // {r{,e{,a{,b}}}} (Mat.R = r; ..)
-#define Fini(...) FInit(10, 5, &Mat.Ne, Anu(__VA_ARGS__));  // Be=Nim=V=..Ne=0 {Be{,Nim{,V{,la{,lb}}}}}
-#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__));   // {la{,lb}} (Mat.lar = la; Mat.lbe = lb;)
+#define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__));
+#define Fini(...) FInit(10, 5, &Mat.Ne, Anu(__VA_ARGS__));
+#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__));
 #define Fswap(l, x) FSWAP(l, x, x);
 #define Fld(D) FLD(Mat.R, D);
 #define Flvd(Dl, Dh) FLVD(Mat.R, Dl, Dh);
