@@ -9,9 +9,6 @@
     <img alt="Math Library Logo" src="Plus/971w.jpeg" width="50%">
   </picture>
   
-  <br><br>
-  
-  *Бестиповой вычислительный автомат произвольной точности*
 </div>
 
 ## Перспективы аппаратной реализации (Hardware Fact)
