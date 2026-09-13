@@ -30,7 +30,7 @@ typedef struct { MatBuf Li, Hi; anu Be, Nim, V, // Структура реали
   lar, lbe, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db; an r, e, a, b, R, E, A, B; } Math;
 void FInit(anu x, anu y, an r, anu c, an a);    // Инициализация библиотеки
 void FAddr(anu y, As* r, anu c, As* a);         //
-void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов относительно центра числа
+void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов относительно центра
 void FLD(an r, anu D);                          // Создание числа из атома
 void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов и автонормализация
 void FMOV(anu l, an r, an a);                   // Копирование числа и автонормализация
@@ -50,10 +50,10 @@ extern Math Mat;
 #define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__)); // {r{,e{,a{,b}}}} (Mat.R = r; ..)
 #define Fini(...) FInit(10, 5, &Mat.Ne, Anu(__VA_ARGS__));  // Be=Nim=V=..Ne=0 {Be{,Nim{,V{,la{,lb}}}}}
 #define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__));   // {la{,lb}} (Mat.lar = la; Mat.lbe = lb;)
+#define Fswap(l, x) FSWAP(l, x, x);
 #define Fld(D) FLD(Mat.R, D);
 #define Flvd(Dl, Dh) FLVD(Mat.R, Dl, Dh);
 #define Fmov(l, x) FMOV(l, x, x);
-#define Fswap(l, x) FSWAP(l, x, x);
 #define Fcold(l, x) FCOLD(l, x, x);
 #define FAdd(r) FADD(r, Mat.A, Mat.lbe, Mat.B);  
 #define FAddc(r, ...) FADDc(r, Mat.A, Anu(__VA_ARGS__));
