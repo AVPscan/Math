@@ -19,14 +19,14 @@
 // Mat.C        [00/XX] {нет переполнения/переполнение}
 // Mat.F{Fe}    [00/XX] {0}число/состояние{{1}не бытиё,{2}бесконечность} результата{остатка}
 // Mat.N{Ne}    [00/FF] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
-// Mat.lar      [0.255] длина операнда a, длина результата r
-// Mat.lbe      [0.255] длина операнда b, длина остатка при делении re
+// Mat.l        [0.255] длина операнда a, длина результата r
+// Mat.le       [0.255] длина остатка при делении re
 typedef uintptr_t As;                           // Разрядность процессора - основа
 typedef uint8_t anu;                            // Байт - атом
 typedef anu* an;                                // Начальный адрес расположения - число
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 атом {умножение/деление}
-typedef struct { MatBuf Li, Hi; anu Nim, V, lar,//  представление, возможность изменения длин чисел
-  lbe, C, F, N, Fe, Ne, fa, na, fb, nb, nab, dr,//  длины, перенос, флаг состояний, знак {r,e,a,b}
+typedef struct { MatBuf Li, Hi; anu Nim, V, l,  //  представление, возможность изменения длин,
+  le, C, F, N, Fe, Ne, fa, na, fb, nb, nab, dr, //  длины, перенос, флаг состояний, знак {r,e,a,b}
   de, da, db; an r, e, a, b, R, E, A, B; } Math;// Структура реализации библиотеки
 void FInit(anu x, anu y, an r, anu c, an a);    // Nim=V=la=..Ne=0 {Nim{,V{,la{,lb}}}}}, {la{,lb}}
 void FAddr(anu y, As* r, anu c, As* a);         // {r{,e{,a{,b}}}} (Mat.R = r; ..)
@@ -49,28 +49,28 @@ extern Math Mat;
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__}) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1), (As[]){0, ##__VA_ARGS__} + 1
 #define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__))
-#define Fini(...) FInit(9, 4, &Mat.Ne, Anu(__VA_ARGS__))
-#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__))
+#define Fini(...) FInit(9, 3, &Mat.Ne, Anu(__VA_ARGS__))
+#define Flong(...) FInit(0, 1, &Mat.V, Anu(__VA_ARGS__))
 #define Fswap(l, x) FSWAP(l, x, x)
 #define Const(f, r,...) CONST(f, r, Anu(__VA_ARGS__))
 #define Fld(D) FLD(Mat.A, D)
 #define Flvd(Dl, Dh) FLVD(Mat.A, Dl, Dh)
 #define Fmov(l, x) FMOV(l, x, x)
 #define Fcold(f, l, x) FCOLD(f, l, x, x)
-#define FAdd(r) FADD(r, Mat.A, Mat.lbe, Mat.B)
-#define FAddc(r, ...) FADDc(r, Mat.A, Anu(__VA_ARGS__))
+#define FAdd(l, b) FADD(Mat.R, Mat.A, l, b)
+#define FAddc(...) FADDc(Mat.R, Mat.A, Anu(__VA_ARGS__))
 #define Fadd(r, l, b) FADD(r, r, l, b)
 #define Faddc(r, ...) FADDc(r, r, Anu(__VA_ARGS__))
-#define FSub(r) FSUB(r, Mat.A, Mat.lbe, Mat.B)
-#define FSubc(r, ...) FSUBc(r, Mat.A, Anu(__VA_ARGS__))
+#define FSub(l, b) FSUB(Mat.R, Mat.A, l, b)
+#define FSubc(...) FSUBc(Mat.R, Mat.A, Anu(__VA_ARGS__))
 #define Fsub(r, l, b) FSUB(r, r, l, b)
 #define Fsubc(r, ...) FSUBc(r, r, Anu(__VA_ARGS__))
-#define FMul(r) FMUL(r, Mat.A, Mat.lbe, Mat.B)
-#define FMulc(r, ...) FMULc(r, Mat.A, Anu(__VA_ARGS__))
+#define FMul(l, b) FMUL(Mat.R, Mat.A, l, b)
+#define FMulc(...) FMULc(Mat.R, Mat.A, Anu(__VA_ARGS__))
 #define Fmul(r, l, b) FMUL(r, r, l, b)
 #define Fmulc(r, ...) FMULc(r, r, Anu(__VA_ARGS__))
-#define FDiv(r, e) FDIV(r, e, Mat.A, Mat.lbe, Mat.B)
-#define FDivc(r, e, ...) FDIVc(r, e, Mat.A, Anu(__VA_ARGS__))
+#define FDiv(l, b) FDIV(Mat.R, Mat.E, Mat.A, l, b)
+#define FDivc(...) FDIVc(Mat.R, Mat.E, Mat.A, Anu(__VA_ARGS__))
 #define Fdiv(r, e, l, b) FDIV(r, e, r, l, b)
 #define Fdivc(r, e, ...) FDIVc(r, e, r, Anu(__VA_ARGS__))
 #endif
