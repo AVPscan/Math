@@ -31,5 +31,5 @@ void Show(char s) { anu lr, i = 4; printf("\n"); while(i--) { Mat.Nim = ((3 - i)
 int main(void) { anu a[l],b[l],e[l],r[l+l]; Fini(1); Faddr((As)r, (As)e, (As)a, (As)b);
   printf("A "); Num(la = Const(InputBigEndian, Mat.A, 128,0,1), Mat.A);
   printf("B "); Num(lb = Const(InputBigEndian, Mat.B, 255,255), Mat.B);
-  printf("\n"); Show('+'); Show('-'); Show('M');//Show('*'); Show('/');
+  printf("Const (1|1) 2\n"); Show('+'); Show('-'); Show('M');//Show('*'); Show('/');
   return 0; }
