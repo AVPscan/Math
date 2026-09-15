@@ -20,7 +20,7 @@
 // Mat.F{Fe}    [00/XX] {0}число/состояние{{1}не бытиё,{2}бесконечность} результата{остатка}
 // Mat.N{Ne}    [00/FF] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
 // Mat.l        [0.255] длина операнда a, длина результата r
-// Mat.le       [0.255] длина остатка при делении re
+// Mat.le       [0.255] длина остатка e
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
@@ -28,7 +28,7 @@ typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 атом
 typedef struct { MatBuf Li, Hi; anu Nim, V, l,  //  представление, возможность изменения длин,
   le, C, F, N, Fe, Ne, fa, na, fb, nb, nab, dr, //  длины, перенос, флаг состояний, знак {r,e,a,b}
   de, da, db; an r, e, a, b, R, E, A, B; } Math;// Структура реализации библиотеки
-void FInit(anu x, anu y, an r, anu c, an a);    // Nim=V=la=..Ne=0 {Nim{,V{,la{,lb}}}}}, {la{,lb}}
+void FInit(anu x, anu y, an r, anu c, an a);    // Nim=V=la=..Ne=0 {Nim{,V{,la}}}, {la}
 void FAddr(anu y, As* r, anu c, As* a);         // {r{,e{,a{,b}}}} (Mat.R = r; ..)
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
 anu CONST(anu f, an r, anu l, an c);            // Копирование из константы в переменную на выходе l

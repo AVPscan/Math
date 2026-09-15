@@ -1,7 +1,7 @@
 [![Cross-Platform Build & Release](https://github.com/AVPscan/Math/actions/workflows/release.yml/badge.svg)](https://github.com/AVPscan/Math/actions/workflows/release.yml)
 
 <div align="center">
-  <h1>Результат запуска v11.2</h1>
+  <h1>Результат запуска v11.5</h1>
   
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="Plus/971b.jpeg">
@@ -59,7 +59,7 @@
 // Mat.F{Fe}    [00/XX] {0}число/состояние{{1}не бытиё,{2}бесконечность} результата{остатка}
 // Mat.N{Ne}    [00/FF] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
 // Mat.l        [0.255] длина операнда a, длина результата r
-// Mat.le       [0.255] длина остатка при делении re
+// Mat.le       [0.255] длина остатка e
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
