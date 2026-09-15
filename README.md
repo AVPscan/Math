@@ -1,7 +1,7 @@
 [![Cross-Platform Build & Release](https://github.com/AVPscan/Math/actions/workflows/release.yml/badge.svg)](https://github.com/AVPscan/Math/actions/workflows/release.yml)
 
 <div align="center">
-  <h1>Результат запуска v11.5</h1>
+  <h1>Результат запуска v11.6</h1>
   
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="Plus/971b.jpeg">
@@ -65,7 +65,7 @@ typedef uint8_t anu;                            // атом, минимальн�
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 атом {умножение/деление}
 typedef struct { MatBuf Li, Hi; anu Nim, V, l,  //  представление, возможность изменения длин,
-  le, C, F, N, Fe, Ne, fa, na, fb, nb, nab, dr, //  длины, перенос, флаг состояний, знак {r,e,a,b}
+  le, C, F, N, Fe, Ne, fa, na, fb, nb, nab, dr, //  длины, перенос, флаг состояний/знак {r,e,a,b}
   de, da, db; an r, e, a, b, R, E, A, B; } Math;// Структура реализации библиотеки
 ```
 

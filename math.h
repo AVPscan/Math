@@ -26,16 +26,16 @@ typedef uint8_t anu;                            // атом, минимальн�
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 атом {умножение/деление}
 typedef struct { MatBuf Li, Hi; anu Nim, V, l,  //  представление, возможность изменения длин,
-  le, C, F, N, Fe, Ne, fa, na, fb, nb, nab, dr, //  длины, перенос, флаг состояний, знак {r,e,a,b}
+  le, C, F, N, Fe, Ne, fa, na, fb, nb, nab, dr, //  длины, перенос, флаг состояний/знак {r,e,a,b}
   de, da, db; an r, e, a, b, R, E, A, B; } Math;// Структура реализации библиотеки
 void FInit(anu x, anu y, an r, anu c, an a);    // Nim=V=la=..Ne=0 {Nim{,V{,la}}}, {la}
 void FAddr(anu y, As* r, anu c, As* a);         // {r{,e{,a{,b}}}} (Mat.R = r; ..)
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
-anu CONST(anu f, an r, anu l, an c);            // Копирование из константы в переменную на выходе l
 void FLD(an r, anu D);                          // Создание числа из атома
 void FLVD(an r, anu Dl, anu Dh);                // Создание числа из двух атомов и автонормализация
 void FMOV(anu l, an r, an a);                   // Копирование числа и автонормализация
 void FCOLD(anu f, anu l, an r, an a);           // Приведение к формату l = 1,2,4,8,16,32,64,128,256
+anu CONST(anu f, an r, anu l, an c);            // Копирование из константы в переменную на выходе l
 void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FADDc(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
@@ -46,8 +46,8 @@ void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e =
 void FDIVc(an r, an e, an a, anu l, an c);      // r = a / Const, e = a mod Const
 extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
-#define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__}) - 1), (anu[]){0, ##__VA_ARGS__} + 1
-#define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1), (As[]){0, ##__VA_ARGS__} + 1
+#define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
+#define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As))-1), (As[]){0, ##__VA_ARGS__}+1
 #define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__))
 #define Fini(...) FInit(9, 3, &Mat.Ne, Anu(__VA_ARGS__))
 #define Flong(...) FInit(0, 1, &Mat.V, Anu(__VA_ARGS__))
