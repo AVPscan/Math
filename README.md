@@ -4,8 +4,8 @@
   <h1>Результат запуска v11.6</h1>
   
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="Plus/971b.jpeg">
-    <source media="(prefers-color-scheme: light)" srcset="Plus/971w.jpeg">
+    <source media="(prefers-color-scheme: dark)" srcset="Plus/psb.jpeg">
+    <source media="(prefers-color-scheme: light)" srcset="Plus/psw.jpeg">
     <img alt="Math Library Logo" src="Plus/971w.jpeg" width="50%">
   </picture>
   
