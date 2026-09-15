@@ -36,7 +36,7 @@ void FCOLD(anu f, anu l, an r, an a) { Mat.e = r; Mat.lar = ((Mat.dr = l)) ? 2:1
   if (r > a) { Mat.r = (r += l); Mat.a = (a += l); while(l--) Mat.dr |= (*--Mat.r = *--Mat.a); }
   else { while(l--) Mat.dr |= (*r++ = *a++); } *r = *a; Mat.na = (Mat.N = Mat.Nim ? (*r & 0x80) ? 0xFF:0:0);
   if ((Mat.F = (Mat.dr || *r) ? (Mat.Nim && !Mat.dr && (*r == 0x80)) ? 2:0:1)) { Mat.dr = *r; *r = 0;
-	Mat.na = 0; } while(Mat.fb--) { *++r = Mat.na; } *r = Mat.F ? Mat.dr:*r; if (f) Fswap(Mat.lar, Mat.e) }
+	Mat.na = 0; } while(Mat.fb--) { *++r = Mat.na; } *r = Mat.F ? Mat.dr:*r; if (f) Fswap(Mat.lar, Mat.e); }
 anu CONST(anu f, an r, anu l, an c) { Mat.nab = Mat.lar;
   if (l--) { if (f) { FSWAP(l, r, c); FMOV(l, r, r); } else FMOV(l, r, c);
 	l = Mat.lar; Mat.lar = Mat.nab; return l; }

@@ -49,29 +49,29 @@ extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__}) - 1), (anu[]){0, ##__VA_ARGS__} + 1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As)) - 1), (As[]){0, ##__VA_ARGS__} + 1
-#define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__));
-#define Fini(...) FInit(9, 4, &Mat.Ne, Anu(__VA_ARGS__));
-#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__));
-#define Fswap(l, x) FSWAP(l, x, x);
-#define Const(f, r,...) CONST(f, r, Anu(__VA_ARGS__));
-#define Fld(D) FLD(Mat.A, D);
-#define Flvd(Dl, Dh) FLVD(Mat.A, Dl, Dh);
-#define Fmov(l, x) FMOV(l, x, x);
-#define Fcold(f, l, x) FCOLD(f, l, x, x);
-#define FAdd(r) FADD(r, Mat.A, Mat.lbe, Mat.B);
-#define FAddc(r, ...) FADDc(r, Mat.A, Anu(__VA_ARGS__));
-#define Fadd(r, l, b) FADD(r, r, l, b);
-#define Faddc(r, ...) FADDc(r, r, Anu(__VA_ARGS__));
-#define FSub(r) FSUB(r, Mat.A, Mat.lbe, Mat.B);
-#define FSubc(r, ...) FSUBc(r, Mat.A, Anu(__VA_ARGS__));
-#define Fsub(r, l, b) FSUB(r, r, l, b);
-#define Fsubc(r, ...) FSUBc(r, r, Anu(__VA_ARGS__));
-#define FMul(r) FMUL(r, Mat.A, Mat.lbe, Mat.B);
-#define FMulc(r, ...) FMULc(r, Mat.A, Anu(__VA_ARGS__));
-#define Fmul(r, l, b) FMUL(r, r, l, b);
-#define Fmulc(r, ...) FMULc(r, r, Anu(__VA_ARGS__));
-#define FDiv(r, e) FDIV(r, e, Mat.A, Mat.lbe, Mat.B);
-#define FDivc(r, e, ...) FDIVc(r, e, Mat.A, Anu(__VA_ARGS__));
-#define Fdiv(r, e, l, b) FDIV(r, e, r, l, b);
-#define Fdivc(r, e, ...) FDIVc(r, e, r, Anu(__VA_ARGS__));
+#define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__))
+#define Fini(...) FInit(9, 4, &Mat.Ne, Anu(__VA_ARGS__))
+#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__))
+#define Fswap(l, x) FSWAP(l, x, x)
+#define Const(f, r,...) CONST(f, r, Anu(__VA_ARGS__))
+#define Fld(D) FLD(Mat.A, D)
+#define Flvd(Dl, Dh) FLVD(Mat.A, Dl, Dh)
+#define Fmov(l, x) FMOV(l, x, x)
+#define Fcold(f, l, x) FCOLD(f, l, x, x)
+#define FAdd(r) FADD(r, Mat.A, Mat.lbe, Mat.B)
+#define FAddc(r, ...) FADDc(r, Mat.A, Anu(__VA_ARGS__))
+#define Fadd(r, l, b) FADD(r, r, l, b)
+#define Faddc(r, ...) FADDc(r, r, Anu(__VA_ARGS__))
+#define FSub(r) FSUB(r, Mat.A, Mat.lbe, Mat.B)
+#define FSubc(r, ...) FSUBc(r, Mat.A, Anu(__VA_ARGS__))
+#define Fsub(r, l, b) FSUB(r, r, l, b)
+#define Fsubc(r, ...) FSUBc(r, r, Anu(__VA_ARGS__))
+#define FMul(r) FMUL(r, Mat.A, Mat.lbe, Mat.B)
+#define FMulc(r, ...) FMULc(r, Mat.A, Anu(__VA_ARGS__))
+#define Fmul(r, l, b) FMUL(r, r, l, b)
+#define Fmulc(r, ...) FMULc(r, r, Anu(__VA_ARGS__))
+#define FDiv(r, e) FDIV(r, e, Mat.A, Mat.lbe, Mat.B)
+#define FDivc(r, e, ...) FDIVc(r, e, Mat.A, Anu(__VA_ARGS__))
+#define Fdiv(r, e, l, b) FDIV(r, e, r, l, b)
+#define Fdivc(r, e, ...) FDIVc(r, e, r, Anu(__VA_ARGS__))
 #endif
