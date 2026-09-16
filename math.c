@@ -94,7 +94,14 @@ void FSUB(an r, an a, anu l, an b) { Mat.e = r; Mat.C = (Mat.C != 0); Mat.dr = 0
   if (Mat.V) Mat.l = 0; else { l = Mat.l; while(l--) *Mat.e++ = 0; } *Mat.e = 0x80; Mat.F = 2;
   Mat.N = 0xFF; Mat.C = 1; }
 
-void FMUL(an r, an a, anu l, an b) { (void)r; (void)a; (void)b; Mat.C = (l > (Mat.l += 1 + l)); }
+void FMUL(an r, an a, anu l, an b) { Mat.e = r; Mat.C = (Mat.C != 0); Mat.da = 0; Mat.db = 0; Mat.dr = 0;
+  Mat.fa = *(Mat.a = a + Mat.l); Mat.na = Mat.Nim ? (Mat.fa & 0x80) ? 0xFF:0:0; Mat.F = Mat.l; Mat.N = l;
+  Mat.fb = *(Mat.b = b + l); Mat.nb = Mat.Nim ? (Mat.fb & 0x80) ? 0xFF:0:0; Mat.de = l;
+  while(Mat.F && Mat.N && !(*a | *b)) { a++; b++; Mat.dr |= (*r++ = Mat.C); Mat.C = 0;
+    if (--Mat.N && *Mat.b == Mat.nb && !(Mat.Nim && (*(Mat.b - 1) ^ Mat.nb) & 0x80)) { --Mat.b; --Mat.N; }
+    if (--Mat.F && *Mat.a == Mat.na && !(Mat.Nim && (*(Mat.a - 1) ^ Mat.na) & 0x80)) { --Mat.a; --Mat.F; } }
+  
+  }
 
 void FDIV(an r, an e, an a, anu l, an b) { (void)l; (void)r; (void)a; (void)b; (void)e; }
 
