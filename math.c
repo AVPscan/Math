@@ -22,10 +22,13 @@ anu FLVD(an r, anu Dl, anu Dh) { *r++ = Dl; *r = Dh; Mat.N = (Mat.Nim && (Dh & 0
   if ((Mat.F = (Dl | Dh) ? (!Dl && Mat.Nim && (Dh == 0x80)) ? 2:0:1)) { *--r = Dh; Mat.x = 0; }
   else { if (Mat.Nim) Mat.x = !(Mat.N == Dh && !((Mat.N ^ Dl) & 0x80)); else Mat.x = Dh ? 1:0; }
   return Mat.x; }
-anu FMOV(anu l, an r, an a) { Mat.x = l; Mat.y = 0;
-  if (r > a) { Mat.r = (r += l); Mat.a = (a += l); while(l--) Mat.y |= (*--Mat.r = *--Mat.a); }
-  else { while(l--) Mat.y |= (*r++ = *a++); } *r = *a; Mat.N = Mat.Nim && (*r & 0x80) ? 0xFF:0;
-  Mat.F = (Mat.y | *r) ? (Mat.Nim && !Mat.y && (*r == 0x80)) ? 2:0:1; return Mat.x; }
+anu FMOV(anu l, an r, an a) { Mat.x = l; Mat.r = a + l; Mat.z = 0;
+  Mat.F = *Mat.r; Mat.N = Mat.Nim ? (Mat.F & 0x80) ? 0xFF:0:0;
+  while(l-- && *Mat.r == Mat.N && (Mat.Nim ? !((*(Mat.r - 1) ^ Mat.N) & 0x80):1)) { Mat.r--; }
+  Mat.y = ++l; if (!(l | Mat.N)) { Mat.F = 1; *r = 0; return 0; } Mat.F = 0; if (*Mat.r == 0x80) {
+    while(l-- && !*--Mat.r) { } if (!++l) Mat.C = !(Mat.z = (Mat.y != 255) ? 1:0); } l = Mat.y;
+  if (r > a) { Mat.r = (r += l); Mat.a = (a += l); while(l--) *--Mat.r = *--Mat.a; }
+  else { while(l--) *r++ = *a++; } *r = *a; if (Mat.z) { *++r = Mat.N; Mat.y++; } return Mat.y; }
 anu FCOLD(anu f, anu l, an r, an a) { l = FMOV(l, r, a); Mat.x = ((Mat.z = l)) ? 2:1;
   while((Mat.z >>= 1)) { Mat.x <<= 1; } Mat.r = r; r += l; Mat.z = --Mat.x - l; Mat.y = Mat.N;
   if (Mat.F) { l = *r; *r = 0; Mat.y = 0; } while(Mat.z--) { *++r = Mat.y; } *r = Mat.F ? l:*r;
