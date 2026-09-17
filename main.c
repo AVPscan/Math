@@ -22,15 +22,15 @@ void Num(anu s, an a) { anu ns, t[m]; if (s > 8) { printf(" %d|? ", s + 1); retu
     else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } }
 void Show(char s) { anu i = 2; printf("\n"); while(i--) { Mat.Nim = 1 - i;
     Mat.C = 0; Flong(la); if (s == '+') FAdd(lb, Mat.B); else if (s == '-') FSub(lb, Mat.B);
-    else if (s == '*') FMul(lb, Mat.B); else if (s == '/') FDiv(lb, Mat.B); else FSubc(2);
+    else if (s == '*') FMul(lb, Mat.B); else if (s == '/') FDiv(lb, Mat.B); else FSubc(55);
     printf("%c%c%c%c ", Mat.Nim ? 'N':' ', Mat.C ? 'C':' ', Mat.F ? (Mat.F == 2) ? 'I':'Z':' ',(Mat.N ? '-':'+'));
     Num(la, Mat.A); printf("%c ", s); if (s == '+' || s == '-' || s == '*' || s == '/') Num(lb, Mat.B);
     else { printf("X|x Const "); } printf("= "); Num(Mat.l, Mat.R); if (s == '/') {
       printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); } }
 
 int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b);
-  Fini(); printf("  A "); Num(Const(Ibe, Mat.A, 127), Mat.A);
-  printf("B "); Num(Const(Ibe, Mat.B, 129), Mat.B); Fini(1);
-  printf("\nN A "); Num(la = Const(0, Mat.A, 127), Mat.A);
-  printf("B "); Num(lb = Const(0, Mat.B, 129), Mat.B); printf("Const (1|1) 2\n");
+  Fini(); printf("  A "); Num(Const(Ibe, Mat.A, 5), Mat.A);
+  printf("B "); Num(Const(Ibe, Mat.B, 254), Mat.B); Fini(1);
+  printf("\nN A "); Num(la = Const(0, Mat.A, 5), Mat.A);
+  printf("B "); Num(lb = Const(0, Mat.B, 254), Mat.B); printf("Const (1|1) 55\n");
   Show('+'); Show('-'); Show('M');/*Show('*'); Show('/');*/return 0; }
