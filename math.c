@@ -41,8 +41,8 @@ anu FVI(anu f, an r, anu l, an c) { if (l--) { l = FMOV(l, r, c); if (f) { FSWAP
 void FADD(an r, an a, anu l, an b) { Mat.r = r; Mat.dr = 0; Mat.C = (Mat.C != 0);
   Mat.fa = *(Mat.a = a + Mat.l); Mat.na = (Mat.Nim && (Mat.fa & 0x80)) ? 0xFF:0;
   Mat.fb = *(Mat.b = b + l); Mat.nb = (Mat.Nim && (Mat.fb & 0x80)) ? 0xFF:0; Mat.N = l;
-  if (Mat.Nim) { Mat.F = 0; if (Mat.fb == 0x80) { Mat.r = b; while(l-- && !*Mat.r++) { } Mat.F = !++l; }
-    if (!Mat.F && Mat.fa == 0x80) { l = Mat.l; Mat.r = b; while(l-- && !*Mat.r++) { } Mat.F = !++l; }
+  if (Mat.Nim) { Mat.F = 0; if (Mat.fb == 0x80) { Mat.e = b; while(l-- && !*Mat.e++) { } Mat.F = !++l; }
+    if (!Mat.F && Mat.fa == 0x80) { l = Mat.l; Mat.e = b; while(l-- && !*Mat.e++) { } Mat.F = !++l; }
     if (Mat.F) { *r = 0x80; Mat.l = 0; Mat.F = 2; Mat.N = 0xFF; return; } }
   while(Mat.l-- && *Mat.a-- == Mat.na && (Mat.Nim ? !((*Mat.a ^ Mat.na) & 0x80):1)) { } Mat.F = ++Mat.l;
   while(Mat.N-- && *Mat.b-- == Mat.nb && (Mat.Nim ? !((*Mat.b ^ Mat.nb) & 0x80):1)) { } Mat.N++;
@@ -63,8 +63,8 @@ void FSUB(an r, an a, anu l, an b) { Mat.r = r; Mat.dr = 0; Mat.C = (Mat.C != 0)
   Mat.fa = *(Mat.a = a + Mat.l); Mat.na = (Mat.Nim && (Mat.fa & 0x80)) ? 0xFF:0; Mat.N = l;
   Mat.fb = *(Mat.b = b + l); Mat.nb = (Mat.Nim && (Mat.fb & 0x80)) ? 0xFF:0; l = Mat.C ? 0xFF:0;
   if (Mat.Nim) { Mat.F = 0;
-    if (Mat.fb == 0x80) { l = Mat.N; Mat.r = b; while(l-- && !*Mat.r++) { } Mat.F = !++l; }
-    if (!Mat.F && Mat.fa == 0x80) { l = Mat.l; Mat.r = b; while(l-- && !*Mat.r++) { } Mat.F = !++l; }
+    if (Mat.fb == 0x80) { l = Mat.N; Mat.e = b; while(l-- && !*Mat.e++) { } Mat.F = !++l; }
+    if (!Mat.F && Mat.fa == 0x80) { l = Mat.l; Mat.e = b; while(l-- && !*Mat.e++) { } Mat.F = !++l; }
     if (Mat.F) { *r = 0x80; Mat.l = 0; Mat.F = 2; Mat.N = 0xFF; return; } l = Mat.C ? 0xFF:0; }
   while(Mat.l-- && *Mat.a-- == Mat.na && (Mat.Nim ? !((*Mat.a ^ Mat.na) & 0x80):1)) { } Mat.F = ++Mat.l;
   while(Mat.N-- && *Mat.b-- == Mat.nb && (Mat.Nim ? !((*Mat.b ^ Mat.nb) & 0x80):1)) { } Mat.N++;
