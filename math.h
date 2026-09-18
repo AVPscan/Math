@@ -34,7 +34,7 @@ anu FLD(an r, anu D);                           // Создание числа �
 anu FLVD(an r, anu Dl, anu Dh);                 // Создание числа из двух атомов и автонормализация
 anu FMOV(anu l, an r, an a);                    // Копирование числа и автонормализация
 anu FCOLD(anu f, anu l, an r, an a);            // Приведение к формату l = 1,2,4,8,16,32,64,128,256
-anu CONST(anu f, an r, anu l, an c);            // Копирование из константы в переменную на выходе l
+anu FVI(anu f, an r, anu l, an c);              // Копирование из константы в переменную на выходе l
 void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FADDc(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
@@ -51,11 +51,13 @@ extern Math Mat;
 #define Fini(...) FInit(8, 2, &Mat.Ne, Anu(__VA_ARGS__))
 #define Flong(...) FInit(0, 1, &Mat.Nim, Anu(__VA_ARGS__))
 #define Fswap(l, x) FSWAP(l, x, x)
-#define Const(f, r,...) CONST(f, r, Anu(__VA_ARGS__))
 #define Fld(D) FLD(Mat.A, D)
 #define Flvd(Dl, Dh) FLVD(Mat.A, Dl, Dh)
 #define Fmov(l, x) FMOV(l, x, x)
 #define Fcold(f, l, x) FCOLD(f, l, x, x)
+#define Fvar(f, r,...) FVI(f, r, Anu(__VA_ARGS__))
+#define Fvi(r,...) FVI(0, r, Anu(__VA_ARGS__))
+#define Fbvi(r,...) FVI(1, r, Anu(__VA_ARGS__))
 #define FAdd(l, b) FADD(Mat.R, Mat.A, l, b)
 #define FAddc(...) FADDc(Mat.R, Mat.A, Anu(__VA_ARGS__))
 #define Fadd(r, l, b) FADD(r, r, l, b)

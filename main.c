@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include "math.h"
 
-#define Ibe 1
 #define Obe 0
 #define m 128
 anu la,lb;
@@ -29,8 +28,6 @@ void Show(char s) { anu i = 2; printf("\n"); while(i--) { Mat.Nim = 1 - i;
       printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); } }
 
 int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b);
-  Fini(); printf("  A "); Num(Const(Ibe, Mat.A, 128), Mat.A);
-  printf("B "); Num(Const(Ibe, Mat.B, 255,255,129), Mat.B); Fini(1);
-  printf("\nN A "); Num(la = Const(0, Mat.A, 128), Mat.A);
-  printf("B "); Num(lb = Const(0, Mat.B, 129,255,255), Mat.B); printf("Const (1|1) 55\n");
+  Fini(); la = Fbvi(Mat.A, 255,255,129); lb = Fbvi(Mat.B, 128); printf("  A "); Num(la, Mat.A); printf("B ");
+  Num(lb, Mat.B); Fini(1); printf("\nN A "); Num(la, Mat.A); printf("B "); Num(lb, Mat.B); printf("Const (1|1) 55\n");
   Show('+'); Show('-'); Show('M');/*Show('*'); Show('/');*/return 0; }
