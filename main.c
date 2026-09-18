@@ -14,7 +14,7 @@ anu la,lb;
 
 void Num(anu s, an a) { anu ns, t[m]; if (s > 8) { printf(" %d|? ", s + 1); return; }
   printf("(%d|%d) ", s + 1, (ns = FCOLD(Obe, s, (an)t, a)) + 1); a = (an)t;
-  if (Mat.F && Mat.N) { printf("inf "); return; }
+  if (Mat.F == 2) { printf("inf "); return; }
   if (Mat.Nim) { if (ns > 3) printf("%ld " , *(int64_t*)a); else if (ns > 1) printf("%d ", *(int32_t*)a);
     else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
   else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
@@ -28,6 +28,6 @@ void Show(char s) { anu i = 2; printf("\n"); while(i--) { Mat.Nim = 1 - i;
       printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); } }
 
 int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b);
-  Fini(0); la = Fbvi(Mat.A, 129); lb = Fbvi(Mat.B, 130); printf("  A "); Num(la, Mat.A); printf("B "); Num(lb, Mat.B);
-  Fini(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); printf("\nN A "); Num(la, Mat.A); printf("B "); Num(lb, Mat.B); printf("Const (1|1) 55\n");
-  Show('+'); Show('-'); Show('M');/*Show('*'); Show('/');*/return 0; }
+  Fini(0); la = Fbvi(Mat.A, 255,255,128); lb = Fbvi(Mat.B, 127); printf("  A "); Num(la, Mat.A); printf("B ");
+  Num(lb, Mat.B); Fini(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); printf("\nN A "); Num(la, Mat.A); printf("B ");
+  Num(lb, Mat.B); printf("Const (1|1) 55\n"); Show('+'); Show('-'); Show('M');/*Show('*'); Show('/');*/return 0; }
