@@ -1,7 +1,7 @@
 [![Cross-Platform Build & Release](https://github.com/AVPscan/Math/actions/workflows/release.yml/badge.svg)](https://github.com/AVPscan/Math/actions/workflows/release.yml)
 
 <div align="center">
-  <h1>Результат запуска v12.5</h1>
+  <h1>Результат запуска v12.8</h1>
   
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="Plus/psb.jpeg">

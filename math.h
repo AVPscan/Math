@@ -34,6 +34,8 @@ anu FLVD(an r, anu Dl, anu Dh);                 // Создание числа �
 anu FMOV(anu l, an r, an a);                    // Копирование числа и автонормализация
 anu FCOLD(anu f, anu l, an r, an a);            // Приведение к формату l = 1,2,4,8,16,32,64,128,256
 anu FVI(anu f, an r, anu l, an c);              // Копирование из константы в переменную на выходе l
+void FNEG(anu l, an r);                         // Дополнительный код числа, инверсия плюс один
+void FNEG2(anu l, an r, an a);                  // Копирование в дополнительный код
 void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FADDc(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
