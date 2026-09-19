@@ -28,6 +28,6 @@ void Show(char s) { anu i = 2; printf("\n"); while(i--) { Mat.Nim = 1 - i;
       printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); } }
 
 int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b);
-  Fini(0); la = Fbvi(Mat.A, 128,1); lb = Fbvi(Mat.B, 255,1); printf("  A "); Num(la, Mat.A); printf("B ");
+  Fini(0); la = Fbvi(Mat.A,255,255,255,255,253); lb = Fvi(Mat.B, 253); printf("  A "); Num(la, Mat.A); printf("B ");
   Num(lb, Mat.B); Fini(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); printf("\nN A "); Num(la, Mat.A); printf("B ");
-  Num(lb, Mat.B); printf("Const (1|1) 55\n"); Show('+'); Show('-'); Show('M');/*Show('*'); Show('/');*/return 0; }
+  Num(lb, Mat.B); printf("Const (1|1) 55\n"); Show('+'); Show('-'); Show('M'); Show('*');/* Show('/');*/return 0; }

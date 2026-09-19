@@ -62,10 +62,9 @@
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 атом {умножение/деление}
-typedef struct { MatBuf Li, Hi; anu Nim, l, le, //  представление, возможность изменения длин,
-  C, F, N, Fe, Ne, fa, na, fb, nb, da, db, dr,  //  длины, перенос, флаг состояний/знак {r,e,a,b}
-  x, y, z; an r, e, a, b, R, E, A, B; } Math;   // Структура реализации библиотеки
+typedef struct { anu l, m[254], h, e; } MatBuf; // 256 атомов + 1 атом {умножение/деление}
+typedef struct { MatBuf Hi, Lo, Sr; anu Nim, l, // Структура реализации библиотеки
+  le, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db, x, y, z; an r, e, a, b, R, E, A, B; } Math;
 ```
 
 <div align="center">
