@@ -29,13 +29,13 @@ typedef struct { MatBuf Hi, Lo, Sr; anu Nim, l, // Структура реали
 void FInit(anu x, anu y, an r, anu c, an a);    // Nim=l=le..Ne=0 {Nim{,la}}, {la}
 void FAddr(anu y, As* r, anu c, As* a);         // {r{,e{,a{,b}}}} (Mat.R = r; ..)
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
+void FNEG(anu l, an r);                         // Дополнительный код числа, инверсия плюс один
+void FNEG2(anu l, an r, an a);                  // Копирование числа в дополнительный код
 anu FLD(an r, anu D);                           // Создание числа из атома
 anu FLVD(an r, anu Dl, anu Dh);                 // Создание числа из двух атомов и автонормализация
 anu FMOV(anu l, an r, an a);                    // Копирование числа и автонормализация
 anu FCOLD(anu f, anu l, an r, an a);            // Приведение к формату l = 1,2,4,8,16,32,64,128,256
 anu FVI(anu f, an r, anu l, an c);              // Копирование из константы в переменную на выходе l
-void FNEG(anu l, an r);                         // Дополнительный код числа, инверсия плюс один
-void FNEG2(anu l, an r, an a);                  // Копирование в дополнительный код
 void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FADDc(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
