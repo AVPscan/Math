@@ -1,5 +1,7 @@
 [![Cross-Platform Build & Release](https://github.com/AVPscan/Math/actions/workflows/release.yml/badge.svg)](https://github.com/AVPscan/Math/actions/workflows/release.yml)
 
+Заблокировали мне вход на гит из России, уж не знаю почему, пока буду руками копировать код сюда - Всем удачи!
+
 <div align="center">
   <h1>Результат запуска v12.8</h1>
   
@@ -74,3 +76,4 @@ typedef struct { MatBuf Hi, Lo, Sr; anu Nim, l, // Структура реали
 Распространяется под условиями Стандартной общественной лицензии GNU (GPLv3).
 
 Автор (C) 2026 А. Поздняков.
+
