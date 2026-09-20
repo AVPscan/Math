@@ -21,8 +21,8 @@ void Num(anu s, an a) { anu ns, t[m]; if (s > 8) { printf(" %d|? ", s + 1); retu
     else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } }
 void Show(char s) { anu i = 2; printf("\n"); while(i--) { Mat.Nim = 1 - i;
     Mat.C = 0; Flong(la); if (s == '+') FAdd(lb, Mat.B); else if (s == '-') FSub(lb, Mat.B);
-    else if (s == '*') FMul(lb, Mat.B); else if (s == '/') FDiv(lb, Mat.B); else FSubc(55);
-    printf("%c%c%c%c ", Mat.Nim ? 'N':' ', Mat.C ? 'C':' ', Mat.F ? (Mat.F == 2) ? 'I':'Z':' ',(Mat.N ? '-':'+'));
+    else if (s == '*') FMul(lb, Mat.B); else if (s == '/') FDiv(lb, Mat.B); else FMulc(1);
+    printf("%c%c%c%c ", Mat.Nim ? 'N':' ', Mat.C ? 'C':' ', Mat.F ? (Mat.F == 55) ? 'I':'Z':' ',(Mat.N ? '-':'+'));
     Num(la, Mat.A); printf("%c ", s); if (s == '+' || s == '-' || s == '*' || s == '/') Num(lb, Mat.B);
     else { printf("X|x Const "); } printf("= "); Num(Mat.l, Mat.R); if (s == '/') {
       printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); } }
@@ -30,4 +30,4 @@ void Show(char s) { anu i = 2; printf("\n"); while(i--) { Mat.Nim = 1 - i;
 int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b);
   Fini(); la = Fbvi(Mat.A,0,0,2,0,255); lb = Fvi(Mat.B, 5,0,1,0); printf("  A "); Num(la, Mat.A); printf("B ");
   Num(lb, Mat.B); Fini(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); printf("\nN A "); Num(la, Mat.A); printf("B ");
-  Num(lb, Mat.B); printf("Const (1|1) 55\n"); Show('+'); Show('-'); Show('M'); Show('*');/* Show('/');*/return 0; }
+  Num(lb, Mat.B); printf("Const (1|1) 55\n"); Show('+'); Show('-'); Show('*'); Show('M');/* Show('/');*/return 0; }
