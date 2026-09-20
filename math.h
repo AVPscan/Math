@@ -75,4 +75,4 @@ extern Math Mat;
 #define FDivc(...) FDIVc(Mat.R, Mat.E, Mat.A, Anu(__VA_ARGS__))
 #define Fdiv(r, e, l, b) FDIV(r, e, r, l, b)
 #define Fdivc(r, e, ...) FDIVc(r, e, r, Anu(__VA_ARGS__))
-#endif MATH_H
+#endif
