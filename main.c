@@ -13,19 +13,20 @@
 anu la,lb;
 
 void Num(anu s, an a) { anu ns, t[m]; if (s > 8) { printf(" %d|? ", s + 1); return; }
-  printf("(%d|%d) ", s + 1, (ns = FCOLD(Obe, s, (an)t, a)) + 1); a = (an)t;
-  if (Mat.F == 2) { printf("inf "); return; }
+  printf("(%d|%d) ", s + 1, (ns = FCOLD(Obe, s, (an)t, a)) + 1); a = (an)t; if (Mat.F == 2) { printf("inf "); return; }
   if (Mat.Nim) { if (ns > 3) printf("%ld " , *(int64_t*)a); else if (ns > 1) printf("%d ", *(int32_t*)a);
     else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
   else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
     else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } }
-void Show(char s) { Flong(la,lb); Mat.C = 0;
-  if (s == '+') FAdd(); else if (s == '-') FSub(); else if (s == '*') FMul(); else if (s == '/') FDiv(); else FSubc(133);
-  printf("%c%c%c%c ", Mat.Nim ? 'N':' ', Mat.C ? 'C':' ', Mat.F ? (Mat.F == 2) ? 'I':'Z':' ',(Mat.N ? '-':'+'));
-  Num(la, Mat.A); printf("%c ", s); Num(Mat.lb, Mat.d); printf("= "); Num(Mat.l, Mat.R); if (s == '/') {
-    printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); }
+void Show(char s) { Flong(la); Mat.C = 0;
+  if (s == '+') FAdd(); else if (s == '-') FSub(); else if (s == '*') FMul(); else if (s == '/') FDiv();
+  else { FSubc(127); } printf("%c%c%c ", Mat.C ? 'C':' ', Mat.F ? (Mat.F == 2) ? 'I':'Z':' ',(Mat.N ? '-':'+'));
+  Num(la, Mat.A); if (s == 'c') printf("- "); else { printf("%c ", s); } Num(Mat.lb, Mat.d); printf("= "); Num(Mat.l, Mat.R);
+  if (s == '/') { printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); }
+void Const(void) { anu l, i = 2; printf("Const\n"); Show('c'); Mat.D = Mat.B;
+  Mat.B = Mat.d; l = lb; while(i--) { (*Mat.B)++; Show('-'); } Mat.B = Mat.D; lb = l; }
+void Test(void) { printf("%c A B\n", Mat.Nim ? 'N':' '); Show('+'); Show('-'); Show('*'); /*Show('/');*/Const(); }
 
-int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini();
-  la = Fbvi(Mat.A, 0,129); lb = Fvi(Mat.B, 255,129); Show('+'); Show('-'); Show('c');
-  Show('*');/* Show('/');*/ Fini(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B);
-  Show('+'); Show('-'); Show('c'); Show('*');/* Show('/');*/return 0; }
+int main(void) { anu a[m], b[m], e[m], r[m+m];
+  Faddr((As)r, (As)e, (As)a, (As)b); Fini(); la = Fbvi(Mat.A, 255,0); lb = Fvi(Mat.B, 3,255);
+  Test(); Fini(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); return 0; }
