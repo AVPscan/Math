@@ -19,14 +19,16 @@
 // Mat.N{Ne}    [00/XX] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
 // Mat.l        [0.255] длина операнда a, длина результата r
 // Mat.le       [0.255] длина остатка e
-// Mat.Nim Mat.R{E{A{B}}} не подлежат изменению внутри функций
+// Mat.lb       [0.255] длина последнего обработанного второго операнда
+// Mat.b        адрес последнего обработанного второго операнда
+// Mat.Nim Mat.R{E{A{B{D}}}} не подлежат изменению внутри функций
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 атом {умножение/деление}
-typedef struct { MatBuf Hi, Lo, Sr; anu Nim,    // Структура реализации библиотеки
-  l, lb, le, C, F, N, Fe, Ne, fa, na, fb, nb,
-  u, v, w, x, y, z; an r, e, a, b, R, E, A, B, D, d; } Math;
+typedef struct { anu l, m[254], h, e; } MatBuf; // 256 атомов + атом {умножить/разделить}
+typedef struct { MatBuf Hi, Lo, Sr;             // Структура реализации библиотеки
+  anu Nim, l, lb, le, C, F, N, Fe, Ne, na, nb,
+  u, v, w, x, y, z; an R, E, A, B, D, r, e, a, b, d; } Math;
 void FInit(anu x, anu y, an r, anu c, an a);    // Nim=l=lb..Ne=0 {Nim{,la{,lb}}}, {la{,lb}}
 void FAddr(anu y, As* r, anu c, As* a);         // {r{,e{,a{,b{,d}}}}} (Mat.R = r; ..)
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
