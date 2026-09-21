@@ -25,7 +25,7 @@ typedef uint8_t anu;                            // атом, минимальн�
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu l, m[254], h, e; } MatBuf;	// 256 атомов + 1 атом {умножение/деление}
 typedef struct { MatBuf Hi, Lo, Sr; anu Nim, l, // Структура реализации библиотеки
-  le, C, F, N, Fe, Ne, fa, na, fb, nb, dr, de, da, db, x, y, z; an r, e, a, b, R, E, A, B; } Math;
+  lb, le, C, F, N, Fe, Ne, fa, na, fb, nb, dr, da, db, x, y, z; an r, e, a, b, d, R, E, A, B; } Math;
 void FInit(anu x, anu y, an r, anu c, an a);    // Nim=l=le..Ne=0 {Nim{,la}}, {la}
 void FAddr(anu y, As* r, anu c, As* a);         // {r{,e{,a{,b}}}} (Mat.R = r; ..)
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
@@ -49,8 +49,8 @@ extern Math Mat;
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As))-1), (As[]){0, ##__VA_ARGS__}+1
 #define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__))
-#define Fini(...) FInit(8, 2, &Mat.Ne, Anu(__VA_ARGS__))
-#define Flong(...) FInit(0, 1, &Mat.Nim, Anu(__VA_ARGS__))
+#define Fini(...) FInit(9, 3, &Mat.Ne, Anu(__VA_ARGS__))
+#define Flong(...) FInit(0, 2, &Mat.Nim, Anu(__VA_ARGS__))
 #define Fswap(l, x) FSWAP(l, x, x)
 #define Fld(D) FLD(Mat.A, D)
 #define Flvd(Dl, Dh) FLVD(Mat.A, Dl, Dh)
@@ -59,20 +59,20 @@ extern Math Mat;
 #define Fvar(f, r,...) FVI(f, r, Anu(__VA_ARGS__))
 #define Fvi(r,...) FVI(0, r, Anu(__VA_ARGS__))
 #define Fbvi(r,...) FVI(1, r, Anu(__VA_ARGS__))
-#define FAdd(l, b) FADD(Mat.R, Mat.A, l, b)
+#define FAdd() FADD(Mat.R, Mat.A, Mat.lb, Mat.B)
 #define FAddc(...) FADDc(Mat.R, Mat.A, Anu(__VA_ARGS__))
-#define Fadd(r, l, b) FADD(r, r, l, b)
+#define Fadd(r) FADD(r, r, Mat.lb, Mat.B)
 #define Faddc(r, ...) FADDc(r, r, Anu(__VA_ARGS__))
-#define FSub(l, b) FSUB(Mat.R, Mat.A, l, b)
+#define FSub() FSUB(Mat.R, Mat.A, Mat.lb, Mat.B)
 #define FSubc(...) FSUBc(Mat.R, Mat.A, Anu(__VA_ARGS__))
-#define Fsub(r, l, b) FSUB(r, r, l, b)
+#define Fsub(r) FSUB(r, r, Mat.lb, Mat.B)
 #define Fsubc(r, ...) FSUBc(r, r, Anu(__VA_ARGS__))
-#define FMul(l, b) FMUL(Mat.R, Mat.A, l, b)
+#define FMul() FMUL(Mat.R, Mat.A, Mat.lb, Mat.B)
 #define FMulc(...) FMULc(Mat.R, Mat.A, Anu(__VA_ARGS__))
-#define Fmul(r, l, b) FMUL(r, r, l, b)
+#define Fmul(r) FMUL(r, r, Mat.lb, Mat.B)
 #define Fmulc(r, ...) FMULc(r, r, Anu(__VA_ARGS__))
-#define FDiv(l, b) FDIV(Mat.R, Mat.E, Mat.A, l, b)
+#define FDiv() FDIV(Mat.R, Mat.E, Mat.A, Mat.lb, Mat.B)
 #define FDivc(...) FDIVc(Mat.R, Mat.E, Mat.A, Anu(__VA_ARGS__))
-#define Fdiv(r, e, l, b) FDIV(r, e, r, l, b)
+#define Fdiv(r, e) FDIV(r, e, r, Mat.lb, Mat.B)
 #define Fdivc(r, e, ...) FDIVc(r, e, r, Anu(__VA_ARGS__))
 #endif

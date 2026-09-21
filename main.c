@@ -19,15 +19,13 @@ void Num(anu s, an a) { anu ns, t[m]; if (s > 8) { printf(" %d|? ", s + 1); retu
     else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
   else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
     else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } }
-void Show(char s) { anu i = 2; printf("\n"); while(i--) { Mat.Nim = 1 - i;
-    Mat.C = 0; Flong(la); if (s == '+') FAdd(lb, Mat.B); else if (s == '-') FSub(lb, Mat.B);
-    else if (s == '*') FMul(lb, Mat.B); else if (s == '/') FDiv(lb, Mat.B); else FMulc(1);
-    printf("%c%c%c%c ", Mat.Nim ? 'N':' ', Mat.C ? 'C':' ', Mat.F ? (Mat.F == 55) ? 'I':'Z':' ',(Mat.N ? '-':'+'));
-    Num(la, Mat.A); printf("%c ", s); if (s == '+' || s == '-' || s == '*' || s == '/') Num(lb, Mat.B);
-    else { printf("X|x Const "); } printf("= "); Num(Mat.l, Mat.R); if (s == '/') {
-      printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); } }
+void Show(char s) { Flong(la,lb); Mat.C = 0;
+  if (s == '+') FAdd(); else if (s == '-') FSub(); else if (s == '*') FMul(); else if (s == '/') FDiv(); else FSubc(133);
+  printf("%c%c%c%c ", Mat.Nim ? 'N':' ', Mat.C ? 'C':' ', Mat.F ? (Mat.F == 2) ? 'I':'Z':' ',(Mat.N ? '-':'+'));
+  Num(la, Mat.A); printf("%c ", s); Num(Mat.lb, Mat.d); printf("= "); Num(Mat.l, Mat.R); if (s == '/') {
+    printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); }
 
-int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b);
-  Fini(); la = Fbvi(Mat.A,0,0,2,0,255); lb = Fvi(Mat.B, 5,0,1,0); printf("  A "); Num(la, Mat.A); printf("B ");
-  Num(lb, Mat.B); Fini(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); printf("\nN A "); Num(la, Mat.A); printf("B ");
-  Num(lb, Mat.B); printf("Const (1|1) 55\n"); Show('+'); Show('-'); Show('*'); Show('M');/* Show('/');*/return 0; }
+int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini();
+  la = Fbvi(Mat.A, 0,129); lb = Fvi(Mat.B, 255,129); Show('+'); Show('-'); Show('c');
+  Show('*');/* Show('/');*/ Fini(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B);
+  Show('+'); Show('-'); Show('c'); Show('*');/* Show('/');*/return 0; }
