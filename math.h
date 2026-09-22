@@ -10,14 +10,15 @@
 #include <stdint.h>
 // Begin 05.07.2026 in Russia                  As (As      अः   основа, бытие, существовать)
 // anu (anu     अणु   атом)                     an (anka    अङ्क цифра, число)
-// Nim (Nimitta निमित्त {знаковое} представление)
+// Nim (Nimitta निमित्त {знаковое} представление) V (Vṛddhi  वृद्धि     увеличение {разрядности})
 // [{0..0}0x00] Не бытие - состояние {нет пары} находится в любом представлении чисел
 // [{0..0}0x80] Бесконечность - состояние {нет пары} находится только в знаковом представлении
 // Mat.Nim      [00/XX] {без знаковое/знаковое} представление чисел
-// Mat.C        [00/XX] {нет переноса/перенос} теперь возникнет если длина больше 256 атомов
+// Mat.V        [00/XX] Возможность увеличения разрядности результата по мере необходимости
+// Mat.C        [00/XX] {нет переноса/перенос}
 // Mat.F{Fe}    [0,1,2] {0}число/состояние{{1}не бытиё,{2}бесконечность} результата{остатка}
 // Mat.N{Ne}    [00/XX] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
-// Mat.l        [0.255] длина операнда a, длина результата r
+// Mat.l        [0.255] длина первого операнда a, длина результата r
 // Mat.le       [0.255] длина остатка e
 // Mat.lb       [0.255] длина последнего обработанного второго операнда
 // Mat.b        адрес последнего обработанного второго операнда
@@ -25,11 +26,11 @@
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu l, m[254], h, e; } MatBuf; // 256 атомов + атом {умножить/разделить}
-typedef struct { MatBuf Hi, Lo, Sr;             // Структура реализации библиотеки
-  anu Nim, l, lb, le, C, F, N, Fe, Ne, na, nb,
+typedef struct { anu l, m[254], h; } MatBuf;    // 256 атомов
+typedef struct { MatBuf Hi, Lo, Sr; anu Nim, V, // Структура реализации библиотеки
+  l, lb, le, C, F, N, Fe, Ne, na, nb,
   u, v, w, x, y, z; an R, E, A, B, D, r, e, a, b, d; } Math;
-void FInit(anu x, anu y, an r, anu c, an a);    // Nim=l=lb..Ne=0 {Nim{,la{,lb}}}, {la{,lb}}
+void FInit(anu x, anu y, an r, anu c, an a);    // Nim=V=l=lb..Ne=0 {Nim{,V{,la{,lb}}}}, {la{,lb}}
 void FAddr(anu y, As* r, anu c, As* a);         // {r{,e{,a{,b{,d}}}}} (Mat.R = r; ..)
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
 void FNEG(anu l, an r);                         // Дополнительный код числа, инверсия плюс один
@@ -52,8 +53,8 @@ extern Math Mat;
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As))-1), (As[]){0, ##__VA_ARGS__}+1
 #define Faddr(...) FAddr(5, (As*)&Mat.R, Adr(__VA_ARGS__))
-#define Fini(...) FInit(9, 3, &Mat.Ne, Anu(__VA_ARGS__))
-#define Flong(...) FInit(0, 2, &Mat.Nim, Anu(__VA_ARGS__))
+#define Fini(...) FInit(10, 4, &Mat.Ne, Anu(__VA_ARGS__))
+#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__))
 #define Fswap(l, x) FSWAP(l, x, x)
 #define Fld(D) FLD(Mat.A, D)
 #define Flvd(Dl, Dh) FLVD(Mat.A, Dl, Dh)
