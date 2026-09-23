@@ -28,5 +28,5 @@ void Const(void) { anu l, i = 2; printf("Const\n"); Show('c'); Mat.D = Mat.B;
 void Test(void) { printf("%c A B\n", Mat.Nim ? 'N':' '); Show('+'); Show('-'); Show('*'); /*Show('/');*/Const(); }
 
 int main(void) { anu a[m], b[m], e[m], r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b);
-  Fini(); la = Fbvi(Mat.A, 1); lb = Fvi(Mat.B, 255); Test();
+  Fini(); la = Fbvi(Mat.A, 55); lb = Fvi(Mat.B, 200); Test();
   Fset(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); return 0; }
