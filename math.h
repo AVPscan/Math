@@ -28,10 +28,10 @@ typedef uint8_t anu;                            // атом, минимальн�
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu l, m[254], h; } MatBuf;    // 256 атомов
 typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne,
-  na, nb, u, v, w, x, y, z; MatBuf Hi, Lo, Sr;
+  na, nb, u, v, w, x, y, z; MatBuf Hi, Lo, Sr;  // Fset(Nim{,V{,la{,lb}}}); Flong(la{,lb});
   an R, E, A, B, D, r, e, a, b, d; } Math;      // Структура реализации автомата
-void FInit(anu x, anu y, an r, anu c, an a);    // Nim=V=l=lb..Ne=0 {Nim{,V{,la{,lb}}}}, {la{,lb}}
-void FAddr(anu y, As* r, anu c, As* a);         // {r{,e{,a{,b{,d}}}}} (Mat.R = r; ..)
+void FInit(anu x, anu y, an r, anu c, an a);    // Fini({Nim{,V{,la{,lb}}}}); Nim=V=l=lb..Ne=0
+void FAddr(anu y, As* r, anu c, As* a);         // Faddr({(As)r{,(As)e{,(As)a{,(As)b{,(As)d}}}}});
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
 void FNEG(anu l, an r);                         // Дополнительный код числа, инверсия плюс один
 void FNEG2(anu l, an r, an a);                  // Копирование числа в дополнительный код
@@ -53,8 +53,9 @@ extern Math Mat;
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As))-1), (As[]){0, ##__VA_ARGS__}+1
 #define Faddr(...) FAddr(5, (As*)&Mat.R, Adr(__VA_ARGS__))
-#define Fini(...) FInit(10, 4, &Mat.Ne, Anu(__VA_ARGS__))
-#define Flong(...) FInit(0, 2, &Mat.V, Anu(__VA_ARGS__))
+#define Fset(...) FInit(0, 4, &Mat.Nim, Anu(__VA_ARGS__))
+#define Fini(...) FInit(10, 4, &Mat.na, Anu(__VA_ARGS__))
+#define Flong(...) FInit(0, 2, &Mat.l, Anu(__VA_ARGS__))
 #define Fswap(l, x) FSWAP(l, x, x)
 #define Fld(D) FLD(Mat.A, D)
 #define Flvd(Dl, Dh) FLVD(Mat.A, Dl, Dh)

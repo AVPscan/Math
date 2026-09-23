@@ -71,7 +71,7 @@ typedef uint8_t anu;                            // атом, минимальн�
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu l, m[254], h; } MatBuf;    // 256 атомов
 typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne,
-  na, nb, u, v, w, x, y, z; MatBuf Hi, Lo, Sr;
+  na, nb, u, v, w, x, y, z; MatBuf Hi, Lo, Sr;  // Fset(Nim{,V{,la{,lb}}}); Flong(la{,lb});
   an R, E, A, B, D, r, e, a, b, d; } Math;      // Структура реализации автомата
 ```
 

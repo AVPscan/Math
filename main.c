@@ -27,6 +27,6 @@ void Const(void) { anu l, i = 2; printf("Const\n"); Show('c'); Mat.D = Mat.B;
   Mat.B = Mat.b; l = lb; lb = Mat.lb; while(i--) { (*Mat.B)++; Show('*'); } Mat.B = Mat.D; lb = l; }
 void Test(void) { printf("%c A B\n", Mat.Nim ? 'N':' '); Show('+'); Show('-'); Show('*'); /*Show('/');*/Const(); }
 
-int main(void) { anu a[m], b[m], e[m], r[m+m];
-  Fini(); Faddr((As)r, (As)e, (As)a, (As)b); la = Fbvi(Mat.A, 2,0); lb = Fvi(Mat.B, 255);
-  Test(); Fini(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); return 0; }
+int main(void) { anu a[m], b[m], e[m], r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b);
+  Fini(); la = Fbvi(Mat.A, 1); lb = Fvi(Mat.B, 255); Test();
+  Fset(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); return 0; }
