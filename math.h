@@ -22,16 +22,16 @@
 // Mat.le       [0.255] длина остатка e
 // Mat.lb       [0.255] длина последнего обработанного второго операнда
 // Mat.b        адрес последнего обработанного второго операнда
-// Mat.Nim, Mat.V, Mat.R{E{A{B{D}}}} не подлежат изменению внутри функций
+// Mat.Nim, Mat.V, Mat.R{EABDG} не подлежат изменению внутри функций
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu l, m[254], h; } MatBuf;    // 256 атомов
-typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne,
-  na, nb, u, v, w, x, y, z; MatBuf Hi, Lo, Sr;  // Fset(Nim{,V{,la{,lb}}}); Flong(la{,lb});
+typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne,  // Fset({Nim{,V{,la{,lb}}}});
+  na, nb, u, v, w, x, y, z; MatBuf Hi, Lo, Sr;            // Flong({la{,lb}});
   an R, E, A, B, D, G, r, e, a, b, d, g; } Math;// Структура реализации автомата
 void FInit(anu x, anu y, an r, anu c, an a);    // Fini({Nim{,V{,la{,lb}}}}); Nim=V=l=lb..Ne=0
-void FAddr(anu y, As* r, anu c, As* a);         // Faddr({(As)r{,(As)e{,(As)a{,(As)b{,(As)d}}}}});
+void FAddr(anu y, As* r, anu c, As* a);         // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
 void FNEG(anu l, an r);                         // Дополнительный код числа, инверсия плюс один
 void FNEG2(anu l, an r, an a);                  // Копирование числа в дополнительный код
