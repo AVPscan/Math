@@ -29,7 +29,7 @@ typedef anu* an;                                // число, начальны�
 typedef struct { anu l, m[254], h; } MatBuf;    // 256 атомов
 typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne,
   na, nb, u, v, w, x, y, z; MatBuf Hi, Lo, Sr;  // Fset(Nim{,V{,la{,lb}}}); Flong(la{,lb});
-  an R, E, A, B, D, r, e, a, b, d; } Math;      // Структура реализации автомата
+  an R, E, A, B, D, G, r, e, a, b, d, g; } Math;// Структура реализации автомата
 void FInit(anu x, anu y, an r, anu c, an a);    // Fini({Nim{,V{,la{,lb}}}}); Nim=V=l=lb..Ne=0
 void FAddr(anu y, As* r, anu c, As* a);         // Faddr({(As)r{,(As)e{,(As)a{,(As)b{,(As)d}}}}});
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
@@ -52,7 +52,7 @@ extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As))-1), (As[]){0, ##__VA_ARGS__}+1
-#define Faddr(...) FAddr(5, (As*)&Mat.R, Adr(__VA_ARGS__))
+#define Faddr(...) FAddr(6, (As*)&Mat.R, Adr(__VA_ARGS__))
 #define Fset(...) FInit(0, 4, &Mat.Nim, Anu(__VA_ARGS__))
 #define Fini(...) FInit(10, 4, &Mat.na, Anu(__VA_ARGS__))
 #define Flong(...) FInit(0, 2, &Mat.l, Anu(__VA_ARGS__))
