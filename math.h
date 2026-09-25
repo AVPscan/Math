@@ -14,7 +14,7 @@
 // [{0..0} 0 ] Нет энергии - состояние {нет пары} находится в любом представлении чисел
 // [{0..0}128] Бесконечность - состояние {нет пары} находится только в знаковом представлении
 // Mat.Nim      [00/XX] {без знаковое/знаковое} представление чисел
-// Mat.V        [00/XX] Возможность увеличения разрядности результата по мере необходимости
+// Mat.V        [00/XX] Зарет увеличения разрядности результата
 // Mat.C        [00/XX] {нет переноса/перенос}
 // Mat.F{Fe}    [0,1,2] {0}число/состояние{{1}не бытиё,{2}бесконечность} результата{остатка}
 // Mat.N{Ne}    [00/XX] для чисел без знаковое или положительное{00} иначе {FF}отрицательное
@@ -22,21 +22,17 @@
 // Mat.le       [0.255] длина остатка e
 // Mat.lb       [0.255] длина последнего обработанного второго операнда
 // Mat.b        адрес последнего обработанного второго операнда
-// Mat.Nim, Mat.V, Mat.R{EABDG} не подлежат изменению внутри функций
+// Mat.Nim, Mat.V, Mat.R{EAB} не подлежат изменению внутри функций
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu l, m[254], h; } MatBuf;    // 256 атомов
 typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne,  // Fset({Nim{,V{,la{,lb}}}});
-  na, nb, u, v, w, x, y, z; MatBuf Hi, Lo, Sr;            // Flong({la{,lb}});
-  an R, E, A, B, D, G, r, e, a, b, d, g; } Math;// Структура реализации автомата
+  na, nb, x, y, i, j, k, t; MatBuf H, L, S;               // Flong({la{,lb}});
+  an R, E, A, B, r, e, a, b, ae, be; } Math;    // Структура реализации автомата
 void FInit(anu x, anu y, an r, anu c, an a);    // Fini({Nim{,V{,la{,lb}}}}); Nim=V=l=lb..Ne=0
 void FAddr(anu y, As* r, anu c, As* a);         // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
-void FNEG(anu l, an r);                         // Дополнительный код числа, инверсия плюс один
-void FNEG2(anu l, an r, an a);                  // Копирование числа в дополнительный код
-anu FLD(an r, anu D);                           // Создание числа из атома
-anu FLVD(an r, anu Dl, anu Dh);                 // Создание числа из двух атомов и автонормализация
 anu FMOV(anu l, an r, an a);                    // Копирование числа и автонормализация
 anu FCOLD(anu f, anu l, an r, an a);            // Приведение к формату l = 1,2,4,8,16,32,64,128,256
 anu FVI(anu f, an r, anu l, an c);              // Копирование из константы в переменную на выходе l
@@ -52,13 +48,11 @@ extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As))-1), (As[]){0, ##__VA_ARGS__}+1
-#define Faddr(...) FAddr(6, (As*)&Mat.R, Adr(__VA_ARGS__))
+#define Faddr(...) FAddr(4, (As*)&Mat.R, Adr(__VA_ARGS__))
 #define Fset(...) FInit(0, 4, &Mat.Nim, Anu(__VA_ARGS__))
 #define Fini(...) FInit(10, 4, &Mat.na, Anu(__VA_ARGS__))
 #define Flong(...) FInit(0, 2, &Mat.l, Anu(__VA_ARGS__))
 #define Fswap(l, x) FSWAP(l, x, x)
-#define Fld(D) FLD(Mat.A, D)
-#define Flvd(Dl, Dh) FLVD(Mat.A, Dl, Dh)
 #define Fmov(l, x) FMOV(l, x, x)
 #define Fcold(f, l, x) FCOLD(f, l, x, x)
 #define Fvar(f, r,...) FVI(f, r, Anu(__VA_ARGS__))

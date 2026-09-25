@@ -23,10 +23,10 @@ void Show(char s) { Flong(la,lb); Mat.C = 0;
   else { FMulc(127); } printf("%c%c ", Mat.C ? 'C':' ', Mat.F ? (Mat.N ? 'I':'Z') : (Mat.N ? '-':'+'));
   Num(la, Mat.A); if (s == 'c') printf("* "); else { printf("%c ", s); } Num(Mat.lb, Mat.b); printf("= "); Num(Mat.l, Mat.R);
   if (s == '/') { printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); }
-void Const(void) { anu l, i = 2; printf("Const\n"); Show('c'); Mat.D = Mat.B;
-  Mat.B = Mat.b; l = lb; lb = Mat.lb; while(i--) { (*Mat.B)++; Show('*'); } Mat.B = Mat.D; lb = l; }
+void Const(void) { an sb; anu l, i = 2; printf("Const\n"); Show('c'); sb = Mat.B;
+  Mat.B = Mat.b; l = lb; lb = Mat.lb; while(i--) { (*Mat.B)++; Show('*'); } Mat.B = sb; lb = l; }
 void Test(void) { printf("%c A B\n", Mat.Nim ? 'N':' '); Show('+'); Show('-'); Show('*'); /*Show('/');*/Const(); }
 
 int main(void) { anu a[m], b[m], e[m], r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b);
-  Fini(); la = Fbvi(Mat.A, 255,0); lb = Fvi(Mat.B, 255); Test();
+  Fini(); la = Fbvi(Mat.A, 127); lb = Fvi(Mat.B, 254); Test();
   Fset(1); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); return 0; }
