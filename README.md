@@ -69,10 +69,9 @@ P.s.: Блокировку убрали как только добавил со�
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu l, m[254], h; } MatBuf;    // 256 атомов
-typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne,  // Fset({Nim{,V{,la{,lb}}}});
-  na, nb, x, y, i, j, k, t; MatBuf H, L, S;               // Flong({la{,lb}});
-  an R, E, A, B, r, e, a, b, ae, be; } Math;    // Структура реализации автомата
+typedef struct { anu H[255],L[255],S[255], Nim, V, l, lb,  // Fset({Nim{,V{,la{,lb}}}});
+  le, C, F, N, Fe, Ne, na, nb, x,y,i,j,k,t;                // Flong({la{,lb}});
+  an r,e,a, b, ae,be, R, E, A, B; } Math;       // Структура реализации автомата
 ```
 
 <div align="center">

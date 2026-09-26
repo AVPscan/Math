@@ -4,10 +4,10 @@
  * распространять ее и/или изменять согласно условиям Стандартной общественной
  * лицензии GNU (GPLv3).
  */
-
 #ifndef MATH_H
 #define MATH_H
 #include <stdint.h>
+
 // Begin 05.07.2026 in Russia                  As (As      अः   основа, бытие, существовать)
 // anu (anu     अणु   атом)                      an (anka    अङ्क цифра, число)
 // Nim (Nimitta निमित्त {знаковое} представление)  V (Vṛddhi  वृद्धि     увеличение {разрядности})
@@ -26,14 +26,13 @@
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu l, m[254], h; } MatBuf;    // 256 атомов
-typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne,  // Fset({Nim{,V{,la{,lb}}}});
-  na, nb, x, y, i, j, k, t; MatBuf H, L, S;               // Flong({la{,lb}});
-  an R, E, A, B, r, e, a, b, ae, be; } Math;    // Структура реализации автомата
+typedef struct { anu H[255],L[255],S[255], Nim, V, l, lb,  // Fset({Nim{,V{,la{,lb}}}});
+  le, C, F, N, Fe, Ne, na, nb, x,y,i,j,k,t;                // Flong({la{,lb}});
+  an r,e,a, b, ae,be, R, E, A, B; } Math;       // Структура реализации автомата
 void FInit(anu x, anu y, an r, anu c, an a);    // Fini({Nim{,V{,la{,lb}}}}); Nim=V=l=lb..Ne=0
 void FAddr(anu y, As* r, anu c, As* a);         // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
-anu FMOV(anu l, an r, an a);                    // Копирование числа и автонормализация
+anu FMOV(anu l, an r, an a);                    // Копирование числа
 anu FCOLD(anu f, anu l, an r, an a);            // Приведение к формату l = 1,2,4,8,16,32,64,128,256
 anu FVI(anu f, an r, anu l, an c);              // Копирование из константы в переменную на выходе l
 void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
@@ -44,6 +43,7 @@ void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
 void FMULc(an r, an a, anu l, an c);            // r = a * Const
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {+}
 void FDIVc(an r, an e, an a, anu l, an c);      // r = a / Const, e = a mod Const
+
 extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
