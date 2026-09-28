@@ -26,11 +26,12 @@
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu H[255],L[255],S[255], Nim, V, l, lb,  // Fset({Nim{,V{,la{,lb}}}});
-  le, C, F, N, Fe, Ne, na, nb, x,y,i,j,k,t;                // Flong({la{,lb}});
-  an r,e,a, b, ae,be, R, E, A, B; } Math;       // Структура реализации автомата
-void FInit(anu x, anu y, an r, anu c, an a);    // Fini({Nim{,V{,la{,lb}}}}); Nim=V=l=lb..Ne=0
-void FAddr(anu y, As* r, anu c, As* a);         // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
+typedef struct { anu H[255],L[255],S[255],      // Задать параметры Fset({Nim{,V{,la{,lb}}}});
+  Nim, V, l, lb, le, C, F, N, Fe, Ne, na, nb,   // Установить длины Flong({la{,lb}});
+  x,y,i,j,k,t; an r,e,a, b, ae,be,              // Nim=V=l=lb..Ne=0 Fini({Nim{,V{,la{,lb}}}});
+  R, E, A, B; } Math;                           // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
+void FInit(anu x, anu y, an r, anu c, an a);    // Универсальный примитив
+void FAddr(anu y, As* r, anu c, As* a);         // Универсальный примитив
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
 anu FMOV(anu l, an r, an a);                    // Копирование числа
 anu FCOLD(anu f, anu l, an r, an a);            // Приведение к формату l = 1,2,4,8,16,32,64,128,256
