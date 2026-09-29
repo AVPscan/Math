@@ -7,33 +7,31 @@
 TARGET = math
 SOURCES = main.c math.c
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
+BASE_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra
+CLANG_CFLAGS = -std=c11 -Oz -DNDEBUG -Wall -Wextra
+LDFLAGS =
 
-BASE_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra -ffunction-sections -fdata-sections
-CLANG_CFLAGS = -std=c11 -Oz -DNDEBUG -Wall -Wextra -Wno-stringop-overflow -Wno-unknown-warning-option
-LDFLAGS = -s
-ifeq ($(UNAME_S),Linux) 
-    LDFLAGS += -Wl,--gc-sections -Wl,--strip-all
-endif
 ifeq ($(UNAME_S),Windows)
     EXT = .exe
     RM = del /q
     GET_SIZE = wc -c < $(TARGET)$(EXT) 2>nul || echo 0
     RUN_CMD = $(TARGET)$(EXT)
 else
+    LDFLAGS += -s
     EXT =
     RM = rm -f
     GET_SIZE = wc -c < $(TARGET)$(EXT) 2>/dev/null || echo 0
     RUN_CMD = ./$(TARGET)
 endif
-.PHONY: all c musl run clean size
 
+.PHONY: all c s run clean size
 all: clean
 	@gcc $(BASE_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 c: clean
 	@clang $(CLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
-musl: clean
+s: clean
 	@gcc $(BASE_CFLAGS) -static -o $(TARGET) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 size:
