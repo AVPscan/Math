@@ -5,12 +5,10 @@
 # лицензии GNU (GPLv3).
 
 TARGET = math
-SOURCES = main.c math.c
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
 BASE_CFLAGS = -std=c11 -Os -DNDEBUG -Wall -Wextra
 CLANG_CFLAGS = -std=c11 -Oz -DNDEBUG -Wall -Wextra
 LDFLAGS =
-
 ifeq ($(UNAME_S),Windows)
     EXT = .exe
     RM = del /q
@@ -23,6 +21,7 @@ else
     GET_SIZE = wc -c < $(TARGET)$(EXT) 2>/dev/null || echo 0
     RUN_CMD = ./$(TARGET)
 endif
+SOURCES = main.c math.c
 
 .PHONY: all c s run clean size
 all: clean
@@ -32,7 +31,7 @@ c: clean
 	@clang $(CLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 s: clean
-	@gcc $(BASE_CFLAGS) -static -o $(TARGET) $(SOURCES) $(LDFLAGS)
+	@$(CC) $(BASE_CFLAGS) -static -o $(TARGET) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 size:
 	@SIZE=$$($(GET_SIZE)); echo "$(TARGET)$(EXT) $$SIZE byte"
