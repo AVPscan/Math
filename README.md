@@ -25,8 +25,6 @@ P.s.: Блокировку убрали как только добавил со�
     <img alt="Math Library Logo" src="Plus/971w.jpeg" width="60%">
   </picture>
   
-  <br><br>
-  
   <h2>Перспективы аппаратной реализации<h2>
 </div>
 
