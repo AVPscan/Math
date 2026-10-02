@@ -108,10 +108,10 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
     else { do *Mat.e++ = *Mat.be++; while(Mat.y--); } Mat.y = Mat.N;
     if (Mat.na) { Mat.x = 1; do Mat.x = !(*Mat.ae++ = ~*Mat.a++ + Mat.x) && Mat.x; while(Mat.y--); }
     else do *Mat.ae++ = *Mat.a++; while(Mat.y--); }
-  Mat.k = Mat.i; Mat.k += Mat.j; Mat.k++; Mat.t = (Mat.i > Mat.k) ? 2:Mat.t;
-  Mat.l = Mat.k; Mat.i -= Mat.F; Mat.j -= Mat.N; Mat.i += Mat.j; *Mat.ae = 0; Mat.N++;
-  Mat.e = Mat.r; Mat.e += Mat.i; Mat.ae = Mat.r; *Mat.ae++ = (Mat.C != 0);
-  Mat.j = Mat.l; do *Mat.ae++ = 0; while(Mat.j--); Mat.ae = (an)Mat.H; if (!Mat.t) {
+  Mat.k = Mat.i; Mat.k += Mat.j; Mat.k++; Mat.t = (Mat.i > Mat.k) ? 2:Mat.t; if (!Mat.t) {
+    Mat.l = Mat.k; Mat.i -= Mat.F; Mat.j -= Mat.N; Mat.i += Mat.j; *Mat.ae = 0; Mat.N++;
+    Mat.e = Mat.r; Mat.e += Mat.i; Mat.ae = Mat.r; *Mat.ae++ = (Mat.C != 0);
+    Mat.j = Mat.l; do *Mat.ae++ = 0; while(Mat.j--); Mat.ae = (an)Mat.H;
     do { if ((Mat.i = *Mat.ae++)) { Mat.a = (an)Mat.S; Mat.be = (an)Mat.L;
            Mat.j = Mat.N; do *Mat.a++ = *Mat.be++; while(Mat.j--);
            do { Mat.t = 0; Mat.be = (an)Mat.S; Mat.j = Mat.N;
