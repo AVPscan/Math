@@ -47,9 +47,10 @@ void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       Mat.C = (Mat.x > Mat.y) || (Mat.C && Mat.y == Mat.x); } while(--Mat.N);
     else while(Mat.F--) { Mat.x = *Mat.a++; Mat.y = (*Mat.ae++ = Mat.x + Mat.nb + Mat.C);
       Mat.C = (Mat.x > Mat.y) || (Mat.C && Mat.y == Mat.x); }
-    Mat.x = --Mat.ae - Mat.r; Mat.be = Mat.ae; Mat.i = Mat.x; while(Mat.i-- && !*--Mat.be) { }
-    Mat.F = !(++Mat.i | Mat.y); Mat.N = (Mat.Nim && (Mat.y & 128)) ? 255:0;
-    Mat.i = (!Mat.i && Mat.y == 128); if (Mat.Nim) { 
+    Mat.N = (Mat.Nim && (Mat.y & 128)) ? 255:0; Mat.x = --Mat.ae - Mat.r;
+    while(*Mat.ae-- == Mat.N && Mat.x && (Mat.Nim ? !((*Mat.ae ^ Mat.N) & 128):1)) { Mat.x--; }
+    Mat.be = Mat.ae; Mat.i = Mat.x; while(Mat.i-- && !*Mat.be--) { }
+    Mat.F = !(++Mat.i | *++Mat.ae);  Mat.i = (!Mat.i && *Mat.ae == 128); if (Mat.Nim) {
       Mat.C = (Mat.na != Mat.N && !(Mat.na ^ Mat.nb)) || Mat.i;
       if (Mat.C && Mat.x != 255 && (Mat.V || (!Mat.V && Mat.x < Mat.l))) { Mat.F = 0; Mat.x++;
         Mat.C--; Mat.N = Mat.i ? Mat.N:~Mat.N; *++Mat.ae = Mat.N; } Mat.t = Mat.C ? 2:Mat.t; }
