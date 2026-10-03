@@ -7,7 +7,6 @@
 #ifndef MATH_H
 #define MATH_H
 #include <stdint.h>
-
 // Begin 05.07.2026 in Russia                  As (As      अः    основа, бытие, существовать)
 // anu (anu     अणु   атом)                      an (anka    अङ्क   цифра, число)
 // Nim (Nimitta निमित्त {знаковое} представление)  V (Vṛddhi  वृद्धि  изменение {разрядности})
