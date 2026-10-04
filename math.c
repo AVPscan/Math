@@ -8,10 +8,9 @@
 #include "math.h"
 MATH_CACHE_INIT
 
-void FInit(anu x, anu y, an r, anu c, an a) { while(x--) *--r = 0;
-  c = (c > y) ? y:c; while(c--) *r++ = *a++; }
-void FAddr(anu y, As* r, anu c, As* a) {
-  c = (c > y) ? y:c; while(c--) *r++ = *a++; }
+void FAddr(anu y, As* r, anu c, As* a) { c = (c > y) ? y:c; while(c--) *r++ = *a++; }
+void FInit(anu x, anu y, an r, anu c, an a) { while(x--) *--r = 0; c = (c > y) ? y:c;
+  while(c--) *r++ = *a++; }
 
 void FSWAP(anu l, an r, an a) { Mat.i = l; Mat.r = r; Mat.a = a; Mat.be = Mat.r + Mat.i;
   Mat.ae = Mat.a + Mat.i; Mat.t = *Mat.a++; *Mat.r++ = Mat.i ? *Mat.ae--:Mat.t; *Mat.be-- = Mat.t;
@@ -48,10 +47,9 @@ void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   else while(Mat.F--) { Mat.x = *Mat.a++; Mat.y = (*Mat.ae++ = Mat.x + Mat.nb + Mat.C);
     Mat.C = (Mat.x > Mat.y) || (Mat.C && Mat.y == Mat.x); }
   Mat.x = --Mat.ae - Mat.r; Mat.N = (Mat.y & 128) ? 255:0;
-  while(*Mat.ae-- == Mat.N && Mat.x && !((*Mat.ae ^ Mat.N) & 128)) { Mat.x--; }
-  Mat.i = Mat.x; Mat.y = *(Mat.be = ++Mat.ae); while(Mat.i-- && !*--Mat.be) { }
-  Mat.F = !(++Mat.i | Mat.y); if (Mat.Nim) {
-    Mat.C = (Mat.na != Mat.N && !(Mat.na ^ Mat.nb)) || (!Mat.i && Mat.y == 128);
+  while(*Mat.ae-- == Mat.N && Mat.x && !((*Mat.ae ^ Mat.N) & 128)) { Mat.x--; } Mat.i = Mat.x;
+  Mat.y = *(Mat.be = ++Mat.ae); while(Mat.i-- && !*--Mat.be) { } Mat.F = !(++Mat.i | Mat.y);
+  if (Mat.Nim) { Mat.C = (Mat.na != Mat.N && !(Mat.na ^ Mat.nb)) || (!Mat.i && Mat.y == 128);
     if (Mat.C && Mat.x != 255 && (Mat.V || (!Mat.V && Mat.x < Mat.l))) { Mat.x++; Mat.C--;
       Mat.N = (!Mat.i && Mat.y == 128) ? Mat.N:~Mat.N; Mat.F = (!(Mat.i | Mat.y | Mat.N));
       *++Mat.ae = Mat.N; } if (Mat.C || Mat.j) { Mat.F = 2; Mat.N = 255; Mat.C = 0;
@@ -77,10 +75,9 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   else while(Mat.F--) { Mat.x = *Mat.a++; Mat.y = (*Mat.ae++ = Mat.x - Mat.nb - Mat.C);
     Mat.C = (Mat.x < Mat.y) || (Mat.C && Mat.y == Mat.x); }
   Mat.x = --Mat.ae - Mat.r; Mat.N = (Mat.y & 128) ? 255:0;
-  while(*Mat.ae-- == Mat.N && Mat.x && !((*Mat.ae ^ Mat.N) & 128)) { Mat.x--; }
-  Mat.i = Mat.x; Mat.y = *(Mat.be = ++Mat.ae); while(Mat.i-- && !*--Mat.be) { }
-  Mat.F = !(++Mat.i | Mat.y); if (Mat.Nim) {
-    Mat.C = ((Mat.na ^ Mat.nb) && (Mat.na ^ Mat.N)) || (!Mat.i && Mat.y == 128);
+  while(*Mat.ae-- == Mat.N && Mat.x && !((*Mat.ae ^ Mat.N) & 128)) { Mat.x--; } Mat.i = Mat.x;
+  Mat.y = *(Mat.be = ++Mat.ae); while(Mat.i-- && !*--Mat.be) { } Mat.F = !(++Mat.i | Mat.y);
+  if (Mat.Nim) { Mat.C = ((Mat.na ^ Mat.nb) && (Mat.na ^ Mat.N)) || (!Mat.i && Mat.y == 128);
     if (Mat.C && Mat.x != 255 && (Mat.V || (!Mat.V && Mat.x < Mat.l))) { Mat.x++; Mat.C--;
       Mat.N = (!Mat.i && Mat.y == 128) ? Mat.N:~Mat.N; Mat.F = (!(Mat.i | Mat.y | Mat.N));
       *++Mat.ae = Mat.N; } if (Mat.C || Mat.j) { Mat.F = 2; Mat.N = 255; Mat.C = 0;
