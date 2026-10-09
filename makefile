@@ -23,21 +23,24 @@ else
 endif
 SOURCES = main.c math.c
 
-.PHONY: all c s run clean size
+.PHONY: all c t s run clean size
 all: clean
 	@gcc $(BASE_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 c: clean
 	@clang $(CLANG_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
+t: clean
+	@tcc -std=c11 -s -o $(TARGET)$(EXT) $(SOURCES)
+	@$(MAKE) --no-print-directory size
 s: clean
 	@$(CC) $(BASE_CFLAGS) -static -o $(TARGET) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
-size:
-	@SIZE=$$($(GET_SIZE)); echo "$(TARGET)$(EXT) $$SIZE byte"
 run: clean
 	@gcc $(BASE_CFLAGS) -o $(TARGET)$(EXT) $(SOURCES) $(LDFLAGS)
 	@$(MAKE) --no-print-directory size
 	@$(RUN_CMD) || echo "(exit $$?)"
 clean:
 	@$(RM) $(TARGET)$(EXT) 2>/dev/null || true
+size:
+	@SIZE=$$($(GET_SIZE)); echo "$(TARGET)$(EXT) $$SIZE byte"

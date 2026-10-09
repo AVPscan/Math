@@ -16,17 +16,22 @@ void FSWAP(anu l, an r, an a) { Mat.i = l; Mat.r = r; Mat.a = a; Mat.be = Mat.r 
   Mat.ae = Mat.a + Mat.i; Mat.t = *Mat.a++; *Mat.r++ = Mat.i ? *Mat.ae--:Mat.t; *Mat.be-- = Mat.t;
   Mat.i >>= 1; while(Mat.i--) { Mat.t = *Mat.a++; *Mat.r++ = *Mat.ae--; *Mat.be-- = Mat.t; } }
 anu FMOV(anu l, an r, an a) { Mat.i = l; Mat.r = r; Mat.a = a;
-  Mat.F = 0; Mat.j = Mat.i; Mat.k = Mat.i; if (r < a) do *Mat.r++ = *Mat.a++; while(Mat.j--);
+  if (Mat.V) { Mat.ae = Mat.a + Mat.i; Mat.na = (Mat.Nim && (*Mat.ae & 128)) ? 255:0; Mat.j = Mat.i;
+    while((Mat.x = *Mat.ae--) == Mat.na && Mat.i && !((*Mat.ae ^ Mat.na) & 128)) Mat.i--;
+    Mat.k = Mat.i; while(Mat.k-- && !*Mat.ae--) { } if (Mat.i == Mat.j) {
+      if (!++Mat.k && (!Mat.x || Mat.x == 128)) { Mat.a += Mat.i; Mat.i = 0; } }
+    else Mat.i += (!++Mat.k && Mat.x == 128); }
+  Mat.j = Mat.i; Mat.k = Mat.i; if (r < a) do *Mat.r++ = *Mat.a++; while(Mat.j--);
   else { Mat.be = (Mat.r += Mat.i); Mat.ae = Mat.a + Mat.i;
     do *Mat.be-- = *Mat.ae--; while(Mat.j--); } Mat.x = *--Mat.r;
-  Mat.N = (Mat.Nim && (Mat.x & 128)) ? 255:0; while(Mat.i-- && !*--Mat.r) { }
-  Mat.i++; Mat.F = (Mat.i | Mat.x) ? (!Mat.i && Mat.Nim && Mat.x == 128) ? 2:0:1; return Mat.k; }
+  Mat.N = (Mat.Nim && (Mat.x & 128)) ? 255:0; while(Mat.i && !*--Mat.r) Mat.i--;
+  Mat.F = (Mat.i | Mat.x) ? (Mat.Nim && !Mat.i && Mat.x == 128) ? 2:0:1; return Mat.k; }
 anu FCOLD(anu f, anu l, an r, an a) { Mat.y = FMOV(l, r, a); Mat.t = ((Mat.x = Mat.y)) ? 2:1;
   while((Mat.x >>= 1)) { Mat.t <<= 1; } Mat.r = r; Mat.e = Mat.r + Mat.y; Mat.x = --Mat.t - Mat.y;
   Mat.y = Mat.N; if (Mat.F) { Mat.y = *Mat.e; *Mat.e = 0; Mat.y = 0; }
   while(Mat.x--) { *++Mat.e = Mat.y; } *Mat.e = Mat.F ? Mat.y:*Mat.e;
-  if (f) { FSWAP(Mat.t, Mat.r, Mat.r); } return Mat.t; }
-anu FVI(anu f, an r, anu l, an c) { if (l--) { if (f) { FSWAP(l, r, c); return FMOV(l, r, r); }
+  if (f) { Fswap(Mat.t, Mat.r); } return Mat.t; }
+anu FVI(anu f, an r, anu l, an c) { if (l--) { if (f) { FSWAP(l, r, c); return Fmov(l, r); }
     else return FMOV(l, r, c); } Mat.F = 2; Mat.N = 255; *r = 128; return 0; }
 
 void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.lb = Mat.N;
@@ -142,9 +147,8 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.
     Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; }
   (void)e; }
 
-void FADDc(an r, an a, anu l, an c) { if (l--) { FADD(r, a, l, c); return; } Mat.l = FMOV(Mat.l, r, a); }
-void FSUBc(an r, an a, anu l, an c) { if (l--) { FSUB(r, a, l, c); return; } Mat.l = FMOV(Mat.l, r, a); }
-void FMULc(an r, an a, anu l, an c) { if (l--) { FMUL(r, a, l, c); return; } Mat.F = 1; Mat.N = 0; *r = 0;
-  Mat.l = 0; }
-void FDIVc(an r, an e, an a, anu l, an c) { if (l--) { FDIV(r, e, a, l, c); return; }
-  Mat.le = FMOV(Mat.l, e, a); Mat.Fe = Mat.F; Mat.Ne = Mat.N; Mat.F = 1; Mat.N = 0; *r = 0; Mat.l = 0; }
+void FADDc(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); Mat.l = FMOV(Mat.l, r, a); }
+void FSUBc(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); Mat.l = FMOV(Mat.l, r, a); }
+void FMULc(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); Mat.F = 1; Mat.N = 0; *r = 0; Mat.l = 0; }
+void FDIVc(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c); Mat.le = FMOV(Mat.l, e, a);
+  Mat.Fe = Mat.F; Mat.Ne = Mat.N; Mat.F = 1; Mat.N = 0; *r = 0; Mat.l = 0; }
