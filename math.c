@@ -125,15 +125,15 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
                  Mat.C = (Mat.x > Mat.y) || (Mat.C && Mat.x == Mat.y);
                  *Mat.be++ = (Mat.k << 1) | Mat.t; Mat.t = (Mat.k & 128) ? 1:0; }
                while(Mat.j--); } Mat.nb |= Mat.t; } while(Mat.i >>= 1); } Mat.e++;
-       } while(Mat.F--); Mat.F++;
-    Mat.l = Mat.e - Mat.r; if ((Mat.N = Mat.na)) { Mat.j = Mat.l; Mat.ae = Mat.r; Mat.t = 1;
+       } while(Mat.F--); Mat.F++; Mat.l = Mat.e - Mat.r;
+    if ((Mat.N = Mat.na)) { Mat.j = Mat.l; Mat.ae = Mat.r; Mat.t = 1;
       do { Mat.t = !(*Mat.ae = ~*Mat.ae + Mat.t) && Mat.t; Mat.ae++; } while(Mat.j--); }
     while(*Mat.e-- == Mat.N  && Mat.l && (Mat.Nim ? !((*Mat.e ^ Mat.N) & 128):1)) { Mat.l--; }
     if (*++Mat.e != 128) { return; } Mat.be = Mat.e; Mat.j = Mat.l; while(Mat.j-- && !*--Mat.e);
     if (++Mat.j) { return; } if (Mat.l != 255) { if (Mat.Nim) { Mat.l++; *++Mat.be = Mat.N; }
-      return; } Mat.t = 2; } Mat.C = (!Mat.Nim && Mat.t == 2); Mat.F = !Mat.Nim ? 1:Mat.t;
-  Mat.N = (Mat.F == 1) ? 0:255; Mat.l = Mat.V ? 0:Mat.l; Mat.i = Mat.l;
-  while(Mat.i--) { *Mat.r++ = 0; } *Mat.r = Mat.N ? 128:0; }
+      return; } Mat.t = 2; } Mat.F = (Mat.C = (!Mat.Nim && Mat.t == 2)) ? 1:Mat.t; Mat.N = 0;
+  Mat.N -= (Mat.F == 2); Mat.l = Mat.V ? 0:Mat.l; Mat.i = Mat.l; while(Mat.i--) *Mat.r++ = 0;
+  *Mat.r = Mat.N & 128; }
 
 void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
