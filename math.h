@@ -39,8 +39,8 @@ void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FADDc(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
 void FSUBc(an r, an a, anu l, an c);            // r = a - Const
-void FCMP(an a, anu l, an b);                   // Сравнение a и b
-void FCMPc(an a, anu l, an c);                  // Сравнение a и Const
+anu FCMP(an a, anu l, an b);                    // Сравнение a и b
+anu FCMPc(an a, anu l, an c);                   // Сравнение a и Const
 void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
 void FMULc(an r, an a, anu l, an c);            // r = a * Const
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {+}

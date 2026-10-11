@@ -91,7 +91,7 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   if (!Mat.V && Mat.x < Mat.l) { Mat.i = Mat.l - Mat.x; do *++Mat.ae = Mat.j; while(--Mat.i);
     return; } Mat.l = Mat.x; }
 
-void FCMP(an a, anu l, an b) { Mat.t = Mat.l; FSUB((an)Mat.S, a, l, b); Mat.l = Mat.t; }
+anu FCMP(an a, anu l, an b) { Mat.t = Mat.l; FSUB((an)Mat.S, a, l, b); Mat.l = Mat.t; return Mat.N | Mat.C; }
 
 void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
@@ -149,7 +149,7 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.
 
 void FADDc(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); Mat.l = FMOV(Mat.l, r, a); }
 void FSUBc(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); Mat.l = FMOV(Mat.l, r, a); }
-void FCMPc(an a, anu l, an c) { if (l--) return FCMP(a, l, c); FCmpc(a, 0); }
+anu FCMPc(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCmpc(a, 0); }
 void FMULc(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); Mat.F = 1; Mat.N = 0; *r = 0; Mat.l = 0; }
 void FDIVc(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c); Mat.le = FMOV(Mat.l, e, a);
   Mat.Fe = Mat.F; Mat.Ne = Mat.N; Mat.F = 1; Mat.N = 0; *r = 0; Mat.l = 0; }
