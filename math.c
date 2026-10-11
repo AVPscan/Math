@@ -147,9 +147,8 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.
     Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; }
   (void)e; }
 
-void FADDc(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); Mat.l = FMOV(Mat.l, r, a); }
-void FSUBc(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); Mat.l = FMOV(Mat.l, r, a); }
+void FADDc(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FAddc(r, a, 0); }
+void FSUBc(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FSubc(r, a, 0); }
 anu FCMPc(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCmpc(a, 0); }
-void FMULc(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); Mat.F = 1; Mat.N = 0; *r = 0; Mat.l = 0; }
-void FDIVc(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c); Mat.le = FMOV(Mat.l, e, a);
-  Mat.Fe = Mat.F; Mat.Ne = Mat.N; Mat.F = 1; Mat.N = 0; *r = 0; Mat.l = 0; }
+void FMULc(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); return FMulc(r, a, 0); }
+void FDIVc(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c); return FDivc(r, e, a, 0); }

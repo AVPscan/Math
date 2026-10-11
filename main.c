@@ -19,8 +19,9 @@ void Num(anu s, an a) { anu ns, t[m]; if (s > 8) { printf(" %d|? ", s + 1); retu
   else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
     else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } }
 void Show(char s) { Flong(la,lb); Mat.C = 0;
-  if (s == '+') FAdd(); else if (s == '-') FSub(); else if (s == '*') FMul(); else if (s == '/') FDiv();
-  else { FSubc(127); } printf("%c%c ", Mat.C ? 'C':' ', Mat.F ? (Mat.N ? 'I':'Z') : (Mat.N ? '-':'+')); Num(la, Mat.A);
+  if (s == '+') FAdd(Mat.R, Mat.A); else if (s == '-') FSub(Mat.R, Mat.A); else if (s == '*') FMul(Mat.R, Mat.A);
+  else if (s == '/') FDiv(Mat.R, Mat.A, Mat.E); else FSubc(Mat.R, Mat.A, 127);
+  printf("%c%c ", Mat.C ? 'C':' ', Mat.F ? (Mat.N ? 'I':'Z') : (Mat.N ? '-':'+')); Num(la, Mat.A);
   if (s == 'c') printf("- "); else { printf("%c ", s); } Num(Mat.lb, Mat.b); printf("= "); Num(Mat.l, Mat.R);
   if (s == '/') { printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); }
 void Const(void) { an sb; anu l, i = 2; printf("   A Const\n"); Show('c'); sb = Mat.B;
