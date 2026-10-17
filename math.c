@@ -150,8 +150,8 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.
     Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; }
   (void)e; }
 
-void FADDc(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FAddc(r, a, 0); }
-void FSUBc(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FSubc(r, a, 0); }
-void FCMPc(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCmpc(a, 0); }
-void FMULc(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); return FMulc(r, a, 0); }
-void FDIVc(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c); return FDivc(r, e, a, 0); }
+void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FCAdd(r, a, 0); }
+void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FCSub(r, a, 0); }
+void FCCMP(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCcmp(a, 0); }
+void FCMUL(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); return FCMul(r, a, 0); }
+void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c); return FCDiv(r, e, a, 0); }

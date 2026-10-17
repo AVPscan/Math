@@ -36,15 +36,15 @@ anu FMOV(anu l, an r, an a);                    // Копирование l ат
 anu FCOLD(anu f, anu l, an r, an a);            // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
 anu FVI(anu f, an r, anu l, an c);              // Копирование из константы в переменную на выходе l
 void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
-void FADDc(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
+void FCADD(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
-void FSUBc(an r, an a, anu l, an c);            // r = a - Const
+void FCSUB(an r, an a, anu l, an c);            // r = a - Const
 void FCMP(an a, anu l, an b);                   // Сравнение a и b
-void FCMPc(an a, anu l, an c);                  // Сравнение a и Const
+void FCCMP(an a, anu l, an c);                  // Сравнение a и Const
 void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
-void FMULc(an r, an a, anu l, an c);            // r = a * Const
+void FCMUL(an r, an a, anu l, an c);            // r = a * Const
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {+}
-void FDIVc(an r, an e, an a, anu l, an c);      // r = a / Const, e = a mod Const
+void FCDIV(an r, an e, an a, anu l, an c);      // r = a / Const, e = a mod Const
 
 extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
@@ -61,33 +61,33 @@ extern Math Mat;
 #define Fvi(r, ...) FVI(0, r, Anu(__VA_ARGS__))
 #define Fbvi(r, ...) FVI(1, r, Anu(__VA_ARGS__))
 #define FAdd(r, a) FADD(r, a, Mat.lb, Mat.B)
-#define FAddc(r, a, ...) FADDc(r, a, Anu(__VA_ARGS__))
+#define FCAdd(r, a, ...) FCADD(r, a, Anu(__VA_ARGS__))
 #define Fadd(r) FADD(r, r, Mat.lb, Mat.B)
-#define Faddc(r, ...) FADDc(r, r, Anu(__VA_ARGS__))
+#define FCadd(r, ...) FCADD(r, r, Anu(__VA_ARGS__))
 #define FSub(r, a) FSUB(r, a, Mat.lb, Mat.B)
-#define FSubc(r, a, ...) FSUBc(r, a, Anu(__VA_ARGS__))
+#define FCSub(r, a, ...) FCSUB(r, a, Anu(__VA_ARGS__))
 #define Fsub(r) FSUB(r, r, Mat.lb, Mat.B)
-#define Fsubc(r, ...) FSUBc(r, r, Anu(__VA_ARGS__))
-#define FCmp(a) FCMP(a, Mat.lb, Mat.B)
-#define FCmpc(a, ...) FCMPc(a, Anu(__VA_ARGS__))
-#define FEq(a) (FCMP(a, Mat.lb, Mat.B), Mat.F)               // a == b
-#define FEqc(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), Mat.F)
-#define FNe(a) (FCMP(a, Mat.lb, Mat.B), !Mat.F)              // a != b
-#define FNec(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), !Mat.F)
-#define FLt(a) (FCMP(a, Mat.lb, Mat.B), Mat.N)               // a < b
-#define FLtc(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), Mat.N)
-#define FGe(a) (FCMP(a, Mat.lb, Mat.B), !Mat.N)              // a >= b
-#define FGec(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), !Mat.N)
-#define FGt(a) (FCMP(a, Mat.lb, Mat.B), !(Mat.N | Mat.F))    // a > b
-#define FGtc(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), !(Mat.N | Mat.F))
-#define FLe(a) (FCMP(a, Mat.lb, Mat.B), (Mat.N | Mat.F))     // a <= b
-#define FLec(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), (Mat.N | Mat.F))
+#define FCsub(r, ...) FCSUB(r, r, Anu(__VA_ARGS__))
+#define Fcmp(a) FCMP(a, Mat.lb, Mat.B)
+#define FCcmp(a, ...) FCCMP(a, Anu(__VA_ARGS__))
+#define Feq(a) (FCMP(a, Mat.lb, Mat.B), Mat.F)               // a == b
+#define FCeq(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), Mat.F)
+#define Fne(a) (FCMP(a, Mat.lb, Mat.B), !Mat.F)              // a != b
+#define FCne(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), !Mat.F)
+#define Flt(a) (FCMP(a, Mat.lb, Mat.B), Mat.N)               // a < b
+#define FClt(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), Mat.N)
+#define Fge(a) (FCMP(a, Mat.lb, Mat.B), !Mat.N)              // a >= b
+#define FCge(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), !Mat.N)
+#define Fgt(a) (FCMP(a, Mat.lb, Mat.B), !(Mat.N | Mat.F))    // a > b
+#define FCgt(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), !(Mat.N | Mat.F))
+#define Fle(a) (FCMP(a, Mat.lb, Mat.B), (Mat.N | Mat.F))     // a <= b
+#define FCle(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), (Mat.N | Mat.F))
 #define FMul(r, a) FMUL(r, a, Mat.lb, Mat.B)
-#define FMulc(r, a, ...) FMULc(r, a, Anu(__VA_ARGS__))
+#define FCMul(r, a, ...) FCMUL(r, a, Anu(__VA_ARGS__))
 #define Fmul(r) FMUL(r, r, Mat.lb, Mat.B)
-#define Fmulc(r, ...) FMULc(r, r, Anu(__VA_ARGS__))
+#define FCmul(r, ...) FCMUL(r, r, Anu(__VA_ARGS__))
 #define FDiv(r, e, a) FDIV(r, e, a, Mat.lb, Mat.B)
-#define FDivc(r, e, a, ...) FDIVc(r, e, a, Anu(__VA_ARGS__))
+#define FCDiv(r, e, a, ...) FCDIV(r, e, a, Anu(__VA_ARGS__))
 #define Fdiv(r, e) FDIV(r, e, r, Mat.lb, Mat.B)
-#define Fdivc(r, e, ...) FDIVc(r, e, r, Anu(__VA_ARGS__))
+#define FCdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))
 #endif

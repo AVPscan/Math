@@ -21,7 +21,7 @@ void Num(anu s, an a) { anu ns, t[m]; if (s > 8) printf(" %d|? ", s + 1); else {
         else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } } } }
 void Show(char s) { Flong(la,lb); Mat.C = 0;
   if (s == '+') FAdd(Mat.R, Mat.A); else if (s == '-') FSub(Mat.R, Mat.A); else if (s == '*') FMul(Mat.R, Mat.A);
-  else if (s == '/') FDiv(Mat.R, Mat.A, Mat.E); else if (s == '?') FCmp(Mat.A); else FCmpc(Mat.A, 127);
+  else if (s == '/') FDiv(Mat.R, Mat.A, Mat.E); else if (s == '?') Fcmp(Mat.A); else FCcmp(Mat.A, 127);
   printf("%c%c ", Mat.C ? 'C':' ', Mat.F ? Mat.N ? 'I':'Z':Mat.N ? '-':'+'); Num(la, Mat.A);
   if (s == '?' || s == 'c') printf("%c ", Mat.N ? '<':Mat.F ? '=':'>'); else { if (s == 'c') printf("? "); else printf("%c ", s); }
   Num(Mat.lb, Mat.b); if (s < '?') { printf("= "); Num(Mat.l, Mat.R); if (s == '/') {
