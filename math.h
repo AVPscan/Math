@@ -25,7 +25,7 @@
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu H[255],L[255],S[255],      // Задать параметры Fset({Nim{,V{,la{,lb}}}});
+typedef struct { anu S[255],H[255],L[255],      // Задать параметры Fset({Nim{,V{,la{,lb}}}});
   Nim, V, l, lb, le, C, F, N, Fe, Ne, na, nb,   // Установить длины Flong({la{,lb}});
   x,y,i,j,k,t; an r,e,a, b, ae,be,              // Nim=V=l=lb..Ne=0 Fini({Nim{,V{,la{,lb}}}});
   R, E, A, B; } Math;                           // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
