@@ -39,8 +39,8 @@ void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FADDc(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
 void FSUBc(an r, an a, anu l, an c);            // r = a - Const
-anu FCMP(an a, anu l, an b);                    // Сравнение a и b
-anu FCMPc(an a, anu l, an c);                   // Сравнение a и Const
+void FCMP(an a, anu l, an b);                   // Сравнение a и b
+void FCMPc(an a, anu l, an c);                  // Сравнение a и Const
 void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
 void FMULc(an r, an a, anu l, an c);            // r = a * Const
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {+}
@@ -70,6 +70,18 @@ extern Math Mat;
 #define Fsubc(r, ...) FSUBc(r, r, Anu(__VA_ARGS__))
 #define FCmp(a) FCMP(a, Mat.lb, Mat.B)
 #define FCmpc(a, ...) FCMPc(a, Anu(__VA_ARGS__))
+#define FEq(a) (FCMP(a, Mat.lb, Mat.B), Mat.F)               // a == b
+#define FEqc(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), Mat.F)
+#define FNe(a) (FCMP(a, Mat.lb, Mat.B), !Mat.F)              // a != b
+#define FNec(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), !Mat.F)
+#define FLt(a) (FCMP(a, Mat.lb, Mat.B), Mat.N)               // a < b
+#define FLtc(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), Mat.N)
+#define FGe(a) (FCMP(a, Mat.lb, Mat.B), !Mat.N)              // a >= b
+#define FGec(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), !Mat.N)
+#define FGt(a) (FCMP(a, Mat.lb, Mat.B), !(Mat.N | Mat.F))    // a > b
+#define FGtc(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), !(Mat.N | Mat.F))
+#define FLe(a) (FCMP(a, Mat.lb, Mat.B), (Mat.N | Mat.F))     // a <= b
+#define FLec(a, ...) (FCMPc(a, Anu(__VA_ARGS__)), (Mat.N | Mat.F))
 #define FMul(r, a) FMUL(r, a, Mat.lb, Mat.B)
 #define FMulc(r, a, ...) FMULc(r, a, Anu(__VA_ARGS__))
 #define Fmul(r) FMUL(r, r, Mat.lb, Mat.B)
