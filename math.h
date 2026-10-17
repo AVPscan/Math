@@ -26,8 +26,8 @@ typedef uintptr_t As;                           // основа, разрядн�
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu S[255],H[255],L[255],      // Задать параметры Fset({Nim{,V{,la{,lb}}}});
-  Nim, V, l, lb, le, C, F, N, Fe, Ne, na, nb,   // Установить длины Flong({la{,lb}});
-  x,y,i,j,k,t; an r,e,a, b, ae,be,              // Nim=V=l=lb..Ne=0 Fini({Nim{,V{,la{,lb}}}});
+  Nim, V, l, lb, le, C, F, N, Fe, Ne, na,nb,    // Установить длины Flong({la{,lb}});
+  x,y,z,i,j,k,t,u; an r,e,a, b, ae,be,          // Nim=V=l=lb..Ne=0 Fini({Nim{,V{,la{,lb}}}});
   R, E, A, B; } Math;                           // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
 void FAddr(anu y, As* r, anu c, As* a);         // Универсальный примитив
 void FInit(anu x, anu y, an r, anu c, an a);    // Универсальный примитив
@@ -39,8 +39,10 @@ void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FCADD(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
 void FCSUB(an r, an a, anu l, an c);            // r = a - Const
-void FCMP(an a, anu l, an b);                   // Сравнение a и b
-void FCCMP(an a, anu l, an c);                  // Сравнение a и Const
+void FCMP(an a, anu l, an b);                   // Сравнение a и b     | Mat.F = ; Mat.N < else >
+void FCCMP(an a, anu l, an c);                  // Сравнение a и Const | Mat.F = ; Mat.N < else >
+anu FEQ(an a, anu l, an c);                     // Сравнение a = Const1;Const2;...;ConstN
+anu FRANGE(an a, anu l, an c);                  // Сравнение a принадлежит [Const1;Const2];...{;a >= ConstN}
 void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
 void FCMUL(an r, an a, anu l, an c);            // r = a * Const
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {+}
@@ -70,6 +72,8 @@ extern Math Mat;
 #define FCsub(r, ...) FCSUB(r, r, Anu(__VA_ARGS__))
 #define Fcmp(a) FCMP(a, Mat.lb, Mat.B)
 #define FCcmp(a, ...) FCCMP(a, Anu(__VA_ARGS__))
+#define FNeq(a, ...) FEQ(a, Anu(__VA_ARGS__))
+#define FNrange(a, ...) FRANGE(a, Anu(__VA_ARGS__))
 #define Feq(a) (FCMP(a, Mat.lb, Mat.B), Mat.F)               // a == b
 #define FCeq(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), Mat.F)
 #define Fne(a) (FCMP(a, Mat.lb, Mat.B), !Mat.F)              // a != b

@@ -27,9 +27,9 @@ anu FMOV(anu l, an r, an a) { Mat.i = l; Mat.r = r; Mat.a = a; if (Mat.V) {
   Mat.x = *--Mat.r; Mat.nb = (Mat.Nim && (Mat.x & 128)) ? 255:0; while(Mat.i && !*--Mat.r) Mat.i--;
   Mat.na = (Mat.i | Mat.x) ? (Mat.Nim && !Mat.i && Mat.x == 128) ? 2:0:1; return Mat.t; }
 anu FCOLD(anu f, anu l, an r, an a) { Mat.y = FMOV(l, r, a); Mat.t = ((Mat.x = Mat.y)) ? 2:1;
-  while((Mat.x >>= 1)) { Mat.t <<= 1; } Mat.r = r; Mat.e = Mat.r + Mat.y; Mat.x = --Mat.t - Mat.y;
-  Mat.y = Mat.nb; if (Mat.na) { Mat.y = *Mat.e; *Mat.e = 0; } while(Mat.x--) { *++Mat.e = Mat.nb; }
-  *Mat.e = Mat.na ? Mat.y:*Mat.e; if (f) { Fswap(Mat.t, Mat.r); } return Mat.t; }
+  while((Mat.x >>= 1)) { Mat.t <<= 1; } Mat.r = r; Mat.ae = Mat.r + Mat.y; Mat.x = --Mat.t - Mat.y;
+  Mat.y = Mat.nb; if (Mat.na) { Mat.y = *Mat.ae; *Mat.ae = 0; } while(Mat.x--) *++Mat.ae = Mat.nb;
+  *Mat.ae = Mat.na ? Mat.y:*Mat.ae; if (f) { Fswap(Mat.t, Mat.r); } return Mat.t; }
 anu FVI(anu f, an r, anu l, an c) { if (l--) { if (f) { FSWAP(l, r, c); return Fmov(l, r); }
     else return FMOV(l, r, c); } Mat.na = 2; Mat.nb = 255; *r = 128; return 0; }
 
@@ -91,10 +91,14 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       return; } }  Mat.C |= (Mat.j == 4); if (!Mat.V && Mat.x < Mat.l) { Mat.i = Mat.l - Mat.x;
     do *++Mat.ae = Mat.N; while(--Mat.i); return; } Mat.l = Mat.x; }
 
-void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.t = Mat.l; Mat.C = 0; FSUB((an)Mat.S, a, l, b);
-  if (!Mat.Nim) Mat.N -= Mat.C; else if (Mat.F == 2)
+void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.t = Mat.l;
+  Mat.C = 0; FSUB((an)Mat.S, a, l, b); if (!Mat.Nim) Mat.N -= Mat.C; else if (Mat.F == 2)
     Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb;
   Mat.l = Mat.t; Mat.C = Mat.k; }
+
+anu FEQ(an a, anu l, an c) { (void)a; (void)l; (void)c; return Mat.F; }
+
+anu FRANGE(an a, anu l, an c) { (void)a; (void)l; (void)c; return Mat.F; }
 
 void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
