@@ -73,7 +73,7 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   if (!Mat.V && Mat.l < Mat.N) { Mat.be = Mat.b + Mat.N;
     while(*Mat.be-- == Mat.nb && Mat.N && !((*Mat.be ^ Mat.nb) & 128)) { Mat.N--; }
     if (Mat.l < Mat.N) { if (Mat.Nim) { Mat.F = 2; Mat.N = 255; Mat.C = 0; Mat.i = Mat.l;
-      while(Mat.i--) { *Mat.r++ = 0; } *Mat.r = 128; return; } Mat.j++; Mat.N = Mat.l; } }
+      while(Mat.i--) { *Mat.r++ = 0; } *Mat.r = 128; return; } Mat.j = 4; Mat.N = Mat.l; } }
   Mat.be = Mat.b; Mat.i = (Mat.F > Mat.N) ? Mat.N:Mat.F; Mat.F -= Mat.i; Mat.N -= Mat.i;
   Mat.C = (Mat.C != 0); do { Mat.x = *Mat.a++; Mat.y = (*Mat.ae++ = Mat.x - *Mat.be++ - Mat.C);
     Mat.C = (Mat.x < Mat.y) || (Mat.C && Mat.y == Mat.x); } while(Mat.i--);
@@ -89,12 +89,13 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       Mat.N = (!Mat.i && Mat.y == 128) ? Mat.N:~Mat.N; Mat.F = (!(Mat.i | Mat.y | Mat.N));
       *++Mat.ae = Mat.N; } if (Mat.C || Mat.j) { Mat.F = 2; Mat.N = 255; Mat.C = 0;
       Mat.i = (Mat.l = Mat.V ? 0:Mat.l); while(Mat.i--) { *Mat.r++ = 0; } *Mat.r = 128;
-      return; } }  Mat.C |= Mat.j; if (!Mat.V && Mat.x < Mat.l) { Mat.i = Mat.l - Mat.x;
+      return; } }  Mat.C |= (Mat.j == 4); if (!Mat.V && Mat.x < Mat.l) { Mat.i = Mat.l - Mat.x;
     do *++Mat.ae = Mat.N; while(--Mat.i); return; } Mat.l = Mat.x; }
 
 anu FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.t = Mat.l; Mat.C = 0; FSUB((an)Mat.S, a, l, b);
-  if (Mat.F == 2) { Mat.N = (Mat.F = (Mat.j == 3)) ? 0: (Mat.j < 2) ? Mat.nb:~Mat.na; }
-  else { Mat.N -= Mat.C; } Mat.l = Mat.t; Mat.C = Mat.k; return Mat.N; }
+  if (!Mat.Nim) Mat.N -= Mat.C;
+  else { if (Mat.F == 2) Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb; }
+  Mat.l = Mat.t; Mat.C = Mat.k; return Mat.N; }
 
 void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
