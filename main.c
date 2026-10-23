@@ -1,8 +1,8 @@
 /* Math (C) 2026 A.Pozdnyakov GPLv3 - see LICENSE
  * E-mail: avp70ru@mail.ru
- * Данная программа является свободным программным обеспечением: вы можете 
- * распространять ее и/или изменять согласно условиям Стандартной общественной 
- * лицензии GNU (GPLv3). 
+ * Данная программа является свободным программным обеспечением: вы можете
+ * распространять ее и/или изменять согласно условиям Стандартной общественной
+ * лицензии GNU (GPLv3).
  */
 
 #include <stdio.h>
@@ -19,7 +19,7 @@ void Num(anu s, an a) { anu ns, t[m]; if (s > 8) printf(" %d|? ", s + 1);
         else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
       else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
         else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } } } }
-void Show(char s) { Flong(la,lb); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A); else if (s == '-') FSub(Mat.R, Mat.A); 
+void Show(char s) { Flong(la,lb); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A); else if (s == '-') FSub(Mat.R, Mat.A);
   else if (s == '*') FMul(Mat.R, Mat.A); else if (s == '/') FDiv(Mat.R, Mat.A, Mat.E); else if (s == '?') Fcmp(Mat.A);
   else { FCcmp(Mat.A, 127); } printf("%c%c ", Mat.C ? 'C':' ', Mat.F ? Mat.N ? 'I':'Z':Mat.N ? '-':'+'); Num(la, Mat.A);
   if (s == '?' || s == 'c') printf("%c ", Mat.N ? '<':Mat.F ? '=':'>');
@@ -29,5 +29,5 @@ void Const(void) { an sb; anu l, i = 2; printf("   A Const\n"); Show('c'); sb = 
   while(i--) { if (!++(*Mat.B) && lb) { (*(Mat.B + 1))++; } Show('?'); } Mat.B = sb; lb = l; }
 void Test(void) { printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' '); Show('+'); Show('-'); Show('?');
   Show('*'); /*Show('/');*/ Const(); }
-int main(void) { anu v = 1,a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(0,v); la = Fbvi(Mat.A, 128,0);
+int main(void) { anu v = 0,a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(0,v); la = Fbvi(Mat.A, 128,0);
   lb = Fvi(Mat.B, -100,255,255); Test(); Fset(1,v); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); return 0; }

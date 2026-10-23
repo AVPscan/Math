@@ -1,10 +1,10 @@
 /* Math (C) 2026 A.Pozdnyakov GPLv3 - see LICENSE
  * E-mail: avp70ru@mail.ru
- * Данная программа является свободным программным обеспечением: вы можете 
- * распространять ее и/или изменять согласно условиям Стандартной общественной 
- * лицензии GNU (GPLv3). 
+ * Данная программа является свободным программным обеспечением: вы можете
+ * распространять ее и/или изменять согласно условиям Стандартной общественной
+ * лицензии GNU (GPLv3).
  */
- 
+
 #include "math.h"
 MATH_CACHE_INIT
 
@@ -116,7 +116,7 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   while(!*Mat.be && Mat.N) { Mat.be++; Mat.N--; } Mat.e = (an)Mat.L;
   if (!(Mat.t = (!(Mat.x | Mat.i) || !(Mat.y | Mat.j))) && Mat.Nim) {
     Mat.t = (Mat.lb == Mat.j && !Mat.N && Mat.y == 128) ? 2:0;
-    Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; }
+    Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; } Mat.C = (Mat.C != 0);
   Mat.x = Mat.i; Mat.k = Mat.i; Mat.k += Mat.j; Mat.i -= Mat.F; Mat.j -= Mat.N;
   Mat.k++; Mat.t = Mat.t ? Mat.t:(Mat.x > Mat.k) ? 2:0; if (!Mat.t) {
     if (Mat.F > Mat.N) { Mat.y = Mat.F; if (Mat.na) {
@@ -130,7 +130,7 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
         Mat.x = 1; do Mat.x = !(*Mat.e++ = ~*Mat.a++ + Mat.x) && Mat.x; while(Mat.y--); }
       else do *Mat.e++ = *Mat.a++; while(Mat.y--); } Mat.na ^= Mat.nb; Mat.nb = 0;
     *Mat.e = 0; Mat.N++; Mat.e = (Mat.ae = Mat.r) + Mat.i + Mat.j;
-    *Mat.ae++ = (Mat.C != 0); Mat.C = 0; while(Mat.k--) { *Mat.ae++ = 0; } Mat.ae = (an)Mat.H;
+    *Mat.ae++ = Mat.C; Mat.C = 0; while(Mat.k--) { *Mat.ae++ = 0; } Mat.ae = (an)Mat.H;
     do { if ((Mat.i = *Mat.ae++)) { Mat.a = (an)Mat.S;
         Mat.be = (an)Mat.L; Mat.j = Mat.N; do *Mat.a++ = *Mat.be++; while(Mat.j--); do {
           Mat.be = (an)Mat.S; Mat.j = Mat.N; Mat.t = 0; if (!(Mat.i & 1)) do { Mat.k = *Mat.be;
@@ -140,14 +140,15 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
               Mat.C = (Mat.x > Mat.y) || (Mat.C && Mat.x == Mat.y);
               *Mat.be++ = (Mat.k << 1) | Mat.t; Mat.t = (Mat.k & 128) ? 1:0; } while(Mat.j--); }
           Mat.nb |= Mat.t; } while(Mat.i >>= 1); } Mat.e++; } while(Mat.F--); Mat.F++;
-    Mat.l = Mat.e - Mat.r; if ((Mat.N = Mat.na)) { Mat.j = Mat.l; Mat.ae = Mat.r; Mat.t = 1;
-      do { Mat.t = !(*Mat.ae = ~*Mat.ae + Mat.t) && Mat.t; Mat.ae++; } while(Mat.j--); }
+    Mat.t = Mat.nb | Mat.C; Mat.l = Mat.e - Mat.r;
+    if ((Mat.N = Mat.na)) { Mat.j = Mat.l; Mat.ae = Mat.r; Mat.nb = 1;
+      do { Mat.nb = !(*Mat.ae = ~*Mat.ae + Mat.nb) && Mat.nb; Mat.ae++; } while(Mat.j--); }
     while(*Mat.e-- == Mat.N  && Mat.l && (Mat.Nim ? !((*Mat.e ^ Mat.N) & 128):1)) { Mat.l--; }
     if (*++Mat.e != 128) { return; } Mat.be = Mat.e; Mat.j = Mat.l; while(Mat.j-- && !*--Mat.e);
     if (++Mat.j) { return; } if (Mat.l != 255) { if (Mat.Nim) { Mat.l++; *++Mat.be = Mat.N; }
-      return; } Mat.t = 2; } Mat.F = (Mat.C = (!Mat.Nim && Mat.t == 2)) ? 1:Mat.t; Mat.N = 0;
-  Mat.N -= (Mat.F == 2); Mat.l = Mat.V ? 0:Mat.l; Mat.i = Mat.l; while(Mat.i--) *Mat.r++ = 0;
-  *Mat.r = Mat.N & 128; }
+      return; } Mat.t = 2; }
+  Mat.F = (Mat.C = (!Mat.Nim && Mat.t == 2)) ? 1:Mat.t; Mat.N = 0; Mat.N -= (Mat.F == 2);
+  Mat.l = Mat.V ? 0:Mat.l; Mat.i = Mat.l; while(Mat.i--) *Mat.r++ = 0; *Mat.r = Mat.N & 128; }
 
 void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
