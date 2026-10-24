@@ -91,21 +91,22 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       return; } }  Mat.C |= (Mat.j == 4); if (!Mat.V && Mat.x < Mat.l) { Mat.i = Mat.l - Mat.x;
     do *++Mat.ae = Mat.N; while(--Mat.i); return; } Mat.l = Mat.x; }
 
-void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.t = Mat.l;
-  Mat.C = 0; FSUB((an)Mat.S, a, l, b); if (!Mat.Nim) Mat.N -= Mat.C; else if (Mat.F == 2)
+void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.t = Mat.l; Mat.C = 0;
+  FSUB((an)Mat.S, a, l, b); if (!Mat.Nim) Mat.N -= Mat.C; else if (Mat.F == 2)
     Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb;
   Mat.l = Mat.t; Mat.C = Mat.k; }
 
-anu FEQ(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = l;
-    Mat.F = 0; while(!Mat.F) { if (Mat.u < Mat.l) break;
-      FCMP(a, Mat.l, Mat.e); Mat.e += 1 + Mat.l; if ((Mat.u -= 1 + Mat.l) == 255) break; }
-    Mat.V = Mat.z; return Mat.F; } FCcmp(a, 0); return Mat.F; }
+anu FEQ(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
+    while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = Mat.F && !Mat.N; Mat.e += 1 + Mat.l;
+      if ((l -= 1 + Mat.l) == 255) break; } Mat.V = Mat.z; return Mat.u; }
+  FCcmp(a, 0); return Mat.F; }
 
 anu FRANGE(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
-    while(!Mat.u && l != 255) { if (l < Mat.l) { break; } FCMP(a, Mat.l, Mat.e); l -= 1 + Mat.l;
-      Mat.e += 1 + Mat.l; Mat.u = !Mat.N; if (l < Mat.l) { break; } FCMP(a, Mat.l, Mat.e);
-      l -= 1 + Mat.l; Mat.e += 1 + Mat.l; Mat.u = Mat.u && (Mat.N | Mat.F); }
-    Mat.V = Mat.z; return Mat.u; } FCcmp(a, 0); return !Mat.N; }
+    while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = !Mat.N;
+      Mat.e += 1 + Mat.l; if ((l -= 1 + Mat.l) == 255) { break; } if (l < Mat.l) { break; }
+      FCMP(a, Mat.l, Mat.e); Mat.u = Mat.u && (Mat.N | Mat.F); Mat.e += 1 + Mat.l;
+      if ((l -= 1 + Mat.l) == 255) break; } Mat.V = Mat.z; return Mat.u; }
+  FCcmp(a, 0); return !Mat.N; }
 
 void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
