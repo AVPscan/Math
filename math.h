@@ -26,9 +26,9 @@ typedef uintptr_t As;                           // основа, разрядн�
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu S[255],H[255],L[255],      // Задать параметры Fset({Nim{,V{,la{,lb}}}});
-  Nim, V, l, lb, le, C, F, N, Fe, Ne, na,nb,    // Установить длины Flong({la{,lb}});
-  x,y,z,i,j,k,t,u; an r,e,a, b, ae,be,          // Nim=V=l=lb..Ne=0 Fini({Nim{,V{,la{,lb}}}});
-  R, E, A, B; } Math;                           // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
+  Nim, V, l, lb, le, C, F, N, Fe, Ne,           // Установить длины Flong({la{,lb}});
+  na,nb,i,j,k,t,u,x,y,z; an r,e,a,ae,be,        // Nim=V=l=lb..Ne=0 Fini({Nim{,V{,la{,lb}}}});
+  b, R, E, A, B; } Math;                        // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
 void FAddr(anu y, As* r, anu c, As* a);         // Универсальный примитив
 void FInit(anu x, anu y, an r, anu c, an a);    // Универсальный примитив
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
