@@ -61,6 +61,7 @@ void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       Mat.i = (Mat.l = Mat.V ? 0:Mat.l); while(Mat.i--) { *Mat.r++ = 0; } *Mat.r = 128;
       return; } } Mat.C |= Mat.j; if (!Mat.V && Mat.x < Mat.l) { Mat.i = Mat.l - Mat.x;
     do *++Mat.ae = Mat.N; while(--Mat.i); return; } Mat.l = Mat.x; }
+void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FCAdd(r, a, 0); }
 
 void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.lb = Mat.N;
   Mat.ae = Mat.a + Mat.l; Mat.na = (((Mat.x = *Mat.ae--) & 128) && Mat.Nim) ? 255:0; Mat.F = Mat.l;
@@ -90,11 +91,13 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       Mat.i = (Mat.l = Mat.V ? 0:Mat.l); while(Mat.i--) { *Mat.r++ = 0; } *Mat.r = 128;
       return; } }  Mat.C |= (Mat.j == 4); if (!Mat.V && Mat.x < Mat.l) { Mat.i = Mat.l - Mat.x;
     do *++Mat.ae = Mat.N; while(--Mat.i); return; } Mat.l = Mat.x; }
+void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FCSub(r, a, 0); }
 
 void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.t = Mat.l; Mat.C = 0;
   FSUB((an)Mat.S, a, l, b); if (!Mat.Nim) Mat.N -= Mat.C; else if (Mat.F == 2)
     Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb;
   Mat.l = Mat.t; Mat.C = Mat.k; }
+void FCCMP(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCcmp(a, 0); }
 
 anu FEQ(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
     while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = Mat.F && !Mat.N; Mat.e += 1 + Mat.l;
@@ -148,6 +151,7 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       return; } Mat.t = 2; }
   Mat.F = (Mat.C = (!Mat.Nim && Mat.t == 2)) ? 1:Mat.t; Mat.N = 0; Mat.N -= (Mat.F == 2);
   Mat.l = Mat.V ? 0:Mat.l; Mat.i = Mat.l; while(Mat.i--) *Mat.r++ = 0; *Mat.r = Mat.N & 128; }
+void FCMUL(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); return FCMul(r, a, 0); }
 
 void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
@@ -159,9 +163,4 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.
     Mat.t = (Mat.lb == Mat.j && !Mat.N && Mat.y == 128) ? 2:0;
     Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; }
   (void)e; }
-
-void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FCAdd(r, a, 0); }
-void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FCSub(r, a, 0); }
-void FCCMP(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCcmp(a, 0); }
-void FCMUL(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); return FCMul(r, a, 0); }
 void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c); return FCDiv(r, e, a, 0); }
