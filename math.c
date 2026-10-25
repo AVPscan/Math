@@ -31,7 +31,7 @@ anu FCOLD(anu f, anu l, an r, an a) { Mat.y = FMOV(l, r, a); Mat.t = ((Mat.x = M
   Mat.y = Mat.nb; if (Mat.na) { Mat.y = *Mat.ae; *Mat.ae = 0; } while(Mat.x--) *++Mat.ae = Mat.nb;
   *Mat.ae = Mat.na ? Mat.y:*Mat.ae; if (f) { Fswap(Mat.t, Mat.r); } return Mat.t; }
 anu FVI(anu f, an r, anu l, an c) { if (l--) { if (f) { FSWAP(l, r, c); return Fmov(l, r); }
-    else return FMOV(l, r, c); } Mat.na = 2; Mat.nb = 255; *r = 128; return 0; }
+    else return FMOV(l, r, c); } return Fvi(r, 128); }
 
 void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.lb = Mat.N;
   Mat.ae = Mat.a + Mat.l; Mat.na = (((Mat.x = *Mat.ae--) & 128) && Mat.Nim) ? 255:0; Mat.F = Mat.l;
@@ -118,19 +118,19 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
     Mat.t = (Mat.lb == Mat.j && !Mat.N && Mat.y == 128) ? 2:0;
     Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; }
   Mat.x = Mat.i; Mat.k = Mat.i; Mat.k += Mat.j; Mat.i -= Mat.F; Mat.j -= Mat.N; Mat.k++;
-  Mat.t = Mat.t ? Mat.t:(Mat.x > Mat.k) ? 2:0; Mat.ae = (an)Mat.H; Mat.e = (an)Mat.L; Mat.y = 1;
+  Mat.t = Mat.t ? Mat.t:(Mat.x > Mat.k) ? 2:0; Mat.y = 1; Mat.ae = (an)Mat.H; Mat.e = (an)Mat.L;
   if (Mat.F < Mat.N) { Mat.x = Mat.N; Mat.N = Mat.F; Mat.F = Mat.x;
     if (Mat.nb) do Mat.y = !(*Mat.ae++ = ~*Mat.be++ + Mat.y) && Mat.y; while(Mat.x--);
-    else { do *Mat.ae++ = *Mat.be++; while(Mat.x--); } Mat.x = Mat.N; Mat.y = 1;
+    else { do *Mat.ae++ = *Mat.be++; while(Mat.x--); } Mat.y = 1; Mat.x = Mat.N;
     if (Mat.na) do Mat.y = !(*Mat.e++ = ~*Mat.a++ + Mat.y) && Mat.y; while(Mat.x--);
     else do *Mat.e++ = *Mat.a++; while(Mat.x--); } else { Mat.x = Mat.F;
     if (Mat.na) do Mat.y = !(*Mat.ae++ = ~*Mat.a++ + Mat.y) && Mat.y; while(Mat.x--);
-    else { do *Mat.ae++ = *Mat.a++; while(Mat.x--); } Mat.x = Mat.N; Mat.y = 1;
+    else { do *Mat.ae++ = *Mat.a++; while(Mat.x--); } Mat.y = 1; Mat.x = Mat.N;
     if (Mat.nb) do Mat.y = !(*Mat.e++ = ~*Mat.be++ + Mat.y) && Mat.y; while(Mat.x--);
     else do *Mat.e++ = *Mat.be++; while(Mat.x--); } Mat.C = (Mat.C != 0); Mat.na ^= Mat.nb;
-  Mat.nb = 0; if (!Mat.t) { *Mat.e = 0; Mat.N++; Mat.e = (Mat.ae = Mat.r) + Mat.i + Mat.j;
-    *Mat.ae++ = Mat.C; Mat.C = 0; while(Mat.k--) { *Mat.ae++ = 0; } Mat.ae = (an)Mat.H;
-    do { if ((Mat.i = *Mat.ae++)) { Mat.a = (an)Mat.S;
+  Mat.nb = 0; *Mat.e = 0; Mat.N++; if (!Mat.t) { Mat.e = (Mat.ae = Mat.r) + Mat.i + Mat.j;
+    *Mat.ae++ = Mat.C; Mat.C = 0; while(Mat.k--) *Mat.ae++ = 0;
+    Mat.ae = (an)Mat.H; do { if ((Mat.i = *Mat.ae++)) { Mat.a = (an)Mat.S;
         Mat.be = (an)Mat.L; Mat.j = Mat.N; do *Mat.a++ = *Mat.be++; while(Mat.j--); do {
           Mat.be = (an)Mat.S; Mat.j = Mat.N; Mat.t = 0; if (!(Mat.i & 1)) do { Mat.k = *Mat.be;
             *Mat.be++ = (Mat.k << 1) | Mat.t; Mat.t = (Mat.k & 128) ? 1:0; } while(Mat.j--);
@@ -152,11 +152,10 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
 void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
   Mat.lb = Mat.N; Mat.y = *(Mat.e = Mat.b + Mat.N); Mat.nb = (Mat.Nim && (Mat.y & 128)) ? 255:0;
-  while(*Mat.ae-- == Mat.na && Mat.F && !((*Mat.ae ^ Mat.na) & 128)) { Mat.F--; } Mat.i = Mat.F;
-  while(*Mat.e-- == Mat.nb && Mat.N && !((*Mat.b ^ Mat.nb) & 128)) { Mat.N--; } Mat.j = Mat.N;
-  while(!*Mat.a && Mat.F) { Mat.a++; Mat.F--; } Mat.ae = (an)Mat.H; Mat.be = Mat.b;
-  while(!*Mat.be && Mat.N) { Mat.be++; Mat.N--; } Mat.e = (an)Mat.L;
-  if (!(Mat.t = (!(Mat.x | Mat.i) || !(Mat.y | Mat.j))) && Mat.Nim) {
+  while(Mat.F-- && *Mat.ae == Mat.na && !((*--Mat.ae ^ Mat.na) & 128)) { } Mat.i = ++Mat.F;
+  while(Mat.N-- && *Mat.e == Mat.nb && !((*--Mat.e ^ Mat.nb) & 128)) { } Mat.j = ++Mat.N;
+  while(Mat.F-- && !*Mat.a) { Mat.a++; } Mat.be = Mat.b; while(Mat.N-- && !*Mat.be) Mat.be++;
+  Mat.N++; Mat.F++; Mat.t = !(Mat.x | Mat.i) || !(Mat.y | Mat.j); if (!Mat.t && Mat.Nim) {
     Mat.t = (Mat.lb == Mat.j && !Mat.N && Mat.y == 128) ? 2:0;
     Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; }
   (void)e; }

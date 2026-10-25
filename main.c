@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "math.h"
 
-#define Obe 0
+#define Obe 0   // input little endian 0, else big endian
 #define m 128
 
 anu la,lb;
