@@ -41,8 +41,8 @@ void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
 void FCSUB(an r, an a, anu l, an c);            // r = a - Const
 void FCMP(an a, anu l, an b);                   // Сравнение a и b     | Mat.F = ; Mat.N < else >
 void FCCMP(an a, anu l, an c);                  // Сравнение a и Const | Mat.F = ; Mat.N < else >
-anu FEQ(an a, anu l, an c);                     // Сравнение a = Const1;Const2;...;ConstN
-anu FRANGE(an a, anu l, an c);                  // Сравнение a принадлежит [Const1;Const2];...{;a >= ConstN}
+anu FEQ(an a, anu l, an c);                     // a = Const1;Const2;...;ConstN | l=0: a = Mat.B
+anu FRANGE(an a, anu l, an c);                  // a ∈ [Const1;Const2];...{;a >= ConstN} | l=0: a >= Mat.B
 void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
 void FCMUL(an r, an a, anu l, an c);            // r = a * Const
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {+}
@@ -69,22 +69,13 @@ extern Math Mat;
 #define FCSub(r, a, ...) FCSUB(r, a, Anu(__VA_ARGS__))
 #define FRsub(r) FSUB(r, r, Mat.lb, Mat.B)
 #define FCsub(r, ...) FCSUB(r, r, Anu(__VA_ARGS__))
-#define FRcmp(a) FCMP(a, Mat.lb, Mat.B)
-#define FCcmp(a, ...) FCCMP(a, Anu(__VA_ARGS__))
-#define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))
-#define Frange(a, ...) FRANGE(a, Anu(__VA_ARGS__))
-#define FReq(a) (FCMP(a, Mat.lb, Mat.B), Mat.F)              // a == b
-#define FCeq(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), Mat.F)
-#define FRne(a) (FCMP(a, Mat.lb, Mat.B), !Mat.F)             // a != b
-#define FCne(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), !Mat.F)
-#define FRlt(a) (FCMP(a, Mat.lb, Mat.B), Mat.N)              // a < b
-#define FClt(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), Mat.N)
-#define FRge(a) (FCMP(a, Mat.lb, Mat.B), !Mat.N)             // a >= b
-#define FCge(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), !Mat.N)
+#define Fcmp(a, ...) FCCMP(a, Anu(__VA_ARGS__))    // a ? Mat.B/Const  -> Mat.F, Mat.N
+#define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))       // a = Const... | без аргументов: a = Mat.B
+#define Frange(a, ...) FRANGE(a, Anu(__VA_ARGS__)) // a ∈ [..];...{;a >= ..} | без аргументов: a >= Mat.B /*
 #define FRgt(a) (FCMP(a, Mat.lb, Mat.B), !(Mat.N | Mat.F))   // a > b
 #define FCgt(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), !(Mat.N | Mat.F))
 #define FRle(a) (FCMP(a, Mat.lb, Mat.B), (Mat.N | Mat.F))    // a <= b
-#define FCle(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), (Mat.N | Mat.F))
+#define FCle(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), (Mat.N | Mat.F)) */
 #define FRMul(r, a) FMUL(r, a, Mat.lb, Mat.B)
 #define FCMul(r, a, ...) FCMUL(r, a, Anu(__VA_ARGS__))
 #define FRmul(r) FMUL(r, r, Mat.lb, Mat.B)
