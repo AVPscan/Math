@@ -93,10 +93,9 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
     do *++Mat.ae = Mat.N; while(--Mat.i); return; } Mat.l = Mat.x; }
 void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FCSub(r, a, 0); }
 
-void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.t = Mat.l; Mat.C = 0;
-  FSUB((an)Mat.S, a, l, b); if (!Mat.Nim) Mat.N -= Mat.C; else if (Mat.F == 2)
-    Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb;
-  Mat.l = Mat.t; Mat.C = Mat.k; }
+void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.C = 0; Mat.t = Mat.l; FSUB((an)Mat.S, a, l, b);
+  Mat.N -= Mat.C; Mat.l = Mat.t; Mat.C = Mat.k; if (Mat.F == 2) {
+    Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb; } }
 void FCCMP(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCMP(a, Mat.lb, Mat.B); }
 
 anu FEQ(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
