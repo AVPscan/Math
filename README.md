@@ -87,10 +87,8 @@ P.s.: Блокировку убрали как только добавил со�
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu S[255],H[255],L[255],      // Задать параметры Fset({Nim{,V{,la{,lb}}}});
-  Nim, V, l, lb, le, C, F, N, Fe, Ne,           // Установить длины Flong({la{,lb}});
-  na,nb,i,j,k,t,u,x,y,z; an r,e,a,ae,be,        // Nim=V=l=lb..Ne=0 Fini({Nim{,V{,la{,lb}}}});
-  b, R, E, A, B; } Math;                        // Faddr({(As)r{,(As)e{,(As)a{,(As)b}}}});
+typedef struct { anu S[255],H[255],L[255], Nim, V, l, lb, le, C, F, N, Fe, Ne,
+  na,nb,i,j,k,t,u,x,y,z; an r,e,a,ae,be, b, R, E, A, B; } Math;
 ```
 
 <div align="center">
