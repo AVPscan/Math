@@ -7,7 +7,6 @@
 #ifndef MATH_H
 #define MATH_H
 #include <stdint.h>
-
 // Begin 05.07.2026 in Russia                  As (As      अः    основа, бытие, существовать)
 // anu (anu     अणु   атом)                      an (anka    अङ्क   цифра, число)
 // Nim (Nimitta निमित्त {знаковое} представление)  V (Vṛddhi  वृद्धि  изменение {разрядности})
@@ -46,7 +45,7 @@ void FCDIV(an r, an e, an a, anu l, an c);      //       r = a / Const, e = a mo
 void FCMP(an a, anu l, an b);                   // Сравнение a и b             -> Mat.F = ; Mat.N < else >
 void FCCMP(an a, anu l, an c);                  // Сравнение a и Const | Mat.B -> Mat.F = ; Mat.N < else >
 anu FEQ(an a, anu l, an c);                     // a = (an)c[l]{Const1;Const2;...ConstN}  | a = Mat.B
-anu FRANGE(an a, anu l, an c);                  // (an)c[l]{{[Const1,Const2],}{>=ConstN}} | a>= Mat.B
+anu FRANGE(an a, anu l, an c);                  //(an)c[l]{{[Const1,Const2]^k}{>=ConstN}} | a>= Mat.B
 extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
@@ -70,6 +69,7 @@ extern Math Mat;
 #define FDiv(r, e, a, ...) FCDIV(r, e, a, Anu(__VA_ARGS__))         // r = a / Const       | r = a / Mat.B
 #define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))            // r /= Const          | r /= Mat.B
 #define Fcmp(a, ...) FCCMP(a, Anu(__VA_ARGS__))                     // a ? Const           | a ? Mat.B -> Mat.F, Mat.N
+#define Flt(a, ...) (Fcmp(a, __VA_ARGS__), (Mat.N && !Mat.F))       // a < Const           | a < Mat.B
 #define Fgt(a, ...) (Fcmp(a, __VA_ARGS__), !(Mat.N | Mat.F))        // a > Const           | a > Mat.B
 #define Fle(a, ...) (Fcmp(a, __VA_ARGS__), (Mat.N | Mat.F))         // a<= Const           | a <=Mat.B
 #define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))                        // a ={Const1{,ConstN}}| a = Mat.B
