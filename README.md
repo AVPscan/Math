@@ -1,6 +1,8 @@
 [![Cross-Platform Build & Release](https://github.com/AVPscan/Math/actions/workflows/release.yml/badge.svg)](https://github.com/AVPscan/Math/actions/workflows/release.yml)
 
-### Новости
+<div align="center">
+  <h2>Новости</h2>
+</div>
 
 30.10.26 06.49 (+7 UTF) Отработал неделю 4/3, настало утро выходных дней, встал в 4.10 по привычке :) - да именно так работают водители троллейбуса в России ` 17 часов в сутки и 7 часов сон ` и снова. Оптимизировал функции убрал избыточность кода в обновлении v20!
 
