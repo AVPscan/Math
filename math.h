@@ -73,5 +73,5 @@ extern Math Mat;
 #define Fgt(a, ...) (Fcmp(a, __VA_ARGS__), !(Mat.N | Mat.F))        // a > Const           | a > Mat.B
 #define Fle(a, ...) (Fcmp(a, __VA_ARGS__), (Mat.N | Mat.F))         // a<= Const           | a <=Mat.B
 #define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))                        // a ={Const1{,ConstN}}| a = Mat.B
-#define Frange(a, ...) FRANGE(a, Anu(__VA_ARGS__))                  // a{[..]^k}{,>=ConstN}| a >= Mat.B
+#define Frange(a, ...) FRANGE(a, Anu(__VA_ARGS__))                  // a {[..]^k}{>=ConstN}| a >= Mat.B
 #endif
