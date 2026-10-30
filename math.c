@@ -161,7 +161,7 @@ anu FEQ(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat
       Mat.e += 1 + Mat.l; if ((l -= 1 + Mat.l) == 255) break; } Mat.V = Mat.z; return Mat.u; }
   FCMP(a, Mat.lb, Mat.B); return Mat.F; }
 
-anu FRANGE(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
+anu FGE(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
     while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = !Mat.N;
       Mat.e += 1 + Mat.l; if ((l -= 1 + Mat.l) == 255) { break; } if (l < Mat.l) { break; }
       FCMP(a, Mat.l, Mat.e); Mat.u = Mat.u && (Mat.N | Mat.F); Mat.e += 1 + Mat.l;

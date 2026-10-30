@@ -29,7 +29,7 @@ void Const(void) { an sb; anu l, i = 2; printf("   A Const\n"); Show('c'); sb = 
   while(i--) { if (!++(*Mat.B) && lb) { (*(Mat.B + 1))++; } Show('?'); } Mat.B = sb; lb = l; }
 void Test(void) { printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' '); Show('+'); Show('-'); Show('?');
   Show('*'); /*Show('/');*/ Const(); }
-void Cmp(void) { Num(la, Mat.A); Mat.C = 0; printf("%s Feq(A, 2,0,-3,-1,0,4)\n", Feq(Mat.A, 2,0,-3,-1,0,4) ? "True":"False");
-  Num(la, Mat.A); printf("%s Frange(A, -5,-1,0,0,3,0)\n", Frange(Mat.A, -5,-1,0,0,3,0) ? "True":"False"); }
-int main(void) { anu v = 1,a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(0,v); la = Fbv(Mat.A, -1,-2);
+void Cmp(void) { Num(la, Mat.A); Mat.C = 0; printf("%s Feq(A, 2,0,-2,-1,0,4)\n", Feq(Mat.A, 2,0,-2,-1,0,4) ? "True":"False");
+  Num(la, Mat.A); printf("%s Fge(A, -5,-1,0,0,3,0)\n", Fge(Mat.A, -5,-1,0,0,3,0) ? "True":"False"); }
+int main(void) { anu v = 0,a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(0,v); la = Fbv(Mat.A, -1,-2);
   lb = Fv(Mat.B, -100,255,255,255,255); Test(); Fset(1,v); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); Cmp(); return 0; }

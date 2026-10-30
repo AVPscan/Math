@@ -45,7 +45,7 @@ void FCDIV(an r, an e, an a, anu l, an c);      //       r = a / Const, e = a mo
 void FCMP(an a, anu l, an b);                   // Сравнение a и b             -> Mat.F = ; Mat.N < else >
 void FCCMP(an a, anu l, an c);                  // Сравнение a и Const | Mat.B -> Mat.F = ; Mat.N < else >
 anu FEQ(an a, anu l, an c);                     // a = (an)c[l]{Const1;Const2;...ConstN}  | a = Mat.B
-anu FRANGE(an a, anu l, an c);                  //(an)c[l]{{[Const1,Const2]^k}{>=ConstN}} | a>= Mat.B
+anu FGE(an a, anu l, an c);                     //(an)c[l]{{[Const1,Const2]^k}{>=ConstN}} | a>= Mat.B
 extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
@@ -73,5 +73,5 @@ extern Math Mat;
 #define Fgt(a, ...) (Fcmp(a, __VA_ARGS__), !(Mat.N | Mat.F))        // a > Const           | a > Mat.B
 #define Fle(a, ...) (Fcmp(a, __VA_ARGS__), (Mat.N | Mat.F))         // a<= Const           | a <=Mat.B
 #define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))                        // a ={Const1{,ConstN}}| a = Mat.B
-#define Frange(a, ...) FRANGE(a, Anu(__VA_ARGS__))                  // a {[..]^k}{>=ConstN}| a >= Mat.B
+#define Fge(a, ...) FGE(a, Anu(__VA_ARGS__))                        // a {[..]^k}{>=ConstN}| a >= Mat.B
 #endif
