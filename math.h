@@ -71,11 +71,13 @@ extern Math Mat;
 #define FCsub(r, ...) FCSUB(r, r, Anu(__VA_ARGS__))
 #define Fcmp(a, ...) FCCMP(a, Anu(__VA_ARGS__))    // a ? Mat.B/Const  -> Mat.F, Mat.N
 #define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))       // a = Const... | без аргументов: a = Mat.B
-#define Frange(a, ...) FRANGE(a, Anu(__VA_ARGS__)) // a ∈ [..];...{;a >= ..} | без аргументов: a >= Mat.B /*
+#define Frange(a, ...) FRANGE(a, Anu(__VA_ARGS__)) // a ∈ [..];...{;a >= ..} | без аргументов: a >= Mat.B
+/*
 #define FRgt(a) (FCMP(a, Mat.lb, Mat.B), !(Mat.N | Mat.F))   // a > b
 #define FCgt(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), !(Mat.N | Mat.F))
 #define FRle(a) (FCMP(a, Mat.lb, Mat.B), (Mat.N | Mat.F))    // a <= b
-#define FCle(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), (Mat.N | Mat.F)) */
+#define FCle(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), (Mat.N | Mat.F))
+*/
 #define FRMul(r, a) FMUL(r, a, Mat.lb, Mat.B)
 #define FCMul(r, a, ...) FCMUL(r, a, Anu(__VA_ARGS__))
 #define FRmul(r) FMUL(r, r, Mat.lb, Mat.B)
