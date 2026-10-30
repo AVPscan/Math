@@ -40,7 +40,7 @@ void FCADD(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 ->
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
 void FCSUB(an r, an a, anu l, an c);            // r = a - Const
 void FCMP(an a, anu l, an b);                   // Сравнение a и b     | Mat.F = ; Mat.N < else >
-void FCCMP(an a, anu l, an c);                  // Сравнение a и Const | Mat.F = ; Mat.N < else >
+void FCCMP(an a, anu l, an c);                  // Сравнение a и Const | l=0: a и Mat.B -> Mat.F, Mat.N
 anu FEQ(an a, anu l, an c);                     // a = Const1;Const2;...;ConstN | l=0: a = Mat.B
 anu FRANGE(an a, anu l, an c);                  // a ∈ [Const1;Const2];...{;a >= ConstN} | l=0: a >= Mat.B
 void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
