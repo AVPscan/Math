@@ -95,23 +95,6 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
 void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c);
   return FSUB(r, a, Mat.lb, Mat.B); }
 
-void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.C = 0; Mat.t = Mat.l; FSUB((an)Mat.S, a, l, b);
-  Mat.N -= Mat.C; Mat.l = Mat.t; Mat.C = Mat.k; if (Mat.F == 2) {
-    Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb; } }
-void FCCMP(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCMP(a, Mat.lb, Mat.B); }
-
-anu FEQ(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
-    while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = Mat.F && !Mat.N;
-      Mat.e += 1 + Mat.l; if ((l -= 1 + Mat.l) == 255) break; } Mat.V = Mat.z; return Mat.u; }
-  FCMP(a, Mat.lb, Mat.B); return Mat.F; }
-
-anu FRANGE(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
-    while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = !Mat.N;
-      Mat.e += 1 + Mat.l; if ((l -= 1 + Mat.l) == 255) { break; } if (l < Mat.l) { break; }
-      FCMP(a, Mat.l, Mat.e); Mat.u = Mat.u && (Mat.N | Mat.F); Mat.e += 1 + Mat.l;
-      if ((l -= 1 + Mat.l) == 255) break; } Mat.V = Mat.z; return Mat.u; }
-  FCMP(a, Mat.lb, Mat.B); return !Mat.N; }
-
 void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.be = Mat.b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
   Mat.lb = Mat.N; Mat.y = *(Mat.e = Mat.b + Mat.N); Mat.nb = (Mat.Nim && (Mat.y & 128)) ? 255:0;
@@ -167,3 +150,20 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.
   (void)e; }
 void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c);
   return FDIV(r, e, a, Mat.lb, Mat.B); }
+
+void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.C = 0; Mat.t = Mat.l; FSUB((an)Mat.S, a, l, b);
+  Mat.N -= Mat.C; Mat.l = Mat.t; Mat.C = Mat.k; if (Mat.F == 2) {
+    Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb; } }
+void FCCMP(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCMP(a, Mat.lb, Mat.B); }
+
+anu FEQ(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
+    while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = Mat.F && !Mat.N;
+      Mat.e += 1 + Mat.l; if ((l -= 1 + Mat.l) == 255) break; } Mat.V = Mat.z; return Mat.u; }
+  FCMP(a, Mat.lb, Mat.B); return Mat.F; }
+
+anu FRANGE(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
+    while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = !Mat.N;
+      Mat.e += 1 + Mat.l; if ((l -= 1 + Mat.l) == 255) { break; } if (l < Mat.l) { break; }
+      FCMP(a, Mat.l, Mat.e); Mat.u = Mat.u && (Mat.N | Mat.F); Mat.e += 1 + Mat.l;
+      if ((l -= 1 + Mat.l) == 255) break; } Mat.V = Mat.z; return Mat.u; }
+  FCMP(a, Mat.lb, Mat.B); return !Mat.N; }
