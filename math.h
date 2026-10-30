@@ -39,10 +39,10 @@ void FADD(an r, an a, anu l, an b);             // Сложение r = a + b
 void FCADD(an r, an a, anu l, an c);            // r = a + Const {x = x + 256 -> Faddc(x, 0, 1)}
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
 void FCSUB(an r, an a, anu l, an c);            // r = a - Const
-void FCMP(an a, anu l, an b);                   // Сравнение a и b     | Mat.F = ; Mat.N < else >
-void FCCMP(an a, anu l, an c);                  // Сравнение a и Const | l=0: a и Mat.B -> Mat.F, Mat.N
-anu FEQ(an a, anu l, an c);                     // a = Const1;Const2;...;ConstN | l=0: a = Mat.B
-anu FRANGE(an a, anu l, an c);                  // a ∈ [Const1;Const2];...{;a >= ConstN} | l=0: a >= Mat.B
+void FCMP(an a, anu l, an b);                   // Сравнение a и b             -> Mat.F = ; Mat.N < else >
+void FCCMP(an a, anu l, an c);                  // Сравнение a и Const | Mat.B -> Mat.F = ; Mat.N < else >
+anu FEQ(an a, anu l, an c);                     // a = Const1;Const2;...;ConstN           | = Mat.B
+anu FRANGE(an a, anu l, an c);                  // a  {[Const1;Const2];}...{;a >= ConstN} | >= Mat.B
 void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
 void FCMUL(an r, an a, anu l, an c);            // r = a * Const
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {+}
@@ -61,29 +61,17 @@ extern Math Mat;
 #define Fvar(f, r, ...) FVI(f, r, Anu(__VA_ARGS__))
 #define Fvi(r, ...) FVI(0, r, Anu(__VA_ARGS__))
 #define Fbvi(r, ...) FVI(1, r, Anu(__VA_ARGS__))
-#define FRAdd(r, a) FADD(r, a, Mat.lb, Mat.B)
-#define FCAdd(r, a, ...) FCADD(r, a, Anu(__VA_ARGS__))
-#define FRadd(r) FADD(r, r, Mat.lb, Mat.B)
-#define FCadd(r, ...) FCADD(r, r, Anu(__VA_ARGS__))
-#define FRSub(r, a) FSUB(r, a, Mat.lb, Mat.B)
-#define FCSub(r, a, ...) FCSUB(r, a, Anu(__VA_ARGS__))
-#define FRsub(r) FSUB(r, r, Mat.lb, Mat.B)
-#define FCsub(r, ...) FCSUB(r, r, Anu(__VA_ARGS__))
-#define Fcmp(a, ...) FCCMP(a, Anu(__VA_ARGS__))    // a ? Mat.B/Const  -> Mat.F, Mat.N
-#define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))       // a = Const... | без аргументов: a = Mat.B
-#define Frange(a, ...) FRANGE(a, Anu(__VA_ARGS__)) // a ∈ [..];...{;a >= ..} | без аргументов: a >= Mat.B
-/*
-#define FRgt(a) (FCMP(a, Mat.lb, Mat.B), !(Mat.N | Mat.F))   // a > b
-#define FCgt(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), !(Mat.N | Mat.F))
-#define FRle(a) (FCMP(a, Mat.lb, Mat.B), (Mat.N | Mat.F))    // a <= b
-#define FCle(a, ...) (FCCMP(a, Anu(__VA_ARGS__)), (Mat.N | Mat.F))
-*/
-#define FRMul(r, a) FMUL(r, a, Mat.lb, Mat.B)
-#define FCMul(r, a, ...) FCMUL(r, a, Anu(__VA_ARGS__))
-#define FRmul(r) FMUL(r, r, Mat.lb, Mat.B)
-#define FCmul(r, ...) FCMUL(r, r, Anu(__VA_ARGS__))
-#define FRDiv(r, e, a) FDIV(r, e, a, Mat.lb, Mat.B)
-#define FCDiv(r, e, a, ...) FCDIV(r, e, a, Anu(__VA_ARGS__))
-#define FRdiv(r, e) FDIV(r, e, r, Mat.lb, Mat.B)
-#define FCdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))
+#define FAdd(r, a, ...) FCADD(r, a, Anu(__VA_ARGS__))               // r = a + Const       | r = a + Mat.B
+#define Fadd(r, ...) FCADD(r, r, Anu(__VA_ARGS__))                  // r += Const          | r += Mat.B
+#define FSub(r, a, ...) FCSUB(r, a, Anu(__VA_ARGS__))               // r = a - Const       | r = a - Mat.B
+#define Fsub(r, ...) FCSUB(r, r, Anu(__VA_ARGS__))                  // r -= Const          | r -= Mat.B
+#define Fcmp(a, ...) FCCMP(a, Anu(__VA_ARGS__))                     // a ? Const           | a ? Mat.B -> Mat.F, Mat.N
+#define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))                        // a = Const           | a = Mat.B
+#define Frange(a, ...) FRANGE(a, Anu(__VA_ARGS__))                  // a {[..];}.{a >= ..} | a >= Mat.B
+#define Fgt(a, ...) (Fcmp(a, __VA_ARGS__), !(Mat.N | Mat.F))        // a > Const           | a > Mat.B
+#define Fle(a, ...) (Fcmp(a, __VA_ARGS__), (Mat.N | Mat.F))         // a<= Const           | a <=Mat.B
+#define FMul(r, a, ...) FCMUL(r, a, Anu(__VA_ARGS__))               // r = a * Const       | r = a * Mat.B
+#define Fmul(r, ...) FCMUL(r, r, Anu(__VA_ARGS__))                  // r *= Const          | r *= Mat.B
+#define FDiv(r, e, a, ...) FCDIV(r, e, a, Anu(__VA_ARGS__))         // r = a / Const       | r = a / Mat.B
+#define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))            // r /= Const          | r /= Mat.B
 #endif

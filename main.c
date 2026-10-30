@@ -19,8 +19,8 @@ void Num(anu s, an a) { anu ns, t[m]; if (s > 8) printf(" %d|? ", s + 1);
         else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
       else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
         else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } } } }
-void Show(char s) { Flong(la,lb); Mat.C = 0; if (s == '+') FRAdd(Mat.R, Mat.A); else if (s == '-') FRSub(Mat.R, Mat.A);
-  else if (s == '*') FRMul(Mat.R, Mat.A); else if (s == '/') FRDiv(Mat.R, Mat.A, Mat.E); else if (s == '?') Fcmp(Mat.A);
+void Show(char s) { Flong(la,lb); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A); else if (s == '-') FSub(Mat.R, Mat.A);
+  else if (s == '*') FMul(Mat.R, Mat.A); else if (s == '/') FDiv(Mat.R, Mat.A, Mat.E); else if (s == '?') Fcmp(Mat.A);
   else { Fcmp(Mat.A, 127); } printf("%c%c ", Mat.C ? 'C':' ', Mat.F ? Mat.N ? 'I':'Z':Mat.N ? '-':'+'); Num(la, Mat.A);
   if (s == '?' || s == 'c') printf("%c ", Mat.N ? '<':Mat.F ? '=':'>');
   else { if (s == 'c') printf("? "); else printf("%c ", s); } Num(Mat.lb, Mat.b); if (s < '?') { printf("= "); Num(Mat.l, Mat.R);
