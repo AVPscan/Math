@@ -84,11 +84,12 @@ P.s.: Блокировку убрали как только добавил со�
 // Mat.lb       [0.255] длина последнего обработанного второго операнда
 // Mat.b        адрес последнего обработанного второго операнда
 // Mat.Nim, Mat.V, Mat.R{EAB} не подлежат изменению внутри функций
+
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu S[255],H[255],L[255], Nim, V, l, lb, le, C, F, N, Fe, Ne,
-  na,nb,i,j,k,t,u,x,y,z; an r,e,a,ae,be, b, R, E, A, B; } Math;
+typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne,
+  S[255],H[255],L[255],na,nb,i,j,k,t,u,x,y,z; an r,e,a,ae,be, b, R, E, A, B; } Math;
 ```
 
 <div align="center">
