@@ -32,8 +32,8 @@ void FAddr(anu y, As* r, anu c, As* a);
 void FInit(anu x, anu y, an r, anu c, an a);
 void FSWAP(anu l, an r, an a);                  // Зеркалирование атомов длиной l относительно центра
 anu FMOV(anu l, an r, an a);                    // Копирование l атомов |8,16,32,64|128,256,512,1024,2048 бит
-anu FCOLD(anu f, anu l, an r, an a);            // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
-anu FIV(anu f, an r, anu l, an c);              // Копирование из константы в переменную на выходе l
+anu FOLD(anu f, anu l, an r, an a);             // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
+anu FVAR(anu f, an r, anu l, an c);             // Копирование из константы в переменную на выходе l
 void FADD(an r, an a, anu l, an b);             // Сложение  r = a + b { r += Mat.B -> Fadd(r); }
 void FCADD(an r, an a, anu l, an c);            //       r = a + Const { r += 256 -> Fadd(r, 0,1); }
 void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
@@ -56,10 +56,10 @@ extern Math Mat;
 #define Flong(...) FInit(0, 2, &Mat.l, Anu(__VA_ARGS__))            // Flong({la{,lb}});
 #define Fswap(l, x) FSWAP(l, x, x)
 #define Fmov(l, x) FMOV(l, x, x)
-#define Fcold(f, l, x) FCOLD(f, l, x, x)
-#define Fiv(f, r, ...) FIV(f, r, Anu(__VA_ARGS__))
-#define Fv(r, ...) FIV(0, r, Anu(__VA_ARGS__))
-#define Fbv(r, ...) FIV(1, r, Anu(__VA_ARGS__))
+#define Fold(f, l, x) FOLD(f, l, x, x)
+#define FVar(f, r, ...) FVAR(f, r, Anu(__VA_ARGS__))
+#define Fvle(r, ...) FVar(0, r, __VA_ARGS__)
+#define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)
 #define FAdd(r, a, ...) FCADD(r, a, Anu(__VA_ARGS__))               // r = a + Const       | r = a + Mat.B
 #define Fadd(r, ...) FCADD(r, r, Anu(__VA_ARGS__))                  // r += Const          | r += Mat.B
 #define FSub(r, a, ...) FCSUB(r, a, Anu(__VA_ARGS__))               // r = a - Const       | r = a - Mat.B

@@ -8,12 +8,15 @@
 #include <stdio.h>
 #include "math.h"
 
-#define Obe 0   // input little endian 0, else big endian
-#define m 128
+#define Obe    0    // вывод на экран {0} little endian, иначе big endian
+#define MatV   0    // возможность увеличения разрядности
+#define NoSign 0    // беззнаковое представление
+#define Sign   1    // знаковое представление
+#define m      128  // максимальное число атомов в числах
 
 anu la,lb;
 void Num(anu s, an a) { anu ns, t[m]; if (s > 8) printf(" %d|? ", s + 1);
-  else { printf("(%d|%d) ", s + 1, (ns = FCOLD(Obe, s, (an)t, a)) + 1); a = (an)t;
+  else { printf("(%d|%d) ", s + 1, (ns = FOLD(Obe, s, (an)t, a)) + 1); a = (an)t;
     if (Mat.na == 2) printf("inf "); else {
       if (Mat.Nim) { if (ns > 3) printf("%ld " , *(int64_t*)a); else if (ns > 1) printf("%d ", *(int32_t*)a);
         else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
@@ -32,5 +35,5 @@ void Test(void) { printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' '); Show
 void Cmp(void) { Num(la, Mat.A); Mat.C = 0; printf("%s Feq(A, 2,0,-2,-1,0,4)\n", Feq(Mat.A, 2,0,-2,-1,0,4) ? "True":"False");
   Num(la, Mat.A); printf("%s Fge(A, -5,-1,0,0,3,0)\n", Fge(Mat.A, -5,-1,0,0,3,0) ? "True":"False"); }
 
-int main(void) { anu v = 0,a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(0,v); la = Fbv(Mat.A, -1,-2);
-  lb = Fv(Mat.B, -100,255,255,255,255); Test(); Fset(1,v); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); Cmp(); return 0; }
+int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(NoSign,MatV); la = Fvbe(Mat.A, -1,-2);
+  lb = Fvle(Mat.B, -100,255,255,255,255); Test(); Fset(Sign,MatV); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); Cmp(); return 0; }
