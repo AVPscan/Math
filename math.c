@@ -6,12 +6,11 @@
  */
 
 #include "math.h"
-MATH_CACHE_INIT
 
+MATH_CACHE_INIT
 void FAddr(anu y, As* r, anu c, As* a) { c = (c > y) ? y:c; while(c--) *r++ = *a++; }
 void FInit(anu x, anu y, an r, anu c, an a) { while(x--) *--r = 0; c = (c > y) ? y:c;
   while(c--) *r++ = *a++; }
-
 void FSWAP(anu l, an r, an a) { Mat.i = l; Mat.r = r; Mat.a = a; Mat.be = Mat.r + Mat.i;
   Mat.ae = Mat.a + Mat.i; Mat.j = *Mat.a++; *Mat.r++ = Mat.i ? *Mat.ae--:Mat.j; *Mat.be-- = Mat.j;
   Mat.i >>= 1; while(Mat.i--) { Mat.j = *Mat.a++; *Mat.r++ = *Mat.ae--; *Mat.be-- = Mat.j; } }
@@ -63,7 +62,6 @@ void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
     do *++Mat.ae = Mat.N; while(--Mat.i); return; } Mat.l = Mat.x; }
 void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c);
   return FADD(r, a, Mat.lb, Mat.B); }
-
 void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.lb = Mat.N;
   Mat.ae = Mat.a + Mat.l; Mat.na = (((Mat.x = *Mat.ae--) & 128) && Mat.Nim) ? 255:0; Mat.F = Mat.l;
   Mat.be = Mat.b + Mat.N; Mat.nb = (((Mat.y = *Mat.be--) & 128) && Mat.Nim) ? 255:0; if (Mat.Nim) {
@@ -155,14 +153,12 @@ void FCMP(an a, anu l, an b) { Mat.k = Mat.C; Mat.C = 0; Mat.t = Mat.l; FSUB((an
   Mat.N -= Mat.C; Mat.l = Mat.t; Mat.C = Mat.k; if (Mat.F == 2) {
     Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb; } }
 void FCCMP(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCMP(a, Mat.lb, Mat.B); }
-
 anu FGE(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
     while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = !Mat.N;
       Mat.e += 1 + Mat.l; if ((l -= 1 + Mat.l) == 255) { break; } if (l < Mat.l) { break; }
       FCMP(a, Mat.l, Mat.e); Mat.u = Mat.u && (Mat.N | Mat.F); Mat.e += 1 + Mat.l;
       if ((l -= 1 + Mat.l) == 255) break; } Mat.V = Mat.z; return Mat.u; }
   FCMP(a, Mat.lb, Mat.B); return !Mat.N; }
-
 anu FEQ(an a, anu l, an c) { if (l--) { Mat.z = Mat.V; Mat.V = 0; Mat.e = c; Mat.u = 0;
     while(!Mat.u && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.u = Mat.F && !Mat.N;
       Mat.e += 1 + Mat.l; if ((l -= 1 + Mat.l) == 255) break; } Mat.V = Mat.z; return Mat.u; }

@@ -8,16 +8,15 @@
 
 30.09.26 Статистика отображается корректно, команда GitHub всё исправила.
 
-29.09.26 Пауза в статистике на всех моих репозитариях, обновления выкладываю как и раньше
 <div align="center">
-  
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="Plus/Spauseb.jpeg">
     <source media="(prefers-color-scheme: light)" srcset="Plus/Spausew.jpeg">
     <img alt="Math Library Show" src="Plus/Spausew.jpeg" width="100%">
   </picture>
-
 </div>
+
+29.09.26 Пауза в статистике на всех моих репозитариях, обновления выкладываю как и раньше
 
 20.09.26 Заблокировали мне вход на гит из России, уж не знаю, почему, пока буду руками копировать код сюда - Всем удачи!
 
