@@ -68,7 +68,7 @@ extern Math Mat;
 #define Fmul(r, ...) FCMUL(r, r, Anu(__VA_ARGS__))                  // r *= Const          | r *= Mat.B
 #define FDiv(r, e, a, ...) FCDIV(r, e, a, Anu(__VA_ARGS__))         // r = a / Const       | r = a / Mat.B
 #define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))            // r /= Const          | r /= Mat.B
-#define Fcmp(a, ...) FCMP(a, Anu(__VA_ARGS__))                     // a ? Const           | a ? Mat.B -> Mat.F, Mat.N
+#define Fcmp(a, ...) FCMP(a, Anu(__VA_ARGS__))                      // a ? Const           | a ? Mat.B -> Mat.F, Mat.N
 #define Flt(a, ...) (Fcmp(a, __VA_ARGS__), (Mat.N && !Mat.F))       // a < Const           | a < Mat.B
 #define Fgt(a, ...) (Fcmp(a, __VA_ARGS__), !(Mat.N | Mat.F))        // a > Const           | a > Mat.B
 #define Fle(a, ...) (Fcmp(a, __VA_ARGS__), (Mat.N | Mat.F))         // a<= Const           | a <=Mat.B
