@@ -35,17 +35,17 @@ anu FMOV(anu l, an r, an a);                    // Копирование l ат
 anu FOLD(anu f, anu l, an r, an a);             // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
 anu FVAR(anu f, an r, anu l, an c);             // Копирование из константы в переменную на выходе l
 void FADD(an r, an a, anu l, an b);             // Сложение  r = a + b { r += Mat.B -> Fadd(r); }
-void FCADD(an r, an a, anu l, an c);            //       r = a + Const { r += 256 -> Fadd(r, 0,1); }
-void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b
-void FCSUB(an r, an a, anu l, an c);            //       r = a - Const
+void FCADD(an r, an a, anu l, an c);            //       r = a + Const                     | a + Mat.B
+void FSUB(an r, an a, anu l, an b);             // Вычитание r = a - b { r -= 256 -> Fsub(r, 0,1); }
+void FCSUB(an r, an a, anu l, an c);            //       r = a - Const                     | a - Mat.B
 void FMUL(an r, an a, anu l, an b);             // Умножение r = a * b
-void FCMUL(an r, an a, anu l, an c);            //       r = a * Const
+void FCMUL(an r, an a, anu l, an c);            //       r = a * Const                     | a * Mat.B
 void FDIV(an r, an e, an a, anu l, an b);       // Деление r = a / b, e = a mod b - Евклид {+}
-void FCDIV(an r, an e, an a, anu l, an c);      //       r = a / Const, e = a mod Const
-void FCMP(an a, anu l, an b);                   // Сравнение a и b             -> Mat.F = ; Mat.N < else >
-void FCCMP(an a, anu l, an c);                  // Сравнение a и Const | Mat.B -> Mat.F = ; Mat.N < else >
-anu FGE(an a, anu l, an c);                     //(an)c[l]{{[Const1,Const2]^k}{>=ConstN}} | a>= Mat.B
-anu FEQ(an a, anu l, an c);                     // a = (an)c[l]{Const1;Const2;...ConstN}  | a = Mat.B
+void FCDIV(an r, an e, an a, anu l, an c);      //       r = a / Const, e = a mod Const    | a / Mat.B
+void FTST(an a, anu l, an b);                   // Сравнение a и b  ->  Mat.F = ; Mat.N < else >
+void FCMP(an a, anu l, an c);                   // Сравнение a и Const                     | a и Mat.B
+anu FGE(an a, anu l, an c);                     //(an)c[l]{{[Const1,Const2]^k}{>=ConstN}}  | a>= Mat.B
+anu FEQ(an a, anu l, an c);                     // a = (an)c[l]{Const1;Const2;...ConstN}   | a = Mat.B
 extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
@@ -68,7 +68,7 @@ extern Math Mat;
 #define Fmul(r, ...) FCMUL(r, r, Anu(__VA_ARGS__))                  // r *= Const          | r *= Mat.B
 #define FDiv(r, e, a, ...) FCDIV(r, e, a, Anu(__VA_ARGS__))         // r = a / Const       | r = a / Mat.B
 #define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))            // r /= Const          | r /= Mat.B
-#define Fcmp(a, ...) FCCMP(a, Anu(__VA_ARGS__))                     // a ? Const           | a ? Mat.B -> Mat.F, Mat.N
+#define Fcmp(a, ...) FCMP(a, Anu(__VA_ARGS__))                     // a ? Const           | a ? Mat.B -> Mat.F, Mat.N
 #define Flt(a, ...) (Fcmp(a, __VA_ARGS__), (Mat.N && !Mat.F))       // a < Const           | a < Mat.B
 #define Fgt(a, ...) (Fcmp(a, __VA_ARGS__), !(Mat.N | Mat.F))        // a > Const           | a > Mat.B
 #define Fle(a, ...) (Fcmp(a, __VA_ARGS__), (Mat.N | Mat.F))         // a<= Const           | a <=Mat.B
