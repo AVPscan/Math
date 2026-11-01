@@ -9,9 +9,9 @@
 #include "math.h"
 
 #define Obe    0    // вывод на экран {0} little endian, иначе big endian
-#define MatV   0    // возможность увеличения разрядности
 #define NoSign 0    // беззнаковое представление
 #define Sign   1    // знаковое представление
+#define MatV   0    // возможность увеличения разрядности
 #define m      128  // максимальное число атомов в числах
 
 anu la,lb;
@@ -33,7 +33,7 @@ void Const(void) { an sb; anu l, i = 2; printf("   A Const\n"); Show('c'); sb = 
 void Test(void) { printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' '); Show('+'); Show('-'); Show('?');
   Show('*'); /*Show('/');*/ Const(); }
 void Cmp(void) { Num(la, Mat.A); Mat.C = 0; printf("%s Feq(A, 2,0,-2,-1,0,4)\n", Feq(Mat.A, 2,0,-2,-1,0,4) ? "True":"False");
-  Num(la, Mat.A); printf("%s Fge(A, -5,-1,0,0,3,0)\n", Fge(Mat.A, -5,-1,0,0,3,0) ? "True":"False"); }
+  Num(la, Mat.A); printf("%s Fge(A, -5,-1,-1,-1,0,1)\n", Fge(Mat.A, -5,-1,-1,-1,0,1) ? "True":"False"); }
 
-int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(NoSign,MatV); la = Fvbe(Mat.A, -1,-2);
+int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(NoSign,MatV); la = Fvbe(Mat.A, 4,0);
   lb = Fvle(Mat.B, -100,255,255,255,255); Test(); Fset(Sign,MatV); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); Cmp(); return 0; }
