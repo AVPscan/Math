@@ -60,8 +60,7 @@ void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       Mat.i = (Mat.l = Mat.V ? 0:Mat.l); while(Mat.i--) { *Mat.r++ = 0; } *Mat.r = 128;
       return; } } Mat.C |= Mat.j; if (!Mat.V && Mat.x < Mat.l) { Mat.i = Mat.l - Mat.x;
     do *++Mat.ae = Mat.N; while(--Mat.i); return; } Mat.l = Mat.x; }
-void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c);
-  return FADD(r, a, Mat.lb, Mat.B); }
+
 void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.lb = Mat.N;
   Mat.ae = Mat.a + Mat.l; Mat.na = (((Mat.x = *Mat.ae--) & 128) && Mat.Nim) ? 255:0; Mat.F = Mat.l;
   Mat.be = Mat.b + Mat.N; Mat.nb = (((Mat.y = *Mat.be--) & 128) && Mat.Nim) ? 255:0; if (Mat.Nim) {
@@ -90,8 +89,6 @@ void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       Mat.i = (Mat.l = Mat.V ? 0:Mat.l); while(Mat.i--) { *Mat.r++ = 0; } *Mat.r = 128;
       return; } }  Mat.C |= (Mat.j == 4); if (!Mat.V && Mat.x < Mat.l) { Mat.i = Mat.l - Mat.x;
     do *++Mat.ae = Mat.N; while(--Mat.i); return; } Mat.l = Mat.x; }
-void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c);
-  return FSUB(r, a, Mat.lb, Mat.B); }
 
 void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.be = Mat.b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
@@ -133,8 +130,6 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
       return; } Mat.t = 2; }
   Mat.F = (Mat.C = (!Mat.Nim && Mat.t == 2)) ? 1:Mat.t; Mat.N = 0; Mat.N -= (Mat.F == 2);
   Mat.l = Mat.V ? 0:Mat.l; Mat.i = Mat.l; while(Mat.i--) *Mat.r++ = 0; *Mat.r = Mat.N & 128; }
-void FCMUL(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c);
-  return FMUL(r, a, Mat.lb, Mat.B); }
 
 void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.na = (Mat.Nim && (Mat.x & 128)) ? 255:0;
@@ -146,13 +141,12 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.
     Mat.t = (Mat.lb == Mat.j && !Mat.N && Mat.y == 128) ? 2:0;
     Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; }
   (void)e; }
-void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c);
-  return FDIV(r, e, a, Mat.lb, Mat.B); }
 
 void FTST(an a, anu l, an b) { Mat.t = Mat.l; Mat.C = 0; FSUB((an)Mat.S, a, l, b); Mat.N -= Mat.C;
   Mat.l = Mat.t; if (Mat.F == 2) {
     Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb; } }
 void FCMP(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.B); }
+
 anu FGE(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.k = 0; while(!Mat.k && l >= Mat.l) {
       FTST(a, Mat.l, Mat.e); Mat.k = !Mat.N; Mat.e += 1 + Mat.l; l -= Mat.l; if (!l--) break;
       FTST(a, Mat.l, Mat.e); Mat.k = Mat.k && (Mat.N | Mat.F); Mat.e += 1 + Mat.l; l -= Mat.l;
@@ -160,3 +154,8 @@ anu FGE(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.k = 0; while(!Mat.k && l 
 anu FEQ(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.F = 0; while(!Mat.F && l >= Mat.l) {
       FTST(a, Mat.l, Mat.e); Mat.e += 1 + Mat.l; l -= Mat.l; if (!l--) break; } return Mat.F; }
   FTST(a, Mat.lb, Mat.B); return Mat.F; }
+
+void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FADD(r, a, Mat.lb, Mat.B); }
+void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FSUB(r, a, Mat.lb, Mat.B); }
+void FCMUL(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); return FMUL(r, a, Mat.lb, Mat.B); }
+void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c); return FDIV(r, e, a, Mat.lb, Mat.B); }

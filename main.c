@@ -28,12 +28,11 @@ void Show(char s) { Flong(la,lb); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A); e
   if (s == '?' || s == 'c') printf("%c ", Mat.N ? '<':Mat.F ? '=':'>');
   else { if (s == 'c') printf("? "); else printf("%c ", s); } Num(Mat.lb, Mat.b); if (s < '?') { printf("= "); Num(Mat.l, Mat.R);
     if (s == '/') { printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } } printf("\n"); }
-void Const(void) { an sb; anu l, i = 2; printf("   A Const\n"); Show('c'); sb = Mat.B; Mat.B = Mat.b; l = lb; lb = Mat.lb;
-  while(i--) { if (!++(*Mat.B) && lb) { (*(Mat.B + 1))++; } Show('?'); } Mat.B = sb; lb = l; }
-void Test(void) { printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' '); Show('+'); Show('-'); Show('?');
-  Show('*'); /*Show('/');*/ Const(); }
-void Cmp(void) { Num(la, Mat.A); Mat.C = 0; printf("%s Feq(A, 2,0,-2,-1,0,4)\n", Feq(Mat.A, 2,0,-2,-1,0,4) ? "True":"False");
-  Num(la, Mat.A); printf("%s Fge(A, -5,-1,-1,-1,0,1)\n", Fge(Mat.A, -5,-1,-1,-1,0,1) ? "True":"False"); }
+void Test(void) { an sb = Mat.B; anu l = lb, i = 2; printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' ');
+  Show('+'); Show('-'); Show('?'); Show('*'); /*Show('/');*/ printf("   A Const\n"); Show('c');
+  Mat.B = Mat.b; lb = Mat.lb; while(i--) { if (!++(*Mat.B) && lb) { (*(Mat.B + 1))++; } Show('?'); } Mat.B = sb; lb = l; }
 
 int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(NoSign,MatV); la = Fvbe(Mat.A, 4,0);
-  lb = Fvle(Mat.B, -100,255,255,255,255); Test(); Fset(Sign,MatV); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); Cmp(); return 0; }
+  lb = Fvle(Mat.B, -100,255,255,255,255); Test(); Fset(Sign,MatV); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test();
+  Num(la, Mat.A); Mat.C = 0; printf("%s Feq(A, 2,0,-2,-1,0,4)\n", Feq(Mat.A, 2,0,-2,-1,0,4) ? "True":"False");
+  Num(la, Mat.A); printf("%s Fge(A, -5,-1,-1,-1,0,1)\n", Fge(Mat.A, -5,-1,-1,-1,0,1) ? "True":"False"); return 0; }
