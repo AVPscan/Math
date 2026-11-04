@@ -152,10 +152,10 @@ void FCMP(an a, anu l, an b) { Mat.C = 0; Mat.t = Mat.l; FSUB((an)Mat.S, a, l, b
     Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb; } }
 void FTST(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCMP(a, Mat.lb, Mat.B); }
 
+anu FEQ(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.F = 0; while(!Mat.F && l >= Mat.l) {
+      FCMP(a, Mat.l, Mat.e); Mat.e += 1 + Mat.l; l -= Mat.l; if (!l--) break; } return Mat.F; }
+  FCMP(a, Mat.lb, Mat.B); return Mat.F; }
 anu FGE(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.k = 0; while(!Mat.k && l >= Mat.l) {
       FCMP(a, Mat.l, Mat.e); Mat.k = !Mat.N; Mat.e += 1 + Mat.l; l -= Mat.l; if (!l--) break;
       FCMP(a, Mat.l, Mat.e); Mat.k = Mat.k && (Mat.N | Mat.F); Mat.e += 1 + Mat.l; l -= Mat.l;
       if (!l--) break; } return Mat.k; } FTST(a, Mat.lb, Mat.B); return !Mat.N; }
-anu FEQ(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.F = 0; while(!Mat.F && l >= Mat.l) {
-      FCMP(a, Mat.l, Mat.e); Mat.e += 1 + Mat.l; l -= Mat.l; if (!l--) break; } return Mat.F; }
-  FCMP(a, Mat.lb, Mat.B); return Mat.F; }

@@ -66,12 +66,12 @@ void FCDIV(an r, an e, an a, anu l, an c);              // r = a / Const, e = a 
 #define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))        // r /= Const              | r /= Mat.B
 void FCMP(an a, anu l, an b);                               // a[Mat.l] ? b[l] ->  Mat.F = ; Mat.N < else >
 void FTST(an a, anu l, an c);                   // a ? Const ->  Mat.F = ; Mat.N < else >  | a ? Mat.B
-anu FGE(an a, anu l, an c);                     //(an)c[l]{{[Const1,Const2]^k}{>=ConstN}}  | a>= Mat.B
 anu FEQ(an a, anu l, an c);                     // a = (an)c[l]{Const1;Const2;...ConstN}   | a = Mat.B
+anu FGE(an a, anu l, an c);                     //(an)c[l]{{[Const1,Const2]^k}{>=ConstN}}  | a>= Mat.B
 #define Ftst(a, ...) FTST(a, Anu(__VA_ARGS__))  // a ? Const ->  Mat.F = ; Mat.N < else >  | a ? Mat.B
-#define Fge(a, ...) FGE(a, Anu(__VA_ARGS__))                    // a {[..]^k}{>=ConstN}    | a >=Mat.B
-#define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))                    // a = {Const1{,ConstN}}   | a = Mat.B
-#define Fle(a, ...) (Ftst(a, __VA_ARGS__), (Mat.N | Mat.F))     // a<= Const               | a <=Mat.B
-#define Fgt(a, ...) (Ftst(a, __VA_ARGS__), !(Mat.N | Mat.F))    // a > Const               | a > Mat.B
 #define Flt(a, ...) (Ftst(a, __VA_ARGS__), (Mat.N && !Mat.F))   // a < Const               | a < Mat.B
+#define Fgt(a, ...) (Ftst(a, __VA_ARGS__), !(Mat.N | Mat.F))    // a > Const               | a > Mat.B
+#define Fle(a, ...) (Ftst(a, __VA_ARGS__), (Mat.N | Mat.F))     // a<= Const               | a<= Mat.B
+#define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))                    // a = {Const1{,ConstN}}   | a = Mat.B
+#define Fge(a, ...) FGE(a, Anu(__VA_ARGS__))                    // a {[..]^k}{>=ConstN}    | a>= Mat.B
 #endif
