@@ -11,10 +11,10 @@ MATH_CACHE_INIT
 void FAddr(anu y, As* r, anu c, As* a) { c = (c > y) ? y:c; while(c--) *r++ = *a++; }
 void FInit(anu x, anu y, an r, anu c, an a) { while(x--) *--r = 0; c = (c > y) ? y:c;
   while(c--) *r++ = *a++; }
-void FSWAP(anu l, an r, an a) { Mat.i = l; Mat.r = r; Mat.a = a; Mat.be = Mat.r + Mat.i;
+void FSWAP(an r, anu l, an a) { Mat.i = l; Mat.r = r; Mat.a = a; Mat.be = Mat.r + Mat.i;
   Mat.ae = Mat.a + Mat.i; Mat.j = *Mat.a++; *Mat.r++ = Mat.i ? *Mat.ae--:Mat.j; *Mat.be-- = Mat.j;
   Mat.i >>= 1; while(Mat.i--) { Mat.j = *Mat.a++; *Mat.r++ = *Mat.ae--; *Mat.be-- = Mat.j; } }
-anu FMOV(anu l, an r, an a) { Mat.i = l; Mat.r = r; Mat.a = a; if (Mat.V) {
+anu FMOV(an r, anu l, an a) { Mat.i = l; Mat.r = r; Mat.a = a; if (Mat.V) {
     Mat.ae = Mat.a + Mat.i; Mat.nb = (*Mat.ae & 128) ? 255:0; Mat.j = Mat.i;
     while((Mat.x = *Mat.ae--) == Mat.nb && Mat.i && !((*Mat.ae ^ Mat.nb) & 128)) Mat.i--;
     Mat.t = Mat.i; while(Mat.t-- && !*Mat.ae--) { } if (Mat.i == Mat.j) {
@@ -25,12 +25,12 @@ anu FMOV(anu l, an r, an a) { Mat.i = l; Mat.r = r; Mat.a = a; if (Mat.V) {
     do *Mat.be-- = *Mat.ae--; while(Mat.j--); }
   Mat.x = *--Mat.r; Mat.nb = (Mat.Nim && (Mat.x & 128)) ? 255:0; while(Mat.i && !*--Mat.r) Mat.i--;
   Mat.na = (Mat.i | Mat.x) ? (Mat.Nim && !Mat.i && Mat.x == 128) ? 2:0:1; return Mat.t; }
-anu FOLD(anu f, anu l, an r, an a) { Mat.y = FMOV(l, r, a); Mat.t = ((Mat.x = Mat.y)) ? 2:1;
+anu FOLD(anu f, an r, anu l, an a) { Mat.y = FMOV(r, l, a); Mat.t = ((Mat.x = Mat.y)) ? 2:1;
   while((Mat.x >>= 1)) { Mat.t <<= 1; } Mat.r = r; Mat.ae = Mat.r + Mat.y; Mat.x = --Mat.t - Mat.y;
   Mat.y = Mat.nb; if (Mat.na) { Mat.y = *Mat.ae; *Mat.ae = 0; } while(Mat.x--) *++Mat.ae = Mat.nb;
   *Mat.ae = Mat.na ? Mat.y:*Mat.ae; if (f) { Fswap(Mat.t, Mat.r); } return Mat.t; }
-anu FVAR(anu f, an r, anu l, an c) { if (l--) { if (f) { FSWAP(l, r, c); return Fmov(l, r); }
-    else return FMOV(l, r, c); } return Fvle(r, 0); }
+anu FVAR(anu f, an r, anu l, an c) { if (l--) { if (f) { FSWAP(r, l, c); return Fmov(l, r); }
+    else return FMOV(r, l, c); } return Fvle(r, 0); }
 
 void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.lb = Mat.N;
   Mat.ae = Mat.a + Mat.l; Mat.na = (((Mat.x = *Mat.ae--) & 128) && Mat.Nim) ? 255:0; Mat.F = Mat.l;
@@ -150,12 +150,13 @@ void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c);
 void FCMP(an a, anu l, an b) { Mat.C = 0; Mat.t = Mat.l; FSUB((an)Mat.S, a, l, b); Mat.l = Mat.t;
   Mat.N -= Mat.C; if (Mat.F == 2) {
     Mat.N = (Mat.F = (Mat.j == 3)) ? 0:(Mat.j == 1) ? Mat.nb:(Mat.j == 2) ? ~Mat.na:~Mat.nb; } }
-void FTST(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCMP(a, Mat.lb, Mat.B); }
 
-anu FEQ(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.F = 0; while(!Mat.F && l >= Mat.l) {
-      FCMP(a, Mat.l, Mat.e); Mat.e += 1 + Mat.l; l -= Mat.l; if (!l--) break; } return Mat.F; }
-  FCMP(a, Mat.lb, Mat.B); return Mat.F; }
-anu FGE(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.k = 0; while(!Mat.k && l >= Mat.l) {
-      FCMP(a, Mat.l, Mat.e); Mat.k = !Mat.N; Mat.e += 1 + Mat.l; l -= Mat.l; if (!l--) break;
-      FCMP(a, Mat.l, Mat.e); Mat.k = Mat.k && (Mat.N | Mat.F); Mat.e += 1 + Mat.l; l -= Mat.l;
-      if (!l--) break; } return Mat.k; } FTST(a, Mat.lb, Mat.B); return !Mat.N; }
+void FTST(an a, anu l, an c) { if (l--) return FCMP(a, l, c); return FCMP(a, Mat.lb, Mat.B); }
+anu FEQ(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.F = 0;
+    while(!Mat.F && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.e += 1 + Mat.l; l -= Mat.l;
+      if (!l--) break; } return Mat.F; } FCMP(a, Mat.lb, Mat.B); return Mat.F; }
+anu FGE(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.k = 0;
+    while(!Mat.k && l >= Mat.l) { FCMP(a, Mat.l, Mat.e); Mat.k = !Mat.N; Mat.e += 1 + Mat.l;
+      l -= Mat.l; if (!l--) { break; } FCMP(a, Mat.l, Mat.e); Mat.k = Mat.k && (Mat.N | Mat.F);
+      Mat.e += 1 + Mat.l; l -= Mat.l; if (!l--) break; } return Mat.k; }
+  FCMP(a, Mat.lb, Mat.B); return !Mat.N; }

@@ -18,8 +18,7 @@
 // Mat.C         [0/X]  {нет переполнения/переполнение} результата
 // Mat.F{Fe}    [0,1,2] {0} число/состояние {1} не бытиё {2} бесконечность результата{остатка}
 // Mat.N{Ne}     [0/X]  {0} для чисел без знаковое или положительное иначе отрицательное
-// Mat.l        [0.255] длина первого операнда a, длина результата r
-// Mat.le       [0.255] длина остатка e
+// Mat.l{le}    [0.255] длина первого операнда a, длина результата r{остатка e}
 // Mat.lb       [0.255] длина последнего обработанного второго операнда
 // Mat.b        адрес последнего обработанного второго операнда
 // Mat.Nim, Mat.V, Mat.R{EAB} не подлежат изменению внутри функций
@@ -28,6 +27,7 @@ typedef uint8_t anu;    // атом, минимальная единица
 typedef anu* an;        // число, начальный адрес расположения
 typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne, S[255],
   H[255],L[255], na,nb,i,j,k,t,x,y; an r,e,a,ae,be, b, R, E, A, B; } Math;
+
 extern Math Mat;
 #define MATH_CACHE_INIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
@@ -38,13 +38,13 @@ void FInit(anu x, anu y, an r, anu c, an a);
 #define Fset(...) FInit(0, 4, &Mat.Nim, Anu(__VA_ARGS__))   // Fset({Nim{,V{,la{,lb}}}});
 #define Fini(...) FInit(10, 4, (an)Mat.S, Anu(__VA_ARGS__)) // Nim=V=l=lb..Ne=0 Fini({Nim{,V{,la{,lb}}}});
 #define Flong(...) FInit(0, 2, &Mat.l, Anu(__VA_ARGS__))    // Flong({la{,lb}});
-void FSWAP(anu l, an r, an a);      // Зеркалирование атомов длиной l относительно центра
-anu FMOV(anu l, an r, an a);        // Копирование l атомов |8,16,32,64|128,256,512,1024,2048 бит
-anu FOLD(anu f, anu l, an r, an a); // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
-anu FVAR(anu f, an r, anu l, an c); // Копирование из константы в переменную на выходе l
-#define Fswap(l, x) FSWAP(l, x, x)
-#define Fmov(l, x) FMOV(l, x, x)
-#define Fold(f, l, x) FOLD(f, l, x, x)
+void FSWAP(an r, anu l, an a);      // Зеркалирование атомов длиной l относительно центра
+anu FMOV(an r, anu l, an a);        // Копирование l атомов |8,16,32,64|128,256,512,1024,2048 бит
+anu FOLD(anu f, an r, anu l, an a); // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
+anu FVAR(anu f, an r, anu l, an c); // Копирование из константы в переменную на выходе l   | r = 0
+#define Fswap(l, x) FSWAP(x, l, x)
+#define Fmov(l, x) FMOV(x, l, x)
+#define Fold(f, l, x) FOLD(f, x, l, x)
 #define FVar(f, r, ...) FVAR(f, r, Anu(__VA_ARGS__))
 #define Fvle(r, ...) FVar(0, r, __VA_ARGS__)
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)
