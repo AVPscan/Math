@@ -19,11 +19,11 @@ anu FMOV(an r, anu l, an a) { Mat.i = l; Mat.r = r; Mat.a = a; if (Mat.V) {
     while((Mat.x = *Mat.ae--) == Mat.nb && Mat.i && !((*Mat.ae ^ Mat.nb) & 128)) Mat.i--;
     Mat.t = Mat.i; while(Mat.t-- && !*Mat.ae--) { } if (Mat.i == Mat.j) {
       if (!++Mat.t && (!Mat.x || Mat.x == 128)) { Mat.a += Mat.i; Mat.i = 0; } }
-    else Mat.i += (!++Mat.t && Mat.x == 128); }
-  Mat.j = Mat.i; Mat.t = Mat.i; if (r < a) do *Mat.r++ = *Mat.a++; while(Mat.j--);
+    else Mat.i += (!++Mat.t && Mat.x == 128); } Mat.j = Mat.i; Mat.t = Mat.i; if (r < a) {
+    do *Mat.r++ = *Mat.a++; while(Mat.j--); Mat.x = *--Mat.r; }
   else { Mat.be = (Mat.r += Mat.i); Mat.ae = Mat.a + Mat.i;
-    do *Mat.be-- = *Mat.ae--; while(Mat.j--); }
-  Mat.x = *--Mat.r; Mat.nb = (Mat.Nim && (Mat.x & 128)) ? 255:0; while(Mat.i && !*--Mat.r) Mat.i--;
+    do *Mat.be-- = *Mat.ae--; while(Mat.j--); Mat.x = *Mat.r; }
+  Mat.nb = (Mat.Nim && (Mat.x & 128)) ? 255:0; while(Mat.i && !*--Mat.r) Mat.i--;
   Mat.na = (Mat.i | Mat.x) ? (Mat.Nim && !Mat.i && Mat.x == 128) ? 2:0:1; return Mat.t; }
 anu FOLD(anu f, an r, anu l, an a) { Mat.y = FMOV(r, l, a); Mat.t = ((Mat.x = Mat.y)) ? 2:1;
   while((Mat.x >>= 1)) { Mat.t <<= 1; } Mat.r = r; Mat.ae = Mat.r + Mat.y; Mat.x = --Mat.t - Mat.y;
