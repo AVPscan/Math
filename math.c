@@ -15,13 +15,13 @@ void FSWAP(an r, anu l, an a) { Mat.i = l; Mat.r = r; Mat.a = a; Mat.be = Mat.r 
   Mat.ae = Mat.a + Mat.i; Mat.j = *Mat.a++; *Mat.r++ = Mat.i ? *Mat.ae--:Mat.j; *Mat.be-- = Mat.j;
   Mat.i >>= 1; while(Mat.i--) { Mat.j = *Mat.a++; *Mat.r++ = *Mat.ae--; *Mat.be-- = Mat.j; } }
 anu FMOV(an r, anu l, an a) { Mat.i = l; Mat.r = r; Mat.a = a; if (Mat.V) {
-    Mat.ae = Mat.a + Mat.i; Mat.nb = (*Mat.ae & 128) ? 255:0; Mat.j = Mat.i;
+    Mat.ae = Mat.a + Mat.i; Mat.nb = (Mat.Nim && (*Mat.ae & 128)) ? 255:0; Mat.j = Mat.i;
     while((Mat.x = *Mat.ae--) == Mat.nb && Mat.i && !((*Mat.ae ^ Mat.nb) & 128)) Mat.i--;
     Mat.t = Mat.i; while(Mat.t-- && !*Mat.ae--) { } if (Mat.i == Mat.j) {
       if (!++Mat.t && (!Mat.x || Mat.x == 128)) { Mat.a += Mat.i; Mat.i = 0; } }
     else Mat.i += (!++Mat.t && Mat.x == 128); } Mat.j = Mat.i; Mat.t = Mat.i; if (r < a) {
-    do *Mat.r++ = *Mat.a++; while(Mat.j--); Mat.x = *--Mat.r; }
-  else { Mat.be = (Mat.r += Mat.i); Mat.ae = Mat.a + Mat.i;
+    do *Mat.r++ = *Mat.a++; while(Mat.j--); Mat.x = *--Mat.r; } else {
+    Mat.be = (Mat.r += Mat.i); Mat.ae = Mat.a + Mat.i;
     do *Mat.be-- = *Mat.ae--; while(Mat.j--); Mat.x = *Mat.r; }
   Mat.nb = (Mat.Nim && (Mat.x & 128)) ? 255:0; while(Mat.i && !*--Mat.r) Mat.i--;
   Mat.na = (Mat.i | Mat.x) ? (Mat.Nim && !Mat.i && Mat.x == 128) ? 2:0:1; return Mat.t; }
