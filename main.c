@@ -22,7 +22,7 @@ void Num(anu s, an a) { anu ns, t[m]; if (s > 8) printf(" %d|? ", s + 1);
         else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
       else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
         else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } } } }
-void Show(char s) { Flong(la,lb); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A); else if (s == '-') FSub(Mat.R, Mat.A);
+void Show(char s) { Flong(lb,la); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A); else if (s == '-') FSub(Mat.R, Mat.A);
   else if (s == '*') FMul(Mat.R, Mat.A); else if (s == '/') FDiv(Mat.R, Mat.A, Mat.E); else if (s == '?') Ftst(Mat.A);
   else { Ftst(Mat.A, 127); } printf("%c%c ", Mat.C ? 'C':' ', Mat.F ? Mat.N ? 'I':'Z':Mat.N ? '-':'+'); Num(la, Mat.A);
   if (s == '?' || s == 'c') printf("%c ", Mat.N ? '<':Mat.F ? '=':'>');
@@ -32,7 +32,7 @@ void Test(void) { an sb = Mat.B; anu l = lb, i = 2; printf("%c%c A B\n", Mat.Nim
   Show('+'); Show('-'); Show('?'); Show('*'); /*Show('/');*/ printf("   A Const\n"); Show('c');
   Mat.B = Mat.b; lb = Mat.lb; while(i--) { if (!++(*Mat.B) && lb) { (*(Mat.B + 1))++; } Show('?'); } Mat.B = sb; lb = l; }
 
-int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)r, (As)e, (As)a, (As)b); Fini(NoSign,MatV); la = Fvbe(Mat.A, 4,0);
+int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)b, (As)a, (As)r, (As)e); Fini(NoSign,MatV); la = Fvbe(Mat.A, 4,0);
   lb = Fvle(Mat.B, -100,255,255,255,255); Test(); Fset(Sign,MatV); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test();
   Num(la, Mat.A); Mat.C = 0; printf("%s Feq(A, 2,0,-2,-1,0,4)\n", Feq(Mat.A, 2,0,-2,-1,0,4) ? "True":"False");
   Num(la, Mat.A); printf("%s Fge(A, -5,-1,-1,-1,0,1)\n", Fge(Mat.A, -5,-1,-1,-1,0,1) ? "True":"False"); return 0; }

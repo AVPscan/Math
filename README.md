@@ -85,8 +85,8 @@ P.s.: Блокировку убрали как только добавил со�
 typedef uintptr_t As;   // основа, разрядность процессора
 typedef uint8_t anu;    // атом, минимальная единица
 typedef anu* an;        // число, начальный адрес расположения
-typedef struct { anu Nim, V, l, lb, le, C, F, N, Fe, Ne, S[255],
-  H[255],L[255], na,nb,i,j,k,t,x,y; an r,e,a,ae,be, b, R, E, A, B; } Math;
+typedef struct { anu Nim, V, lb, l, le, C, F, N, Fe, Ne, S[255],
+  H[255],L[255], na,nb,i,j,k,t,x,y; an b,a,r,e,ae,be, B, A, R, E; } Math;
 ```
 
 <div align="center">
