@@ -35,5 +35,5 @@ void Test(void) { an sb = Mat.B; anu l = lb, i = 2; printf("%c%c A B\n", Mat.Nim
   Num(la, Mat.A); Mat.C = 0; printf("%c Feq(A, 2,0,-2,-1,0,4)\n", Feq(Mat.A, 2,0,-2,-1,0,4) ? 'T':'F');
   Num(la, Mat.A); printf("%c Fge(A, -5,-1,-1,-1,0,1)\n", Fge(Mat.A, -5,-1,-1,-1,0,1) ? 'T':'F');}
 
-int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)b, (As)a, (As)r, (As)e); Fini(NoSign,MatV); la = Fvbe(Mat.A, 129,0);
+int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)b, (As)a, (As)r, (As)e); Fini(NoSign,MatV); la = Fvbe(Mat.A, 4,0);
   lb = Fvle(Mat.B, -100,255,255,255,255); Test(); Fset(Sign,MatV); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); return 0; }
