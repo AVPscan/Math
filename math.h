@@ -18,7 +18,7 @@
 // Mat.V         [0/X]  {запрет/разрешение} изменения разрядности результата
 // Mat.C         [0/X]  {нет переполнения/переполнение} результата
 // Mat.F{Fe}    [0,1,2] {0} число/состояние {1} не бытиё {2} бесконечность результата{остатка}
-// Mat.N{Ne}     [0/X]  {0} для чисел без знака или положительное иначе отрицательное
+// Mat.N{Ne}     [0/X]  {0} для чисел без знака или положительное иначе отрицательное {+/-}
 // Mat.CF        [0,1]  {0} при сравнении чисел не равенство {при обработке числа бытиё}
 // Mat.CN        [0/X]  {0} при сравнении чисел больше или равно иначе меньше {+/-}
 // Mat.l{le}    [0.255] длина первого операнда a, длина результата r{остатка e}
@@ -67,14 +67,14 @@ void FCDIV(an r, an e, an a, anu l, an c);              // r = a / Const, e = a 
 #define Fmul(r, ...) FCMUL(r, r, Anu(__VA_ARGS__))              // r *= Const              | r *= Mat.B
 #define FDiv(r, e, a, ...) FCDIV(r, e, a, Anu(__VA_ARGS__))     // r = a / Const           | r = a / Mat.B
 #define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))        // r /= Const              | r /= Mat.B
-void FCMP(an a, anu l, an b);                                   // a[Mat.l]?b[l]   Mat.F = / Mat.N < || >=
-void FTST(an a, anu l, an c);                   //a?Const  Mat.F = / Mat.N < || >=         | a ? Mat.B
+void FCMP(an a, anu l, an b);                                   // a[Mat.l]?b[l]  Mat.CF = / Mat.CN < || >=
+void FTST(an a, anu l, an c);                   //a?Const  Mat.CF = / Mat.CN < || >=       | a ? Mat.B
 anu FEQ(an a, anu l, an c);                     //a=(an)c[l]{Const1;Const2;...ConstN}      | a = Mat.B
 anu FGE(an a, anu l, an c);                     //a?(an)c[l]{{[Const1,Const2]^k}{>=ConstN}}| a>= Mat.B
-#define Ftst(a, ...) FTST(a, Anu(__VA_ARGS__))  //a?Const  Mat.F = / Mat.N < || >=         | a ? Mat.B
-#define Flt(a, ...) (Ftst(a, __VA_ARGS__), (Mat.N && !Mat.F))   // a < Const               | a < Mat.B
-#define Fgt(a, ...) (Ftst(a, __VA_ARGS__), !(Mat.N | Mat.F))    // a > Const               | a > Mat.B
-#define Fle(a, ...) (Ftst(a, __VA_ARGS__), (Mat.N | Mat.F))     // a<= Const               | a<= Mat.B
+#define Ftst(a, ...) FTST(a, Anu(__VA_ARGS__))  //a?Const  Mat.CF = / Mat.CN < || >=       | a ? Mat.B
+#define Flt(a, ...) (Ftst(a, __VA_ARGS__), (Mat.CN && !Mat.CF)) // a < Const               | a < Mat.B
+#define Fgt(a, ...) (Ftst(a, __VA_ARGS__), !(Mat.CN | Mat.CF))  // a > Const               | a > Mat.B
+#define Fle(a, ...) (Ftst(a, __VA_ARGS__), (Mat.CN | Mat.CF))   // a<= Const               | a<= Mat.B
 #define Feq(a, ...) FEQ(a, Anu(__VA_ARGS__))                    // a = {Const1{,ConstN}}   | a = Mat.B
 #define Fge(a, ...) FGE(a, Anu(__VA_ARGS__))                    // a ? {[..]^k}{>=ConstN}  | a>= Mat.B
 #endif
