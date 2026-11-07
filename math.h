@@ -32,13 +32,13 @@ extern Math Mat;
 #define MCINIT Math Mat = {0};
 #define Anu(...) (anu)(sizeof((anu[]){0, ##__VA_ARGS__})-1), (anu[]){0, ##__VA_ARGS__}+1
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As))-1), (As[]){0, ##__VA_ARGS__}+1
-void FAddr(anu y, As* r, anu c, As* a);
-void FInit(anu x, anu y, an r, anu c, an a);
-#define Faddr(...) FAddr(4, (As*)&Mat.B, Adr(__VA_ARGS__))      // Faddr({(As)b{,(As)a{,(As)r{,(As)e}}}});
-#define Fset(...) FInit(0, 4, &Mat.Nim, Anu(__VA_ARGS__))       // Fset({Nim{,V{,lb{,la}}}});
-#define Fini(...) FInit(12, 4, &Mat.i, Anu(__VA_ARGS__))        // Nim=V=lb=l..Ne=0 Fini({Nim{,V{,lb{,la}}}});
-#define Flong(...) FInit(0, 3, &Mat.lb, Anu(__VA_ARGS__))       // Flong({lb{,la{,le}}});
-void FSWAP(an r, anu l, an a);                                  // Зеркалирование атомов длиной l
+void FAddr(anu y, As* r, anu c, As* a);                 // Универсальный примитив
+void FInit(anu x, anu y, an r, anu c, an a);            // Универсальный примитив
+#define Faddr(...) FAddr(4,(As*)&Mat.B,Adr(__VA_ARGS__))// Faddr({(As)b{,(As)a{,(As)r{,(As)e}}}});
+#define Fset(...) FInit(0,4,&Mat.Nim,Anu(__VA_ARGS__))  // Fset({Nim{,V{,lb{,la}}}});
+#define Fini(...) FInit(12,4,&Mat.i,Anu(__VA_ARGS__))   // Nim=V=lb=l..Ne=0 Fini({Nim{,V{,lb{,la}}}});
+#define Flong(...) FInit(0,3,&Mat.lb,Anu(__VA_ARGS__))  // Flong({lb{,la{,le}}});
+void FSWAP(an r, anu l, an a);                          // Зеркалирование атомов длиной l
 anu FMOV(an r, anu l, an a);                    // Копирование l атомов |8,16,32,64|128,256,512,1024,2048 бит
 anu FOLD(anu f, an r, anu l, an a);             // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
 anu FVAR(anu f, an r, anu l, an c);             // Копирование из константы в переменную l -> lnew
