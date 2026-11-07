@@ -65,13 +65,13 @@ void FDIV(an r, an e, an a, anu l, an b);               // r = a / b, e = a mod 
 void FCADD(an r, an a, anu l, an c);                    // r = a + (an)c[l]{Num}         | r = a + Mat.B
 void FCSUB(an r, an a, anu l, an c);                    // r = a - (an)c[l]{Num}         | r = a - Mat.B
 void FCMUL(an r, an a, anu l, an c);                    // r = a * (an)c[l]{Num}         | r = a * Mat.B
-void FCDIV(an r, an e, an a, anu l, an c);              // r = a / (an)c[l]{Num}, e      | r = a / Mat.B
+void FCDIV(an r, an e, an a, anu l, an c);              // r = a / (an)c[l]{Num}, e =... | r = a / Mat.B
 #define FAdd(r, a, ...) FCADD(r, a, Anu(__VA_ARGS__))   // r = a + Num                   | r = a + Mat.B
 #define Fadd(r, ...) FCADD(r, r, Anu(__VA_ARGS__))      // r += Num                      | r += Mat.B
 #define FSub(r, a, ...) FCSUB(r, a, Anu(__VA_ARGS__))   // r = a - Num                   | r = a - Mat.B
 #define Fsub(r, ...) FCSUB(r, r, Anu(__VA_ARGS__))      // r -= Num                      | r -= Mat.B
 #define FMul(r, a, ...) FCMUL(r, a, Anu(__VA_ARGS__))   // r = a * Num                   | r = a * Mat.B
 #define Fmul(r, ...) FCMUL(r, r, Anu(__VA_ARGS__))              // r *= Num              | r *= Mat.B
-#define FDiv(r, e, a, ...) FCDIV(r, e, a, Anu(__VA_ARGS__))     // r = a / Num, e        | r = a / Mat.B
-#define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))        // r /= Num, e           | r /= Mat.B
+#define FDiv(r, e, a, ...) FCDIV(r, e, a, Anu(__VA_ARGS__))     // r = a / Num, e =...   | r = a / Mat.B
+#define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))        // r /= Num, e =...      | r /= Mat.B
 #endif
