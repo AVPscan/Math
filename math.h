@@ -25,9 +25,9 @@
 // Mat.lb       [0.255] длина последнего обработанного второго операнда
 // Mat.b        адрес последнего обработанного второго операнда
 // Mat.Nim, Mat.V, Mat.B{ARE} не подлежат изменению внутри функций
-typedef uintptr_t As;   // основа, разрядность процессора
-typedef uint8_t anu;    // атом, минимальная единица
-typedef anu* an;        // число, начальный адрес расположения
+typedef uintptr_t As;                           // основа, разрядность процессора
+typedef uint8_t anu;                            // атом, минимальная единица
+typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu Nim, V, lb, l, le, C, F, N, Fe, Ne, CF, CN,
   na,nb,i,j,k,t,x,y,H[255],L[255],S[255]; an b,a,r,e,ae,be, B, A, R, E; } Math;
 
@@ -37,28 +37,28 @@ extern Math Mat;
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As))-1), (As[]){0, ##__VA_ARGS__}+1
 void FAddr(anu y, As* r, anu c, As* a);
 void FInit(anu x, anu y, an r, anu c, an a);
-#define Faddr(...) FAddr(4, (As*)&Mat.B, Adr(__VA_ARGS__))  // Faddr({(As)b{,(As)a{,(As)r{,(As)e}}}});
-#define Fset(...) FInit(0, 4, &Mat.Nim, Anu(__VA_ARGS__))   // Fset({Nim{,V{,lb{,la}}}});
-#define Fini(...) FInit(12, 4, &Mat.i, Anu(__VA_ARGS__))   // Nim=V=lb=l..Ne=0 Fini({Nim{,V{,lb{,la}}}});
-#define Flong(...) FInit(0, 3, &Mat.lb, Anu(__VA_ARGS__))   // Flong({lb{,la{,le}}});
-void FSWAP(an r, anu l, an a);      // Зеркалирование атомов длиной l относительно центра
-anu FMOV(an r, anu l, an a);        // Копирование l атомов |8,16,32,64|128,256,512,1024,2048 бит
-anu FOLD(anu f, an r, anu l, an a); // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
-anu FVAR(anu f, an r, anu l, an c); // Копирование из константы в переменную на выходе l   | r = 0
-#define Fswap(l, x) FSWAP(x, l, x)
-#define Fmov(l, x) FMOV(x, l, x)
-#define Fold(f, l, x) FOLD(f, x, l, x)
-#define FVar(f, r, ...) FVAR(f, r, Anu(__VA_ARGS__))
-#define Fvle(r, ...) FVar(0, r, __VA_ARGS__)
-#define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)
+#define Faddr(...) FAddr(4, (As*)&Mat.B, Adr(__VA_ARGS__))      // Faddr({(As)b{,(As)a{,(As)r{,(As)e}}}});
+#define Fset(...) FInit(0, 4, &Mat.Nim, Anu(__VA_ARGS__))       // Fset({Nim{,V{,lb{,la}}}});
+#define Fini(...) FInit(12, 4, &Mat.i, Anu(__VA_ARGS__))        // Nim=V=lb=l..Ne=0 Fini({Nim{,V{,lb{,la}}}});
+#define Flong(...) FInit(0, 3, &Mat.lb, Anu(__VA_ARGS__))       // Flong({lb{,la{,le}}});
+void FSWAP(an r, anu l, an a);                                  // Зеркалирование атомов длиной l
+anu FMOV(an r, anu l, an a);                    // Копирование l атомов |8,16,32,64|128,256,512,1024,2048 бит
+anu FOLD(anu f, an r, anu l, an a);             // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
+anu FVAR(anu f, an r, anu l, an c);             // Копирование из константы в переменную l -> new l
+#define Fswap(l, x) FSWAP(x, l, x)                      // Fswap(l, x); Fswap(l, x); -> {}
+#define Fmov(l, x) FMOV(x, l, x)                        // Mat.na [0,1,2] Mat.nb [+/-] l -> new l
+#define Fold(f, l, x) FOLD(f, x, l, x)                  // Mat.na [0,1,2] Mat.nb [+/-] l -> new l >= l
+#define FVar(f, r, ...) FVAR(f, r, Anu(__VA_ARGS__))    // r = Const{LittleEnd/BigEnd}     | r = 0
+#define Fvle(r, ...) FVar(0, r, __VA_ARGS__)            // r = Const{LittleEndian}         | r = 0
+#define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Const{BigEndian}            | r = 0
 void FADD(an r, an a, anu l, an b);                     // r = a + b { r += Mat.B -> Fadd(r); }
 void FSUB(an r, an a, anu l, an b);                     // r = a - b { r -= 256 -> Fsub(r, 0,1); }
 void FMUL(an r, an a, anu l, an b);                     // r = a * b
 void FDIV(an r, an e, an a, anu l, an b);               // r = a / b, e = a mod b - Евклид {+}
-void FCADD(an r, an a, anu l, an c);                    // r = a + Const                   | a + Mat.B
-void FCSUB(an r, an a, anu l, an c);                    // r = a - Const                   | a - Mat.B
-void FCMUL(an r, an a, anu l, an c);                    // r = a * Const                   | a * Mat.B
-void FCDIV(an r, an e, an a, anu l, an c);              // r = a / Const, e = a mod Const  | a / Mat.B
+void FCADD(an r, an a, anu l, an c);                    // r = a + Const                   | r = a + Mat.B
+void FCSUB(an r, an a, anu l, an c);                    // r = a - Const                   | r = a - Mat.B
+void FCMUL(an r, an a, anu l, an c);                    // r = a * Const                   | r = a * Mat.B
+void FCDIV(an r, an e, an a, anu l, an c);              // r = a / Const, e = a mod Const  | r = a / Mat.B
 #define FAdd(r, a, ...) FCADD(r, a, Anu(__VA_ARGS__))   // r = a + Const                   | r = a + Mat.B
 #define Fadd(r, ...) FCADD(r, r, Anu(__VA_ARGS__))      // r += Const                      | r += Mat.B
 #define FSub(r, a, ...) FCSUB(r, a, Anu(__VA_ARGS__))   // r = a - Const                   | r = a - Mat.B
