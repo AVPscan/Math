@@ -11,13 +11,13 @@
 #define Obe    0    // вывод на экран {0} little endian, иначе big endian
 #define NoSign 0    // беззнаковое представление
 #define Sign   1    // знаковое представление
-#define MatV   1    // возможность увеличения разрядности
+#define MatV   0    // возможность увеличения разрядности
 #define m      128  // максимальное число атомов в числах
 
 anu la,lb;
 void Num(anu s, an a) { anu ns, t[m]; if (s > 8) printf(" %d|? ", s + 1);
   else { printf("(%d|%d) ", s + 1, (ns = FOLD(Obe, (an)t, s, a)) + 1); a = (an)t;
-    if (Mat.na == 2) printf("inf "); else {
+    if (Mat.CF == 2) printf("inf "); else {
       if (Mat.Nim) { if (ns > 3) printf("%ld " , *(int64_t*)a); else if (ns > 1) printf("%d ", *(int32_t*)a);
         else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
       else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
@@ -30,9 +30,9 @@ void Show(char s) { Flong(lb,la); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A); e
     if (s == '/') { printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } } printf("\n"); }
 void Test(void) { an sb = Mat.B; anu l = lb, i = 2; printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' ');
   Show('+'); Show('-'); Show('?'); Show('*'); /*Show('/');*/ printf("   A Const\n"); Show('c');
-  Mat.B = Mat.b; lb = Mat.lb; while(i--) { if (!++(*Mat.B) && lb) { (*(Mat.B + 1))++; } Show('?'); } Mat.B = sb; lb = l; }
-
-int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)b, (As)a, (As)r, (As)e); Fini(NoSign,MatV); la = Fvbe(Mat.A, 4,0);
-  lb = Fvle(Mat.B, -100,255,255,255,255); Test(); Fset(Sign,MatV); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test();
+  Mat.B = Mat.b; lb = Mat.lb; while(i--) { if (!++(*Mat.B) && lb) { (*(Mat.B + 1))++; } Show('?'); } Mat.B = sb; lb = l;
   Num(la, Mat.A); Mat.C = 0; printf("%s Feq(A, 2,0,-2,-1,0,4)\n", Feq(Mat.A, 2,0,-2,-1,0,4) ? "True":"False");
-  Num(la, Mat.A); printf("%s Fge(A, -5,-1,-1,-1,0,1)\n", Fge(Mat.A, -5,-1,-1,-1,0,1) ? "True":"False"); return 0; }
+  Num(la, Mat.A); printf("%s Fge(A, -5,-1,-1,-1,0,1)\n", Fge(Mat.A, -5,-1,-1,-1,0,1) ? "True":"False");}
+
+int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)b, (As)a, (As)r, (As)e); Fini(NoSign,MatV); la = Fvbe(Mat.A, 128,0);
+  lb = Fvle(Mat.B, -100,255,255,255,255); Test(); Fset(Sign,MatV); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); return 0; }
