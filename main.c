@@ -32,6 +32,7 @@ void Show(char s) { Flong(Mat.lb,la); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A
 void Test(void) { Faddr((As)Mat.B); Flong(lb,la); anu t,i = 2; printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' '); Show('+');
   Show('-'); Show('?'); Show('*'); /*Show('/');*/ printf("   A Const\n"); Show('c'); while(i--) { t = *Mat.b; *Mat.b = ++t; Show('?'); }
   Num(la, Mat.A); printf("%c FEq(A, 2,0,-2,-1,-10,-1)\n", FEq(Mat.A, 2,0,-2,-1,-10,-1) ? 'T':'F');
+  Num(la, Mat.A); printf("%c FNe(A, 2,0,-2,-1,-10,-1)\n", FNe(Mat.A, 2,0,-2,-1,-10,-1) ? 'T':'F');
   Num(la, Mat.A); printf("%c FGe(A, -10,-1,-1,-1,0,1)\n", FGe(Mat.A, -10,-1,-1,-1,0,1) ? 'T':'F');}
 
 int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)b, (As)a, (As)r, (As)e); Fini(NoSign,MatV); la = Fvbe(Mat.A, -1,-10);

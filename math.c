@@ -164,11 +164,11 @@ void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c);
   return FDIV(r, e, a, Mat.lb, Mat.b); }
 
 void FTst(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
-anu FRANGE(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
+void FRANGE(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
       FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; Mat.z = !Mat.TN; if (!l--) break;
       Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y;
-      Mat.z = Mat.z && (Mat.TN | Mat.TF); if (!l--) break; } while(!Mat.z);
-    return Mat.z; } FTST(a, Mat.lb, Mat.b); return !Mat.TN; }
-anu FEOV(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
-      FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; if (!l--) break; } while(!Mat.TF);
-    return Mat.TF; } FTST(a, Mat.lb, Mat.b); return Mat.TF; }
+      Mat.z = Mat.z && (Mat.TN | Mat.TF); if (!l--) break; } while(!Mat.z); Mat.TF = Mat.z; return; }
+  FTST(a, Mat.lb, Mat.b); Mat.TF = !Mat.TN; }
+void FEOV(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
+      FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; if (!l--) break; } while(!Mat.TF); return; }
+  FTST(a, Mat.lb, Mat.b); }

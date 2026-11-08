@@ -61,10 +61,11 @@ void FDIV(an r, an e, an a, anu l, an b);               // r = a / b, e = a mod 
 
 void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.TF ? =:Mat.TN ?<:>
 #define FGE(x, l, y) (FTST(x, l, y),(!Mat.TN | Mat.TF)) // x >= y
-#define FGT(x, l, y) (FTST(x, l, y),!(Mat.TN | Mat.TF)) // x > y
-#define FEQ(x, l, y) (FTST(x, l, y),(!Mat.TN && Mat.TF))// x = y
-#define FLT(x, l, y) (FTST(x, l, y),(Mat.TN && !Mat.TF))// x < y
 #define FLE(x, l, y) (FTST(x, l, y),(Mat.TN | Mat.TF))  // x <= y
+#define FGT(x, l, y) (FTST(x, l, y),!(Mat.TN | Mat.TF)) // x > y
+#define FLT(x, l, y) (FTST(x, l, y),(Mat.TN && !Mat.TF))// x < y
+#define FEQ(x, l, y) (FTST(x, l, y),Mat.TF)             // x = y
+#define FNE(x, l, y) (FTST(x, l, y),!Mat.TF)            // x != y
 
 void FCADD(an r, an a, anu l, an c);                            // r = a + (an)c[l]{Num} | r = a + Mat.b
 void FCSUB(an r, an a, anu l, an c);                            // r = a - (an)c[l]{Num} | r = a - Mat.b
@@ -80,15 +81,17 @@ void FCDIV(an r, an e, an a, anu l, an c);                      // r = a / (an)c
 #define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))        // r /= Num, e =...      | r /= Mat.b
 
 void FTst(an a, anu l, an c);                   // a?(an)c[l]{Num} Mat.TF? =:Mat.TN? <:> | a ? Mat.b
-#define Ftst(x, ...) FTst(x, Anu(__VA_ARGS__))  // x ? Num         Mat.TF? =:Mat.TN? <:> | x ? Mat.b
+#define Ftst(x, ...) FTst(x,Anu(__VA_ARGS__))   // x ? Num         Mat.TF? =:Mat.TN? <:> | x ? Mat.b
 #define Fge(x, ...) (Ftst(x, __VA_ARGS__), (!Mat.TN | Mat.TF))  // x >= Num              | x >= Mat.b
-#define Fgt(x, ...) (Ftst(x, __VA_ARGS__), !(Mat.TN | Mat.TF))  // x > Num               | x > Mat.b
-#define Feq(x, ...) (Ftst(x, __VA_ARGS__), (!Mat.TN && Mat.TF)) // x = Num               | x = Mat.b
-#define Flt(x, ...) (Ftst(x, __VA_ARGS__), (Mat.TN && !Mat.TF)) // x < Num               | x < Mat.b
 #define Fle(x, ...) (Ftst(x, __VA_ARGS__), (Mat.TN | Mat.TF))   // x <= Num              | x <= Mat.b
+#define Fgt(x, ...) (Ftst(x, __VA_ARGS__), !(Mat.TN | Mat.TF))  // x > Num               | x > Mat.b
+#define Flt(x, ...) (Ftst(x, __VA_ARGS__), (Mat.TN && !Mat.TF)) // x < Num               | x < Mat.b
+#define Feq(x, ...) (Ftst(x, __VA_ARGS__), Mat.TF)              // x = Num               | x = Mat.b
+#define Fne(x, ...) (Ftst(x, __VA_ARGS__), !Mat.TF)             // x != Num              | x != Mat.b
 
-anu FRANGE(an a, anu l, an c);                  // a ? (an)c[l]{{[Num1,Num2]^k}{>=NumN}} | a >= Mat.b
-anu FEOV(an a, anu l, an c);                    // a = (an)c[l]{Num1;Num2;...NumN}       | a = Mat.b
-#define FGe(x, ...) FRANGE(x, Anu(__VA_ARGS__))         // x ? {[Num1;Num2]^k}{>=NumN}}  | x >= Mat.b
-#define FEq(x, ...) FEOV(x, Anu(__VA_ARGS__))                   // x = {Num1...{,NumN}}  | x = Mat.b
+void FRANGE(an a, anu l, an c);                 // a ? (an)c[l]{{[Num1,Num2]^k}{>=NumN}} | a >= Mat.b
+void FEOV(an a, anu l, an c);                   // a = (an)c[l]{Num1;Num2;...NumN}       | a = Mat.b
+#define FGe(x, ...) (FRANGE(x,Anu(__VA_ARGS__)),Mat.TF) // x ? {[Num1;Num2]^k}{>=NumN}}  | x >= Mat.b
+#define FEq(x, ...) (FEOV(x,Anu(__VA_ARGS__)),Mat.TF)           // x = {Num1...{,NumN}}  | x = Mat.b
+#define FNe(x, ...) (FEOV(x,Anu(__VA_ARGS__)),!Mat.TF)          // x != {Num1...{,NumN}} | x != Mat.b
 #endif
