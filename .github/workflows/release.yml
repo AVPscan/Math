@@ -20,7 +20,7 @@ env:
 jobs:
   # 1. Честная сборка статического бинарника
   build-musl:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container: alpine:latest
     steps:
       - uses: actions/checkout@main
@@ -41,7 +41,7 @@ jobs:
       matrix:
         include:
           - desc: "Linux-Dynamic"
-            os: ubuntu-latest
+            os: ubuntu-24.04
             cmd: make
             artifact: linux-dynamic
           - desc: "Windows"
@@ -62,13 +62,12 @@ jobs:
         if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: UCRT64
           update: true
-          install: mingw-w64-x86_64-gcc make
+          install: mingw-w64-ucrt-x86_64-gcc make
       - name: Install build tools (macOS)
         if: runner.os == 'macOS'
         run: |
-          export HOMEBREW_NO_REQUIRE_TAP_TRUST=1
           brew install gcc make
       - name: Build (Windows)
         if: runner.os == 'Windows'
@@ -86,7 +85,7 @@ jobs:
   # 3. Релиз, который собирает всё воедино
   create-release:
     needs: [build-musl, build-others]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@main
       - name: Get Version
