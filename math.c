@@ -157,21 +157,18 @@ void FTST(an a, anu l, an b) { Mat.i = Mat.l; Mat.j = l; Mat.a = a; Mat.b = b;
     if (!++Mat.i) { Mat.CF++; Mat.CN = 0; } else { Mat.CN = !(*++Mat.be < *++Mat.ae); } return; }
   if (Mat.x ^ Mat.CN) { Mat.CN = ~Mat.CN; return; } Mat.CN = Mat.x ? (Mat.j < Mat.i):(Mat.i < Mat.j); }
 
-void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c);
-  return FADD(r, a, Mat.lb, Mat.b); }
-void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c);
-  return FSUB(r, a, Mat.lb, Mat.b); }
-void FCMUL(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c);
-  return FMUL(r, a, Mat.lb, Mat.b); }
+void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FADD(r, a, Mat.lb, Mat.b); }
+void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FSUB(r, a, Mat.lb, Mat.b); }
+void FCMUL(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); return FMUL(r, a, Mat.lb, Mat.b); }
 void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c);
   return FDIV(r, e, a, Mat.lb, Mat.b); }
 
 void FTst(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
-anu FRANGE(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.y = 0;
-    while(!Mat.y && l >= Mat.l) { FTST(a, Mat.l, Mat.e); Mat.y = !Mat.CN; Mat.e += 1 + Mat.l;
-      l -= Mat.l; if (!l--) { break; } FTST(a, Mat.l, Mat.e); Mat.y = Mat.y && (Mat.CN | Mat.CF);
-      Mat.e += 1 + Mat.l; l -= Mat.l; if (!l--) break; } return Mat.y; }
+anu FRANGE(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
+      FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; Mat.nb = !Mat.CN; if (!l--) break;
+      Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y;
+      Mat.nb = Mat.nb && (Mat.CN | Mat.CF); if (!l--) break; } while(!Mat.nb); return Mat.nb; }
   FTST(a, Mat.lb, Mat.b); return !Mat.CN; }
-anu FEOV(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.CF = 0;
-    while(!Mat.CF && l >= Mat.l) { FTST(a, Mat.l, Mat.e); Mat.e += 1 + Mat.l; l -= Mat.l;
-      if (!l--) break; } return Mat.CF; } FTST(a, Mat.lb, Mat.b); return Mat.CF; }
+anu FEOV(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
+      FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; if (!l--) break; } while(!Mat.CF);
+    return Mat.CF; } FTST(a, Mat.lb, Mat.b); return Mat.CF; }
