@@ -166,7 +166,7 @@ void FCMUL(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c);
 void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c);
   return FDIV(r, e, a, Mat.lb, Mat.b); }
 
-void Ftst(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
+void FTst(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
 anu FRANGE(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.y = 0;
     while(!Mat.y && l >= Mat.l) { FTST(a, Mat.l, Mat.e); Mat.y = !Mat.CN; Mat.e += 1 + Mat.l;
       l -= Mat.l; if (!l--) { break; } FTST(a, Mat.l, Mat.e); Mat.y = Mat.y && (Mat.CN | Mat.CF);
