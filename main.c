@@ -17,16 +17,16 @@
 anu la,lb;
 void Num(anu s, an a) { anu ns,t[m]; if (s > 8) printf(" %d|? ", s + 1);
   else { printf("(%d|%d) ", s + 1, (ns = FOLD(Obe, (an)t, s, a)) + 1); a = (an)t;
-    if (Mat.z == 2) printf("inf "); else {
+    if (Mat.u == 2) printf("inf "); else {
       if (Mat.Nim) { if (ns > 3) printf("%ld " , *(int64_t*)a); else if (ns > 1) printf("%d ", *(int32_t*)a);
         else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
       else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
         else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } } } }
 void Show(char s) { Flong(Mat.lb,la); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A); else if (s == '-') FSub(Mat.R, Mat.A);
   else if (s == '*') FMul(Mat.R, Mat.A); else if (s == '/') FDiv(Mat.R, Mat.A, Mat.E); else if (s == '?') Ftst(Mat.A);
-  else { Ftst(Mat.A, 127); } if (s == '?' || s == 'c') printf(" %c ", Mat.CF ? 'Z':Mat.CN ? '-':'+');
+  else { Ftst(Mat.A, 127); } if (s == '?' || s == 'c') printf(" %c ", Mat.TF ? 'Z':Mat.TN ? '-':'+');
   else { printf("%c%c ", Mat.C ? 'C':' ', Mat.F ? Mat.N ? 'I':'Z':Mat.N ? '-':'+'); } Num(la, Mat.A);
-  if (s == '?' || s == 'c') printf("%c ", Mat.CF ? '=':Mat.CN ? '<':'>'); else {
+  if (s == '?' || s == 'c') printf("%c ", Mat.TF ? '=':Mat.TN ? '<':'>'); else {
     if (s == 'c') printf("? "); else printf("%c ", s); } Num(Mat.lb, Mat.b); if (s < '?') { printf("= "); Num(Mat.l, Mat.R); }
   if (s == '/') { printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); }
 void Test(void) { Faddr((As)Mat.B); Flong(lb,la); anu t,i = 2; printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' '); Show('+');

@@ -19,8 +19,8 @@
 // Mat.C         [0/X]  {нет переполнения/переполнение} результата
 // Mat.F{Fe}    [0,1,2] {0} число/состояние {1} не бытиё {2} бесконечность результата{остатка}
 // Mat.N{Ne}     [0/X]  {0} для чисел без знака или положительное иначе отрицательное {+/-}
-// Mat.CF        [0/X]  {0} не равенство
-// Mat.CN        [0/X]  {0} больше или равно иначе меньше
+// Mat.TF        [0/X]  {0} не равенство
+// Mat.TN        [0/X]  {0} больше или равно иначе меньше
 // Mat.l{le}    [0.255] длина первого операнда a, длина результата r{остатка e}
 // Mat.lb       [0.255] длина последнего обработанного второго операнда
 // Mat.b        адрес последнего обработанного второго операнда
@@ -29,7 +29,7 @@
 typedef uintptr_t As;                           // основа, разрядность процессора
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
-typedef struct { anu Nim, V, lb, l, le, C, F, N, Fe, Ne, CF, CN,
+typedef struct { anu Nim, V, lb, l, le, C, F, N, Fe, Ne, TF, TN,
   i,j,k,t,u,x,y,z,H[255],L[255],S[255]; an b,a,r,e,ae,be, B, A, R, E; } Math;
 
 extern Math Mat;
@@ -48,8 +48,8 @@ anu FMOV(an r, anu l, an a);                    // Копирование l ат
 anu FOLD(anu f, an r, anu l, an a);             // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
 anu FVAR(anu f, an r, anu l, an c);             // Копирование из константы в переменную l -> lnew
 #define Fswap(l, x) FSWAP(x, l, x)                      // Fswap(l, x); Fswap(l, x); -> {}
-#define Fmov(l, x) FMOV(x, l, x)                        // l -> lnew      Mat.z ? Mat.z:Mat.u ? -:+
-#define Fold(f, l, x) FOLD(f, x, l, x)                  // l -> lnew >= l Mat.z ? Mat.z:Mat.u ? -:+
+#define Fmov(l, x) FMOV(x, l, x)                        // l -> lnew      Mat.u ? Mat.u:Mat.z ? -:+
+#define Fold(f, l, x) FOLD(f, x, l, x)                  // l -> lnew >= l Mat.u ? Mat.u:Mat.z ? -:+
 #define FVar(f, r, ...) FVAR(f, r, Anu(__VA_ARGS__))    // r = Num{LittleEnd/BigEnd}     | r = 0
 #define Fvle(r, ...) FVar(0, r, __VA_ARGS__)            // r = Num{LittleEndian}         | r = 0
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Num{BigEndian}            | r = 0
@@ -59,12 +59,12 @@ void FSUB(an r, an a, anu l, an b);                     // r = a - b     | r -= 
 void FMUL(an r, an a, anu l, an b);                     // r = a * b
 void FDIV(an r, an e, an a, anu l, an b);               // r = a / b, e = a mod b - Евклид {+}
 
-void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.CF ? =:Mat.CN ?<:>
-#define FGE(x, l, y) (FTST(x, l, y),(!Mat.CN | Mat.CF)) // x >= y
-#define FGT(x, l, y) (FTST(x, l, y),!(Mat.CN | Mat.CF)) // x > y
-#define FEQ(x, l, y) (FTST(x, l, y),(!Mat.CN && Mat.CF))// x = y
-#define FLT(x, l, y) (FTST(x, l, y),(Mat.CN && !Mat.CF))// x < y
-#define FLE(x, l, y) (FTST(x, l, y),(Mat.CN | Mat.CF))  // x <= y
+void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.TF ? =:Mat.TN ?<:>
+#define FGE(x, l, y) (FTST(x, l, y),(!Mat.TN | Mat.TF)) // x >= y
+#define FGT(x, l, y) (FTST(x, l, y),!(Mat.TN | Mat.TF)) // x > y
+#define FEQ(x, l, y) (FTST(x, l, y),(!Mat.TN && Mat.TF))// x = y
+#define FLT(x, l, y) (FTST(x, l, y),(Mat.TN && !Mat.TF))// x < y
+#define FLE(x, l, y) (FTST(x, l, y),(Mat.TN | Mat.TF))  // x <= y
 
 void FCADD(an r, an a, anu l, an c);                            // r = a + (an)c[l]{Num} | r = a + Mat.b
 void FCSUB(an r, an a, anu l, an c);                            // r = a - (an)c[l]{Num} | r = a - Mat.b
@@ -79,13 +79,13 @@ void FCDIV(an r, an e, an a, anu l, an c);                      // r = a / (an)c
 #define Fmul(r, ...) FCMUL(r, r, Anu(__VA_ARGS__))              // r *= Num              | r *= Mat.b
 #define Fdiv(r, e, ...) FCDIV(r, e, r, Anu(__VA_ARGS__))        // r /= Num, e =...      | r /= Mat.b
 
-void FTst(an a, anu l, an c);                   // a?(an)c[l]{Num} Mat.CF? =:Mat.CN? <:> | a ? Mat.b
-#define Ftst(x, ...) FTst(x, Anu(__VA_ARGS__))  // x ? Num         Mat.CF? =:Mat.CN? <:> | x ? Mat.b
-#define Fge(x, ...) (Ftst(x, __VA_ARGS__), (!Mat.CN | Mat.CF))  // x >= Num              | x >= Mat.b
-#define Fgt(x, ...) (Ftst(x, __VA_ARGS__), !(Mat.CN | Mat.CF))  // x > Num               | x > Mat.b
-#define Feq(x, ...) (Ftst(x, __VA_ARGS__), (!Mat.CN && Mat.CF)) // x = Num               | x = Mat.b
-#define Flt(x, ...) (Ftst(x, __VA_ARGS__), (Mat.CN && !Mat.CF)) // x < Num               | x < Mat.b
-#define Fle(x, ...) (Ftst(x, __VA_ARGS__), (Mat.CN | Mat.CF))   // x <= Num              | x <= Mat.b
+void FTst(an a, anu l, an c);                   // a?(an)c[l]{Num} Mat.TF? =:Mat.TN? <:> | a ? Mat.b
+#define Ftst(x, ...) FTst(x, Anu(__VA_ARGS__))  // x ? Num         Mat.TF? =:Mat.TN? <:> | x ? Mat.b
+#define Fge(x, ...) (Ftst(x, __VA_ARGS__), (!Mat.TN | Mat.TF))  // x >= Num              | x >= Mat.b
+#define Fgt(x, ...) (Ftst(x, __VA_ARGS__), !(Mat.TN | Mat.TF))  // x > Num               | x > Mat.b
+#define Feq(x, ...) (Ftst(x, __VA_ARGS__), (!Mat.TN && Mat.TF)) // x = Num               | x = Mat.b
+#define Flt(x, ...) (Ftst(x, __VA_ARGS__), (Mat.TN && !Mat.TF)) // x < Num               | x < Mat.b
+#define Fle(x, ...) (Ftst(x, __VA_ARGS__), (Mat.TN | Mat.TF))   // x <= Num              | x <= Mat.b
 
 anu FRANGE(an a, anu l, an c);                  // a ? (an)c[l]{{[Num1,Num2]^k}{>=NumN}} | a >= Mat.b
 anu FEOV(an a, anu l, an c);                    // a = (an)c[l]{Num1;Num2;...NumN}       | a = Mat.b
