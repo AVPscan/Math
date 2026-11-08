@@ -167,8 +167,8 @@ void FTst(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat
 anu FRANGE(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
       FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; Mat.u = !Mat.CN; if (!l--) break;
       Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y;
-      Mat.u = Mat.u && (Mat.CN | Mat.CF); if (!l--) break; } while(!Mat.u); return Mat.u; }
-  FTST(a, Mat.lb, Mat.b); return !Mat.CN; }
+      Mat.u = Mat.u && (Mat.CN | Mat.CF); if (!l--) break; } while(!Mat.u);
+    return Mat.u; } FTST(a, Mat.lb, Mat.b); return !Mat.CN; }
 anu FEOV(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
       FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; if (!l--) break; } while(!Mat.CF);
     return Mat.CF; } FTST(a, Mat.lb, Mat.b); return Mat.CF; }
