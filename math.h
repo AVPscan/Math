@@ -29,7 +29,7 @@ typedef uintptr_t As;                           // основа, разрядн�
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu Nim, V, lb, l, le, C, F, N, Fe, Ne, CF, CN,
-  na,nb,i,j,k,t,x,y,H[255],L[255],S[255]; an b,a,r,e,ae,be, B, A, R, E; } Math;
+  i,j,k,t,u,x,y,z,H[255],L[255],S[255]; an b,a,r,e,ae,be, B, A, R, E; } Math;
 
 extern Math Mat;
 #define MCINIT Math Mat = {0};
@@ -39,7 +39,7 @@ void FInit(anu x, anu y, an r, anu c, an a);            // Универсаль�
 void FAddr(anu y, As* r, anu c, As* a);                 // Faddr({(As)b{,(As)a{,(As)r{,(As)e}}}});
 #define Faddr(...) FAddr(4,(As*)&Mat.B,Adr(__VA_ARGS__)); Mat.b = Mat.B
 #define Fset(...) FInit(0,4,&Mat.Nim,Anu(__VA_ARGS__))  // Fset({Nim{,V{,lb{,la}}}});
-#define Fini(...) FInit(12,4,&Mat.na,Anu(__VA_ARGS__))  // Nim=V=lb=l..Ne=0 Fini({Nim{,V{,lb{,la}}}});
+#define Fini(...) FInit(12,4,&Mat.i,Anu(__VA_ARGS__))   // Nim=V=lb=l..Ne=0 Fini({Nim{,V{,lb{,la}}}});
 #define Flong(...) FInit(0,3,&Mat.lb,Anu(__VA_ARGS__))  // Flong({lb{,la{,le}}});
 
 void FSWAP(an r, anu l, an a);                  // Зеркалирование атомов длиной l относительно центра числа
@@ -47,8 +47,8 @@ anu FMOV(an r, anu l, an a);                    // Копирование l ат
 anu FOLD(anu f, an r, anu l, an a);             // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
 anu FVAR(anu f, an r, anu l, an c);             // Копирование из константы в переменную l -> lnew
 #define Fswap(l, x) FSWAP(x, l, x)                      // Fswap(l, x); Fswap(l, x); -> {}
-#define Fmov(l, x) FMOV(x, l, x)                        // l -> lnew      Mat.na ? Mat.na:Mat.nb ? -:+
-#define Fold(f, l, x) FOLD(f, x, l, x)                  // l -> lnew >= l Mat.na ? Mat.na:Mat.nb ? -:+
+#define Fmov(l, x) FMOV(x, l, x)                        // l -> lnew      Mat.z ? Mat.z:Mat.u ? -:+
+#define Fold(f, l, x) FOLD(f, x, l, x)                  // l -> lnew >= l Mat.z ? Mat.z:Mat.u ? -:+
 #define FVar(f, r, ...) FVAR(f, r, Anu(__VA_ARGS__))    // r = Num{LittleEnd/BigEnd}     | r = 0
 #define Fvle(r, ...) FVar(0, r, __VA_ARGS__)            // r = Num{LittleEndian}         | r = 0
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Num{BigEndian}            | r = 0

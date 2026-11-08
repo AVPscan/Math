@@ -17,7 +17,7 @@
 anu la,lb;
 void Num(anu s, an a) { anu ns,t[m]; if (s > 8) printf(" %d|? ", s + 1);
   else { printf("(%d|%d) ", s + 1, (ns = FOLD(Obe, (an)t, s, a)) + 1); a = (an)t;
-    if (Mat.na == 2) printf("inf "); else {
+    if (Mat.z == 2) printf("inf "); else {
       if (Mat.Nim) { if (ns > 3) printf("%ld " , *(int64_t*)a); else if (ns > 1) printf("%d ", *(int32_t*)a);
         else if (ns) printf("%d ", *(int16_t*)a); else printf("%d ", *(int8_t*)a); }
       else { if (ns > 3) printf("%lu ", *(uint64_t*)a); else if (ns > 1) printf("%u ", *(uint32_t*)a);
