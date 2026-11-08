@@ -31,7 +31,7 @@ void Show(char s) { Flong(Mat.lb,la); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A
   if (s == '/') { printf("  %c ", Mat.Fe ? (Mat.Ne ? 'I':'Z') : (Mat.Ne ? '-':'+')); Num(Mat.le, Mat.E); } printf("\n"); }
 void Test(void) { Faddr((As)Mat.B); Flong(lb,la); anu t,i = 2; printf("%c%c A B\n", Mat.Nim ? 'N':' ', Mat.V ? 'V':' '); Show('+');
   Show('-'); Show('?'); Show('*'); /*Show('/');*/ printf("   A Const\n"); Show('c'); while(i--) { t = *Mat.b; *Mat.b = ++t; Show('?'); }
-  Num(la, Mat.A); printf("%c FLt(A, 3,0,10,0)\n", FLt(Mat.A, 3,0,10,0) ? 'T':'F');
+  printf("   A Array\n"); Num(la, Mat.A); printf("%c FLt(A, 3,0,10,0,1,3)\n", FLt(Mat.A, 3,0,10,0,1,3) ? 'T':'F');
   Num(la, Mat.A); printf("%c FEq(A, 2,0,-2,-1,0,3)\n", FEq(Mat.A, 2,0,-2,-1,0,3) ? 'T':'F');
   Num(la, Mat.A); printf("%c FGe(A, -10,-1,-1,-1,0,1)\n", FGe(Mat.A, -10,-1,-1,-1,0,1) ? 'T':'F'); }
 
