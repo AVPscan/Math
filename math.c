@@ -45,8 +45,8 @@ void FTST(an a, anu l, an b) { Mat.i = Mat.l; Mat.j = l; Mat.a = a; Mat.b = b;
         if (!Mat.t && *Mat.be == 128) { Mat.TF++; Mat.TN = 0; Mat.k = 3; } return; }
       if (!Mat.t && *Mat.be == 128) { Mat.TN = !Mat.u; Mat.k = 2; return; } } Mat.k = 0;
   if (!(Mat.u ^ Mat.z) && Mat.i == Mat.j) { while((*Mat.ae-- == *Mat.be--) && Mat.i--) { }
-    if (!++Mat.i) { Mat.ae++; Mat.be++; Mat.TF++; Mat.TN = 0; return; }
-    else { Mat.TN = *++Mat.be >= *++Mat.ae; } return; }
+    if (!++Mat.i) { Mat.ae++; Mat.be++; Mat.TF++; Mat.TN = 0; }
+    else { Mat.TN = *++Mat.be >= *++Mat.ae; } Mat.i = Mat.j; return; }
   if (Mat.u ^ Mat.z) { Mat.TN = !Mat.z; return; } Mat.TN = Mat.u ? (Mat.j < Mat.i):(Mat.i < Mat.j); }
 
 void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.lb = Mat.N;
@@ -148,16 +148,10 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.F = (Mat.C = (!Mat.Nim && Mat.t == 2)) ? 1:Mat.t; Mat.N = 0; Mat.N -= (Mat.F == 2);
   Mat.l = Mat.V ? 0:Mat.l; Mat.i = Mat.l; while(Mat.i--) *Mat.r++ = 0; *Mat.r = Mat.N & 128; }
 
-void FDIV(an r, an e, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
-  Mat.F = Mat.l; Mat.x = *(Mat.ae = Mat.a + Mat.l); Mat.u = (Mat.Nim && (Mat.x & 128)) ? 255:0;
-  Mat.lb = Mat.N; Mat.y = *(Mat.e = Mat.b + Mat.N); Mat.z = (Mat.Nim && (Mat.y & 128)) ? 255:0;
-  while(Mat.F-- && *Mat.ae-- == Mat.u && !((*Mat.ae ^ Mat.u) & 128));
-  Mat.i = ++Mat.F; while(Mat.N-- && *Mat.e-- == Mat.z && !((*Mat.e ^ Mat.z) & 128));
-  Mat.j = ++Mat.N; while(Mat.F-- && !*Mat.a) { Mat.a++; } Mat.F++;
-  while(Mat.N-- && !*Mat.be) { Mat.be++; } Mat.N++; Mat.t = !(Mat.x | Mat.i) || !(Mat.y | Mat.j);
-  if (!Mat.t && Mat.Nim) { Mat.t = (Mat.lb == Mat.j && !Mat.N && Mat.y == 128) ? 2:0;
-    Mat.t = (Mat.l == Mat.i && !Mat.F && Mat.x == 128) ? 2:Mat.t; }
-  (void)e; }
+void FDIV(an r, an e, an a, anu l, an b) { FTST(a, l, b); Mat.r = r; Mat.e = e;
+  Mat.t = (!(Mat.i | *Mat.ae)) | ((!(Mat.j | *Mat.be)) << 1);
+  if (Mat.t || Mat.k || Mat.TF || Mat.TN) { }
+  }
 
 void FCTST(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
 anu FCGE(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
