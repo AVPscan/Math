@@ -10,7 +10,8 @@
 MCINIT
 void FInit(anu x, anu y, an r, anu c, an a) { while(x--) *--r = 0;
   c = (c > y) ? y:c; while(c--) *r++ = *a++; }
-void FAddr(anu y, As* r, anu c, As* a) { c = (c > y) ? y:c; while(c--) *r++ = *a++; }
+void FAddr(anu y, As* r, anu c, As* a) { if ((c = (c > y) ? y:c)) { *r++ = *a;
+  do *r++ = *a++; while(--c); } }
 
 void FSWAP(an r, anu l, an a) { Mat.i = l; Mat.r = r; Mat.a = a; Mat.be = Mat.r + Mat.i;
   Mat.ae = Mat.a + Mat.i; Mat.j = *Mat.a++; *Mat.r++ = Mat.i ? *Mat.ae--:Mat.j; *Mat.be-- = Mat.j;

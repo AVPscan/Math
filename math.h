@@ -30,7 +30,7 @@ typedef uintptr_t As;                           // основа, разрядн�
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu Nim, V, lb, l, le, C, F, N, Fe, Ne, TF, TN,
-  i,j,k,t,u,x,y,z,H[255],L[255],S[255]; an b,a,r,e,ae,be, B, A, R, E; } Math;
+  i,j,k,t,u,x,y,z,H[255],L[255],S[255]; an e,r,a,ae,be,b, B, A, R, E; } Math;
 
 extern Math Mat;
 #define MCINIT Math Mat = {0};
@@ -38,7 +38,7 @@ extern Math Mat;
 #define Adr(...) (anu)((sizeof((As[]){0, ##__VA_ARGS__})/sizeof(As))-1), (As[]){0, ##__VA_ARGS__}+1
 void FInit(anu x, anu y, an r, anu c, an a);            // Универсальный примитив
 void FAddr(anu y, As* r, anu c, As* a);                 // Faddr({(As)b{,(As)a{,(As)r{,(As)e}}}});
-#define Faddr(...) FAddr(4,(As*)&Mat.B,Adr(__VA_ARGS__)); Mat.b = Mat.B
+#define Faddr(...) FAddr(4,(As*)&Mat.b,Adr(__VA_ARGS__))// Установка адресов B A R E и Mat.b = Mat.B
 #define Fset(...) FInit(0,4,&Mat.Nim,Anu(__VA_ARGS__))  // Fset({Nim{,V{,lb{,la}}}});
 #define Fini(...) FInit(12,4,&Mat.i,Anu(__VA_ARGS__))   // Nim=V=lb=l..Ne=0 Fini({Nim{,V{,lb{,la}}}});
 #define Flong(...) FInit(0,3,&Mat.lb,Anu(__VA_ARGS__))  // Flong({lb{,la{,le}}});
