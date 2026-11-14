@@ -149,8 +149,7 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.l = Mat.V ? 0:Mat.l; Mat.i = Mat.l; while(Mat.i--) *Mat.r++ = 0; *Mat.r = Mat.N & 128; }
 
 void FDIV(an r, an e, an a, anu l, an b) { FTST(a, l, b); Mat.r = r; Mat.e = e;
-  Mat.t = (!(Mat.i | *Mat.ae)) | ((!(Mat.j | *Mat.be)) << 1);
-  if (Mat.t || Mat.k || Mat.TF || Mat.TN) { }
+  if (((Mat.t = (!(Mat.i | *Mat.ae)) | ((!(Mat.j | *Mat.be)) << 1)) | Mat.k | Mat.TF | Mat.TN)) { }
   }
 
 void FCTST(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
