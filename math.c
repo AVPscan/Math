@@ -166,9 +166,6 @@ anu FCLT(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.x = 1; do { Mat.y = (Mat
       Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y;
       Mat.x = Mat.x || !(Mat.TN | Mat.TF); } while(l--); return Mat.x; }
   FTST(a, Mat.lb, Mat.b); return Mat.TN; }
-anu FCNE(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.x = 0; do { Mat.y = (Mat.l > l) ? l:Mat.l;
-    FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; Mat.x = Mat.x || Mat.TF; } while(l-- && !Mat.x);
-  return !Mat.x; } FTST(a, Mat.lb, Mat.b); return !Mat.TF; }
 anu FCEQ(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
       FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; } while(l-- && !Mat.TF); return Mat.TF; }
   FTST(a, Mat.lb, Mat.b); return Mat.TF; }
