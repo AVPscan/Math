@@ -11,7 +11,7 @@
 #define Obe    0    // вывод на экран {0} little endian, иначе big endian
 #define NoSign 0    // беззнаковое представление
 #define Sign   1    // знаковое представление
-#define MatV   0    // возможность увеличения разрядности
+#define MatV   1    // возможность увеличения разрядности
 #define m      128  // максимальное число атомов в числах
 
 anu la,lb;
@@ -36,5 +36,5 @@ void Test(void) { Faddr((As)Mat.B); Flong(lb,la); anu t,i = 2; printf("%c%c A B\
   Num(la, Mat.A); printf("%c !FEq(A, 2,0,-2,-1,0,3,0,4)\n", !FEq(Mat.A, 2,0,-2,-1,0,3,0,4) ? 'T':'F');
   Num(la, Mat.A); printf("%c FEq(A, 2,0,-2,-1,0,3,0,4)\n", FEq(Mat.A, 2,0,-2,-1,0,3,0,4) ? 'T':'F'); }
 
-int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)b, (As)a, (As)r, (As)e); Fini(NoSign,MatV); la = Fvbe(Mat.A, 3,0);
+int main(void) { anu a[m],b[m],e[m],r[m+m]; Faddr((As)b, (As)a, (As)r, (As)e); Fini(NoSign,MatV); la = Fvbe(Mat.A, 0,99);
   lb = Fvle(Mat.B, -100,255,255,255,255); Test(); Fset(Sign,MatV); la = Fmov(la, Mat.A); lb = Fmov(lb, Mat.B); Test(); return 0; }
