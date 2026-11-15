@@ -55,12 +55,12 @@ anu FVAR(anu f, an r, anu l, an c);             // Копирование из �
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Num{BigEndian}            | r = 0
 
 void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.TF? =:Mat.TN? <:>
+#define FGE(x, l, y) (FTST(x, l, y),!Mat.TN)            // x >= y
 #define FLE(x, l, y) (FTST(x, l, y),(Mat.TN | Mat.TF))  // x <= y
 #define FGT(x, l, y) (FTST(x, l, y),!(Mat.TN | Mat.TF)) // x > y
-#define FNE(x, l, y) (FTST(x, l, y),!Mat.TF)            // x != y
-#define FGE(x, l, y) (FTST(x, l, y),!Mat.TN)            // x >= y
 #define FLT(x, l, y) (FTST(x, l, y),Mat.TN)             // x < y
 #define FEQ(x, l, y) (FTST(x, l, y),Mat.TF)             // x = y
+#define FNE(x, l, y) (FTST(x, l, y),!Mat.TF)            // x != y
 
 void FADD(an r, an a, anu l, an b);                     // r = a + b     | r += Mat.b -> Fadd(r);
 void FSUB(an r, an a, anu l, an b);                     // r = a - b     | r -= 256 -> Fsub(r, 0,1);
@@ -69,12 +69,12 @@ void FDIV(an r, an e, an a, anu l, an b);               // r = a / b, e = a mod 
 
 void FCTST(an a, anu l, an c);                  // a?(an)c[l]{Num} Mat.TF? =:Mat.TN? <:> | a ? Mat.b
 #define Ftst(x, ...) FCTST(x, Anu(__VA_ARGS__)) // x ? Num         Mat.TF? =:Mat.TN? <:> | x ? Mat.b
+#define Fge(x, ...) (Ftst(x, __VA_ARGS__),!Mat.TN)              // x >= Num              | x >= Mat.b
 #define Fle(x, ...) (Ftst(x, __VA_ARGS__),(Mat.TN | Mat.TF))    // x <= Num              | x <= Mat.b
 #define Fgt(x, ...) (Ftst(x, __VA_ARGS__),!(Mat.TN | Mat.TF))   // x > Num               | x > Mat.b
-#define Fne(x, ...) (Ftst(x, __VA_ARGS__),!Mat.TF)              // x != Num              | x != Mat.b
-#define Fge(x, ...) (Ftst(x, __VA_ARGS__),!Mat.TN)              // x >= Num              | x >= Mat.b
 #define Flt(x, ...) (Ftst(x, __VA_ARGS__),Mat.TN)               // x < Num               | x < Mat.b
 #define Feq(x, ...) (Ftst(x, __VA_ARGS__),Mat.TF)               // x = Num               | x = Mat.b
+#define Fne(x, ...) (Ftst(x, __VA_ARGS__),!Mat.TF)              // x != Num              | x != Mat.b
 
 anu FCGE(an a, anu l, an c);                    // a ? (an)c[l]{{[Num1,Num2]^k}{[NumN}}  | a >= Mat.b
 anu FCLT(an a, anu l, an c);                    // a ? (an)c[l]{{)Num1,Num2(^k}{)NumN}}  | a < Mat.b
