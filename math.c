@@ -149,7 +149,10 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
   Mat.l = Mat.V ? 0:Mat.l; Mat.i = Mat.l; while(Mat.i--) *Mat.r++ = 0; *Mat.r = Mat.N & 128; }
 
 void FDIV(an r, an e, an a, anu l, an b) { FTST(a, l, b); Mat.r = r; Mat.e = e;
-  if (((Mat.t = (!(Mat.i | *Mat.ae)) | ((!(Mat.j | *Mat.be)) << 1)) | Mat.k | Mat.TF | Mat.TN)) { }
+  if ((Mat.t = (!(Mat.i | *Mat.ae)) | ((!(Mat.j | *Mat.be)) << 1)) | Mat.k) { }
+  if (Mat.TF) { *Mat.r = 1; *Mat.e = 0; Mat.F = 0; Mat.N = 0; Mat.Fe = 1; Mat.Ne = 0;
+    if (Mat.V) { Mat.l = 0; Mat.le = 0; return; } Mat.le = Mat.lb; Mat.i = Mat.l;
+    while(Mat.i--) { *++Mat.r = 0; } Mat.i = Mat.le; while(Mat.i--) { *++Mat.e = 0; } return; }
   }
 
 void FCTST(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
@@ -163,6 +166,9 @@ anu FCLT(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.x = 1; do { Mat.y = (Mat
       Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y;
       Mat.x = Mat.x || !(Mat.TN | Mat.TF); } while(l--); return Mat.x; }
   FTST(a, Mat.lb, Mat.b); return Mat.TN; }
+anu FCNE(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.x = 0; do { Mat.y = (Mat.l > l) ? l:Mat.l;
+    FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; Mat.x = Mat.x || Mat.TF; } while(l-- && !Mat.x);
+  return !Mat.x; } FTST(a, Mat.lb, Mat.b); return !Mat.TF; }
 anu FCEQ(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
       FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; } while(l-- && !Mat.TF); return Mat.TF; }
   FTST(a, Mat.lb, Mat.b); return Mat.TF; }

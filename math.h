@@ -76,11 +76,13 @@ void FCTST(an a, anu l, an c);                  // a?(an)c[l]{Num} Mat.TF? =:Mat
 #define Flt(x, ...) (Ftst(x, __VA_ARGS__),Mat.TN)               // x < Num               | x < Mat.b
 #define Feq(x, ...) (Ftst(x, __VA_ARGS__),Mat.TF)               // x = Num               | x = Mat.b
 
-anu FCGE(an a, anu l, an c);                    // a ? (an)c[l]{{[Num1,Num2]^k}{>=NumN}} | a >= Mat.b
-anu FCLT(an a, anu l, an c);                    // a ? (an)c[l]{{< NumN}{)Num1,Num2(^k}} | a < Mat.b
+anu FCGE(an a, anu l, an c);                    // a ? (an)c[l]{{[Num1,Num2]^k}{[NumN}}  | a >= Mat.b
+anu FCLT(an a, anu l, an c);                    // a ? (an)c[l]{{)Num1,Num2(^k}{)NumN}}  | a < Mat.b
+anu FCNE(an a, anu l, an c);                    // a != (an)c[l]{Num1;Num2;...NumN}      | a != Mat.b
 anu FCEQ(an a, anu l, an c);                    // a = (an)c[l]{Num1;Num2;...NumN}       | a = Mat.b
-#define FGe(x, ...) FCGE(x, Anu(__VA_ARGS__))           // x ? {[Num1;Num2]^k}{>=NumN}}  | x >= Mat.b
-#define FLt(x, ...) FCLT(x, Anu(__VA_ARGS__))           // x ? {< NumN}{)Num1,Num2(^k}   | x < Mat.b
+#define FGe(x, ...) FCGE(x, Anu(__VA_ARGS__))           // x ? {[Num1;Num2]^k}{[NumN}}   | x >= Mat.b
+#define FLt(x, ...) FCLT(x, Anu(__VA_ARGS__))           // x ? {)Num1,Num2(^k}{)NumN}    | x < Mat.b
+#define FNe(x, ...) FCNE(x, Anu(__VA_ARGS__))                   // x != {Num1...{,NumN}} | x != Mat.b
 #define FEq(x, ...) FCEQ(x, Anu(__VA_ARGS__))                   // x = {Num1...{,NumN}}  | x = Mat.b
 
 void FCADD(an r, an a, anu l, an c);                            // r = a + (an)c[l]{Num} | r = a + Mat.b
