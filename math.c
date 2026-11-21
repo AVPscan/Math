@@ -40,10 +40,10 @@ void FTST(an a, anu l, an b) { Mat.i = Mat.l; Mat.j = l; Mat.a = a; Mat.b = b;
   while(*Mat.ae-- == Mat.u && Mat.i && !((*Mat.ae ^ Mat.u) & 128)) { Mat.i--; } Mat.ae++;
   while(*Mat.be-- == Mat.z && Mat.j && !((*Mat.be ^ Mat.z) & 128)) { Mat.j--; } Mat.be++;
   if (Mat.Nim) if ((Mat.l == Mat.i && *Mat.ae == 128) || (Mat.lb == Mat.j && *Mat.be == 128)) {
-      Mat.k = Mat.i; Mat.r = Mat.a; while(Mat.k && !*Mat.r++) { Mat.k--; } Mat.t = Mat.j;
-      Mat.r = Mat.b; while(Mat.t && !*Mat.r++) { Mat.t--; } if (!Mat.k++ && *Mat.ae == 128) {
-        if (!Mat.t && *Mat.be == 128) { Mat.TF++; Mat.TN = 0; Mat.k = 3; } return; }
-      if (!Mat.t && *Mat.be == 128) { Mat.TN = !Mat.u; Mat.k = 2; return; } } Mat.k = 0;
+      Mat.k = Mat.i; Mat.r = Mat.a; while(Mat.k && !*Mat.r++) { Mat.k--; } Mat.x = Mat.j;
+      Mat.r = Mat.b; while(Mat.x && !*Mat.r++) { Mat.x--; } if (!Mat.k++ && *Mat.ae == 128) {
+        if (!Mat.x && *Mat.be == 128) { Mat.TF++; Mat.TN = 0; Mat.k = 3; } return; }
+      if (!Mat.x && *Mat.be == 128) { Mat.TN = !Mat.u; Mat.k = 2; return; } } Mat.k = 0;
   if (!(Mat.u ^ Mat.z) && Mat.i == Mat.j) { while((*Mat.ae-- == *Mat.be--) && Mat.i--) { }
     if (!++Mat.i) { Mat.ae++; Mat.be++; Mat.TF++; Mat.TN = 0; }
     else { Mat.TN = *++Mat.be >= *++Mat.ae; } Mat.i = Mat.j; return; }
@@ -151,20 +151,20 @@ void FDIV(an r, an e, an a, anu l, an b) { FTST(a, l, b); Mat.r = r; Mat.e = e;
     while(Mat.i--) { *++Mat.r = 0; } Mat.i = Mat.le; while(Mat.i--) { *++Mat.e = 0; } return; }
   }
 
-void FCTST(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
-anu FCGE(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
-      FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; Mat.x = !Mat.TN; if (!l--) break;
-      Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y;
-      Mat.x = Mat.x && (Mat.TN | Mat.TF); } while(l-- && !Mat.x); return Mat.x; }
-  FTST(a, Mat.lb, Mat.b); return !Mat.TN; }
-anu FCLT(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.x = 1; do { Mat.y = (Mat.l > l) ? l:Mat.l;
-      FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; Mat.x = Mat.x && Mat.TN; if (!l--) break;
-      Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y;
-      Mat.x = Mat.x || !(Mat.TN | Mat.TF); } while(l--); return Mat.x; }
-  FTST(a, Mat.lb, Mat.b); return Mat.TN; }
-anu FCEQ(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
-      FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; } while(l-- && !Mat.TF); return Mat.TF; }
-  FTST(a, Mat.lb, Mat.b); return Mat.TF; }
+  void FCTST(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
+  anu FCGE(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
+        FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; Mat.t = !Mat.TN; if (!l--) break;
+        Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y;
+        Mat.t = Mat.t && (Mat.TN | Mat.TF); } while(l-- && !Mat.t); return Mat.t; }
+    FTST(a, Mat.lb, Mat.b); return !Mat.TN; }
+  anu FCLT(an a, anu l, an c) { if (l--) { Mat.e = c; Mat.t = 1; do { Mat.y = (Mat.l > l) ? l:Mat.l;
+        FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; Mat.t = Mat.t && Mat.TN; if (!l--) break;
+        Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y;
+        Mat.t = Mat.t || !(Mat.TN | Mat.TF); } while(l--); return Mat.t; }
+    FTST(a, Mat.lb, Mat.b); return Mat.TN; }
+  anu FCEQ(an a, anu l, an c) { if (l--) { Mat.e = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
+        FTST(a, Mat.y, Mat.e); Mat.e += 1 + Mat.y; l -= Mat.y; } while(l-- && !Mat.TF); return Mat.TF; }
+    FTST(a, Mat.lb, Mat.b); return Mat.TF; }
 
 void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FADD(r, a, Mat.lb, Mat.b); }
 void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FSUB(r, a, Mat.lb, Mat.b); }
