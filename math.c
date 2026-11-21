@@ -52,8 +52,8 @@ void FTST(an a, anu l, an b) { Mat.i = Mat.l; Mat.j = l; Mat.a = a; Mat.b = b;
 void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.lb = Mat.N;
   Mat.ae = Mat.a + Mat.l; Mat.u = (((Mat.x = *Mat.ae--) & 128) && Mat.Nim) ? 255:0; Mat.F = Mat.l;
   Mat.be = Mat.b + Mat.N; Mat.z = (((Mat.y = *Mat.be--) & 128) && Mat.Nim) ? 255:0; Mat.j = 0;
-  if (Mat.Nim && (!(Mat.x^128)|!(Mat.y^128))) { Mat.i = Mat.l; Mat.j = Mat.lb;
-    while(Mat.i && !*Mat.ae--) { Mat.i--; } while(Mat.j && !*Mat.be--) { Mat.j--; }
+  if (Mat.Nim && (!(Mat.x^128)|!(Mat.y^128))) { if ((Mat.i = Mat.l)) while(!*Mat.ae-- && --Mat.i) { }
+    if ((Mat.j = Mat.lb)) while(!*Mat.be-- && --Mat.j);
     Mat.j = !(Mat.i|(Mat.x^128))|!(Mat.j|(Mat.y^128)); }
   if (!Mat.V && Mat.l < Mat.N) { Mat.be = Mat.b + Mat.N;
     while(*Mat.be-- == Mat.z && Mat.N && !((*Mat.be ^ Mat.z) & 128)) { Mat.N--; }
@@ -79,8 +79,8 @@ void FADD(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
 void FSUB(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b; Mat.lb = Mat.N;
   Mat.ae = Mat.a + Mat.l; Mat.u = (((Mat.x = *Mat.ae--) & 128) && Mat.Nim) ? 255:0; Mat.F = Mat.l;
   Mat.be = Mat.b + Mat.N; Mat.z = (((Mat.y = *Mat.be--) & 128) && Mat.Nim) ? 255:0; Mat.j = 0;
-  if (Mat.Nim && (!(Mat.x^128)|!(Mat.y^128))) { Mat.i = Mat.l; Mat.j = Mat.lb;
-    while(Mat.i && !*Mat.ae--) { Mat.i--; } while(Mat.j && !*Mat.be--) { Mat.j--; }
+  if (Mat.Nim && (!(Mat.x^128)|!(Mat.y^128))) { if ((Mat.i = Mat.l)) while(!*Mat.ae-- && --Mat.i) { }
+    if ((Mat.j = Mat.lb)) while(!*Mat.be-- && --Mat.j);
     Mat.j = !(Mat.i|(Mat.x^128))|!(Mat.j|(Mat.y^128)); }
   if (!Mat.V && Mat.l < Mat.N) { Mat.be = Mat.b + Mat.N;
     while(*Mat.be-- == Mat.z && Mat.N && !((*Mat.be ^ Mat.z) & 128)) { Mat.N--; }
