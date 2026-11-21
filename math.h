@@ -64,8 +64,8 @@ void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.
 
 void FADD(an r, an a, anu l, an b);                     // r = a + b     | r += Mat.b -> Fadd(r);
 void FSUB(an r, an a, anu l, an b);                     // r = a - b     | r -= 256 -> Fsub(r, 0,1);
-void FSQR(an r, an e, anu l, an b);                     // r = SQRT(b),e | b<0 -> Mat.C &
-#define Fsqr(e, l, b) FSQR(b, e, l, b)                  // b = SQRT(b),e |   complex b = SQRT(|b|),e
+void FSQR(an r, an e, anu l, an b);                     // r = SQRT(b),+e| b<0 -> Mat.C &
+#define Fsqr(e, l, b) FSQR(b, e, l, b)                  // b = SQRT(b),+e|  complex r = SQRT(|b|),+e
 void FMUL(an r, an a, anu l, an b);                     // r = a * b
 void FDIV(an r, an e, an a, anu l, an b);               // r = a / b, e = a mod b - Евклид {+}
 
