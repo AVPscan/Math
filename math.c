@@ -148,10 +148,10 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.r = r; Mat.e = e; FTST(a, l, b); 
   if (Mat.k) { return; }
   if (Mat.TF) { *Mat.r = 1; *Mat.e = 0; Mat.F = 0; Mat.N = 0; Mat.Fe = 1; Mat.Ne = 0;
     if (Mat.V) { Mat.l = 0; Mat.le = 0; return; } Mat.i = Mat.l;
-    while(Mat.i--) { *++Mat.r = 0; } Mat.i = Mat.le; while(Mat.i--) *++Mat.e = 0; }
-  else if (Mat.TN) { *Mat.r = 0; Mat.F = 1; Mat.N = 0; Mat.le = FMOV(Mat.e, Mat.l, a);
-      Mat.Fe = Mat.u; Mat.Ne = Mat.z; if (Mat.V) { Mat.l = 0; return; } Mat.i = Mat.l;
-      while(Mat.i--) { *++Mat.r = 0; } }
+    while(Mat.i--) { *++Mat.r = Mat.N; } Mat.i = Mat.le; while(Mat.i--) *++Mat.e = Mat.Ne; }
+  else if (Mat.TN) { Mat.F = 1; Mat.N = 0; Mat.le = FMOV(Mat.e, Mat.l, a);
+      Mat.Fe = Mat.u; Mat.Ne = Mat.z; *Mat.r = Mat.N; if (Mat.V) { Mat.l = 0; return; }
+      Mat.i = Mat.l; while(Mat.i--) { *++Mat.r = Mat.N; } }
   }
 
   void FCTST(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
@@ -165,9 +165,9 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.r = r; Mat.e = e; FTST(a, l, b); 
         Mat.y = (Mat.l > l) ? l:Mat.l; FTST(a, Mat.y, Mat.r); Mat.r += 1 + Mat.y; l -= Mat.y;
         Mat.t = Mat.t || !(Mat.TN | Mat.TF); } while(l--); return Mat.t; }
     FTST(a, Mat.lb, Mat.b); return Mat.TN; }
-  anu FCEQ(an a, anu l, an c) { if (l--) { Mat.r = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
-        FTST(a, Mat.y, Mat.r); Mat.r += 1 + Mat.y; l -= Mat.y; } while(l-- && !Mat.TF); return Mat.TF; }
-    FTST(a, Mat.lb, Mat.b); return Mat.TF; }
+  void FCEQ(an a, anu l, an c) { if (l--) { Mat.r = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
+        FTST(a, Mat.y, Mat.r); Mat.r += 1 + Mat.y; l -= Mat.y; } while(l-- && !Mat.TF); return; }
+    FTST(a, Mat.lb, Mat.b); }
 
 void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FADD(r, a, Mat.lb, Mat.b); }
 void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FSUB(r, a, Mat.lb, Mat.b); }
