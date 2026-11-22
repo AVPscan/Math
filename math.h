@@ -43,13 +43,13 @@ void FAddr(anu y, As* r, anu c, As* a);                 // Faddr({(As)b{,(As)a{,
 #define Fini(...) FInit(12,4,&Mat.i,Anu(__VA_ARGS__))   // Nim=V=lb=l..Ne=0 Fini({Nim{,V{,lb{,la}}}});
 #define Flong(...) FInit(0,3,&Mat.lb,Anu(__VA_ARGS__))  // Flong({lb{,la{,le}}});
 
-void FSWAP(an r, anu l, an a);                  // Зеркалирование атомов длиной l относительно центра числа
-anu FMOV(an r, anu l, an a);                    // Копирование l атомов |8,16,32,64|128,256,512,1024,2048 бит
-anu FOLD(anu f, an r, anu l, an a);             // Приведение к формату l = 0,1,3,7|15,31,63,127,255 атомов
-anu FVAR(anu f, an r, anu l, an c);             // Копирование из константы в переменную l -> lnew
+void FSWAP(an r, anu l, an b);                  // Зеркалирование атомов длиной l относительно центра числа
+anu FMOV(an a, anu l, an b);                    // Копирование a[l] = b[l]  8,16,32,64|128,256,512,1024,2048 бит
+anu FOLD(anu f, an a, anu l, an b);             // Приведение к формату lnew = 0,1,3,7|15,31,63,127,255 атомов
+anu FVAR(anu f, an a, anu l, an c);             // Копирование из константы в переменную lnew = l     | a = 0
 #define Fswap(l, x) FSWAP(x, l, x)                      // Fswap(l, x); Fswap(l, x); -> {}
-#define Fmov(l, x) FMOV(x, l, x)                        // l -> lnew      Mat.u ? Mat.u:Mat.z ? -:+
-#define Fold(f, l, x) FOLD(f, x, l, x)                  // l -> lnew >= l Mat.u ? Mat.u:Mat.z ? -:+
+#define Fmov(l, x) FMOV(x, l, x)                        // lnew = l                      | Mat.u ? 0:Mat.z ? -:+
+#define Fold(f, l, x) FOLD(f, x, l, x)                  // lnew >= l                     | Mat.u ? 0:Mat.z ? -:+
 #define FVar(f, r, ...) FVAR(f, r, Anu(__VA_ARGS__))    // r = Num{LittleEnd/BigEnd}     | r = 0
 #define Fvle(r, ...) FVar(0, r, __VA_ARGS__)            // r = Num{LittleEndian}         | r = 0
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Num{BigEndian}            | r = 0
