@@ -146,12 +146,14 @@ void FMUL(an r, an a, anu l, an b) { Mat.N = l; Mat.r = r; Mat.a = a; Mat.b = b;
 
 void FDIV(an r, an e, an a, anu l, an b) { Mat.r = r; Mat.e = e; FTST(a, l, b); Mat.le = Mat.lb;
   if (Mat.k) { return; }
-  if (Mat.TF) { *Mat.r = 1; *Mat.e = 0; Mat.F = 0; Mat.N = 0; Mat.Fe = 1; Mat.Ne = 0;
-    if (Mat.V) { Mat.l = 0; Mat.le = 0; return; } Mat.i = Mat.l;
-    while(Mat.i--) { *++Mat.r = Mat.N; } Mat.i = Mat.le; while(Mat.i--) *++Mat.e = Mat.Ne; }
-  else if (Mat.TN) { Mat.F = 1; Mat.N = 0; Mat.le = FMOV(Mat.e, Mat.l, a);
-      Mat.Fe = Mat.u; Mat.Ne = Mat.z; *Mat.r = Mat.N; if (Mat.V) { Mat.l = 0; return; }
-      Mat.i = Mat.l; while(Mat.i--) { *++Mat.r = Mat.N; } }
+  if (Mat.TF) { Mat.F = 0; Mat.N = 0; Mat.Fe = 1; Mat.Ne = 0; *Mat.r = 1; *Mat.e = 0;
+    if (Mat.V) { Mat.l = 0; Mat.le = 0; return; } Mat.j = Mat.le; while(Mat.j--) { *++Mat.e = 0; }
+    Mat.i = Mat.l; while(Mat.i--) { *++Mat.r = 0; } return; }
+  if (Mat.TN) { if (Mat.u || Mat.z) {
+      return; }
+    Mat.F = 1; Mat.N = 0; *Mat.r = Mat.N; Mat.le = FMOV(Mat.e, Mat.l, a);
+    Mat.Fe = Mat.u; Mat.Ne = Mat.z; if (Mat.V) { Mat.l = 0; return; }
+    Mat.i = Mat.l; while(Mat.i--) { *++Mat.r = 0; } return; }
   }
 
   void FCTST(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
