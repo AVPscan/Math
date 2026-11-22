@@ -93,7 +93,7 @@ typedef uintptr_t As;                           // основа, разрядн�
 typedef uint8_t anu;                            // атом, минимальная единица
 typedef anu* an;                                // число, начальный адрес расположения
 typedef struct { anu Nim, V, lb, l, le, C, F, N, Fe, Ne, TF, TN,
-  i,j,k,t,u,x,y,z,H[255],L[255],S[255]; an e,r,a,ae,be,b, B, A, R, E; } Math;
+  i,j,k,o,p,q,u,x,y,z,H[255],L[255],S[255]; an e,r,a,ae,be,b, B, A, R, E; } Math;
 ```
 
 <div align="center">
