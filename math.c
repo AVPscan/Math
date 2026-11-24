@@ -37,12 +37,14 @@ anu FVAR(anu f, an a, anu l, an c) { if (l--) { if (f) { FSWAP(a, l, c); return 
 anu Fsin(anu s, anu x) { static anu w[] = {0,1,2,3,4,5,7,8,9,10,11,12,13,14,15,16,
   17,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44, 45,45,
   46,47,48,49,50,51,52, 53,53, 54,55,56,57,58,59,59,60,61,62,63 }; Mat.x = x; Mat.y = Mat.x&63;
-  Mat.y = (Mat.x&64) ? *(w + Mat.y) | 64: *(w + Mat.y); Mat.y = (Mat.x&128) ? 127 - Mat.y:Mat.y;
+  Mat.y = (Mat.x & 64) ? *(w+Mat.y)|64:*(w+Mat.y); Mat.y = (Mat.x & 128) ? 127-Mat.y:Mat.y;
   return (s) ? -Mat.y:Mat.y; }
 void FSIN(an r, anu l, an b) { Mat.N = ((Mat.y = Fsin(*(b+l)&128,*b))&128) ? 255:0;
-  Mat.F = !Mat.y; Mat.l = 0; *r = Mat.y; }
+  Mat.F = !Mat.y; *r = Mat.y; if (!Mat.V && Mat.l) { Mat.i = Mat.l; while(Mat.i--) *++r = Mat.N;
+    return; } Mat.l = 0; }
 void FCOS(an r, anu l, an b) { Mat.N = ((Mat.y = Fcos(*(b+l)&128,*b))&128) ? 255:0;
-  Mat.F = !Mat.y; Mat.l = 0; *r = Mat.y; }
+  Mat.F = !Mat.y; *r = Mat.y; if (!Mat.V && Mat.l) { Mat.i = Mat.l; while(Mat.i--) *++r = Mat.N;
+    return; } Mat.l = 0; }
 
 void FTST(an a, anu l, an b) { Mat.i = Mat.l; Mat.lb = l; Mat.a = a; Mat.b = b; Mat.TF = 0;
   Mat.u = ((*(Mat.ae = Mat.a + Mat.i) & 128) && Mat.Nim) ? 255:0; Mat.j = Mat.lb;

@@ -55,9 +55,9 @@ anu FVAR(anu f, an a, anu l, an c);             // Копирование из �
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Num{BigEndian}            | r = 0
 
 anu Fsin(anu s, anu x);                         // sin(x [-255..255]) [-127..127] интерполяция x [0..255] s [+{0}/-{!0}]
-#define Fcos(s, x) Fsin(!(s), ((x)^128))
-void FSIN(an r, anu l, an b);
-void FCOS(an r, anu l, an b);
+#define Fcos(s, x) Fsin(((x)&128)?!(s):(s), ((x)^128))
+void FSIN(an r, anu l, an b);                           // r = sin(b)
+void FCOS(an r, anu l, an b);                           // r = cos(b)
 
 void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.TF? =:Mat.TN? <:>
 #define FGE(x, l, y) (FTST(x, l, y),!Mat.TN)            // x >= y
