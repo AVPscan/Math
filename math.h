@@ -54,10 +54,10 @@ anu FVAR(anu f, an a, anu l, an c);             // Копирование из �
 #define Fvle(r, ...) FVar(0, r, __VA_ARGS__)            // r = Num{LittleEndian}         | r = 0
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Num{BigEndian}            | r = 0
 
-anu Fsin(anu s, anu x);                         // sin(x [-255..255]) [-127..127] интерполяция x [0..255] s [+{0}/-{!0}]
-#define Fcos(s, x) Fsin(((x)&128)?!(s):(s), ((x)^128))
-void FSIN(an r, anu l, an b);                           // r = sin(b)
-void FCOS(an r, anu l, an b);                           // r = cos(b)
+void Fsin(anu s, anu x);                                // Mat.y = 127sin(s:x) [-127..127] интерполяция x [0..255], s [0/X] знак x
+#define Fcos(s, x) Fsin(((x)&128)?!(s):(s), ((x)^128))  // Mat.y = 127cos(s:x)  2pi = 512, шаг 360/512 = 0,703125 градуса.
+void FSIN(an r, anu l, an b);                           // r = 127sin(b)
+void FCOS(an r, anu l, an b);                           // r = 127cos(b)
 
 void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.TF? =:Mat.TN? <:>
 #define FGE(x, l, y) (FTST(x, l, y),!Mat.TN)            // x >= y
