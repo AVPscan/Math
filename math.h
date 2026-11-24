@@ -69,18 +69,18 @@ void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.
 
 void FADD(an r, an a, anu l, an b);                     // r = a + b        | r += Mat.b -> Fadd(r);
 void FSUB(an r, an a, anu l, an b);                     // r = a - b        | r -= 256 -> Fsub(r, 0,1);
-void FSQR(an r, an e, anu l, an b);                     // r = SQRT(b),+e  if b<0 then 𝄵 z = ir - e
-#define Fsqr(e, l, b) FSQR(b, e, l, b)                  // b = SQRT(b),+e   Im z = r = SQRT(|b|), Re z = -e
 void FMUL(an r, an a, anu l, an b);                     // r = a * b        | r *= Mat.b -> Fmul(r);
 void FDIV(an r, an e, an a, anu l, an b);               // r = a / b  Евклид {+}  e = a mod b
+void FSQR(an r, an e, anu l, an b);                     // r = SQRT(b),+e  if b<0 then 𝄵 z = ir - e
+#define Fsqr(e, l, b) FSQR(b, e, l, b)                  // b = SQRT(b),+e   Im z = r = SQRT(|b|), Re z = -e
 
-void FCSIN(an r, anu l, an c);                          // r = 127sin((an)c[l]{Num})     | r = 127sin(Mat.b)
-void FCCOS(an r, anu l, an c);                          // r = 127cos((an)c[l]{Num})     | r = 127cos(Mat.b)
+void FCSIN(an r, anu l, an c);                          // r = 127sin((an)c[l]{Num})     | !l r = 127sin(Mat.b)
+void FCCOS(an r, anu l, an c);                          // r = 127cos((an)c[l]{Num})     | !l r = 127cos(Mat.b)
 #define Fsin(r, ...) FCSIN(r, Anu(__VA_ARGS__))                // r = 127sin(Num)        | r = 127sin(Mat.b)
 #define Fcos(r, ...) FCCOS(r, Anu(__VA_ARGS__))                // r = 127cos(Num)        | r = 127cos(Mat.b)
 
-void FCTST(an a, anu l, an c);                  // a?(an)c[l]{Num} Mat.TF? =:Mat.TN? <:> | a ? Mat.b
-#define Ftst(x, ...) FCTST(x, Anu(__VA_ARGS__)) // x ? Num         Mat.TF? =:Mat.TN? <:> | x ? Mat.b
+void FCTST(an a, anu l, an c);                  // a?(an)c[l]{Num} Mat.TF? =:Mat.TN? <:> | !l a ? Mat.b
+#define Ftst(x, ...) FCTST(x, Anu(__VA_ARGS__)) // x ? Num         Mat.TF? =:Mat.TN? <:> | !l x ? Mat.b
 #define Fge(x, ...) (Ftst(x, __VA_ARGS__),!Mat.TN)              // x >= Num              | x >= Mat.b
 #define Fle(x, ...) (Ftst(x, __VA_ARGS__),(Mat.TN | Mat.TF))    // x <= Num              | x <= Mat.b
 #define Fgt(x, ...) (Ftst(x, __VA_ARGS__),!(Mat.TN | Mat.TF))   // x > Num               | x > Mat.b
@@ -88,18 +88,18 @@ void FCTST(an a, anu l, an c);                  // a?(an)c[l]{Num} Mat.TF? =:Mat
 #define Feq(x, ...) (Ftst(x, __VA_ARGS__),Mat.TF)               // x = Num               | x = Mat.b
 #define Fne(x, ...) (Ftst(x, __VA_ARGS__),!Mat.TF)              // x != Num              | x != Mat.b
 
-anu FCGE(an a, anu l, an c);                    // a ? (an)c[l]{[Num1,Num2]^k...}{[NumN} | a >= Mat.b
-anu FCLT(an a, anu l, an c);                    // a ? (an)c[l]{)Num1,Num2(^k...}{)NumN} | a < Mat.b
-void FCEQ(an a, anu l, an c);                   // a = (an)c[l]{Num1...{,NumN}}          | a = Mat.b
+anu FCGE(an a, anu l, an c);                    // a ? (an)c[l]{[Num1,Num2]^k...}{[NumN} | !l a >= Mat.b
+anu FCLT(an a, anu l, an c);                    // a ? (an)c[l]{)Num1,Num2(^k...}{)NumN} | !l a < Mat.b
+void FCEQ(an a, anu l, an c);                   // a = (an)c[l]{Num1...{,NumN}}          | !l a = Mat.b
 #define FGe(x, ...) FCGE(x, Anu(__VA_ARGS__))           // x ? {[Num1;Num2]^k...}{[NumN} | x >= Mat.b
 #define FLt(x, ...) FCLT(x, Anu(__VA_ARGS__))           // x ? {)Num1,Num2(^k...}{)NumN} | x < Mat.b
 #define FEq(x, ...) (FCEQ(x, Anu(__VA_ARGS__)),Mat.TF)          // x = {Num1...{,NumN}}  | x = Mat.b
 #define FNe(x, ...) (FCEQ(x, Anu(__VA_ARGS__)),!Mat.TF)         // x != {Num1...{,NumN}} | x != Mat.b
 
-void FCADD(an r, an a, anu l, an c);                            // r = a + (an)c[l]{Num} | r = a + Mat.b
-void FCSUB(an r, an a, anu l, an c);                            // r = a - (an)c[l]{Num} | r = a - Mat.b
-void FCMUL(an r, an a, anu l, an c);                            // r = a * (an)c[l]{Num} | r = a * Mat.b
-void FCDIV(an r, an e, an a, anu l, an c);                      // r = a / (an)c[l]{Num} | r = a / Mat.b
+void FCADD(an r, an a, anu l, an c);                            // r = a + (an)c[l]{Num} | !l r = a + Mat.b
+void FCSUB(an r, an a, anu l, an c);                            // r = a - (an)c[l]{Num} | !l r = a - Mat.b
+void FCMUL(an r, an a, anu l, an c);                            // r = a * (an)c[l]{Num} | !l r = a * Mat.b
+void FCDIV(an r, an e, an a, anu l, an c);                      // r = a / (an)c[l]{Num} | !l r = a / Mat.b
 #define FAdd(r, a, ...) FCADD(r, a, Anu(__VA_ARGS__))           // r = a + Num           | r = a + Mat.b
 #define FSub(r, a, ...) FCSUB(r, a, Anu(__VA_ARGS__))           // r = a - Num           | r = a - Mat.b
 #define FMul(r, a, ...) FCMUL(r, a, Anu(__VA_ARGS__))           // r = a * Num           | r = a * Mat.b
