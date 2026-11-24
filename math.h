@@ -54,6 +54,11 @@ anu FVAR(anu f, an a, anu l, an c);             // Копирование из �
 #define Fvle(r, ...) FVar(0, r, __VA_ARGS__)            // r = Num{LittleEndian}         | r = 0
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Num{BigEndian}            | r = 0
 
+anu Fsin(anu s, anu x);                         // sin(x [-255..255]) [-127..127] интерполяция x [0..255] s [+{0}/-{!0}]
+#define Fcos(s, x) Fsin(!(s), ((x)^128))
+void FSIN(an r, anu l, an b);
+void FCOS(an r, anu l, an b);
+
 void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.TF? =:Mat.TN? <:>
 #define FGE(x, l, y) (FTST(x, l, y),!Mat.TN)            // x >= y
 #define FLE(x, l, y) (FTST(x, l, y),(Mat.TN | Mat.TF))  // x <= y
@@ -64,8 +69,8 @@ void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.
 
 void FADD(an r, an a, anu l, an b);                     // r = a + b        | r += Mat.b -> Fadd(r);
 void FSUB(an r, an a, anu l, an b);                     // r = a - b        | r -= 256 -> Fsub(r, 0,1);
-void FSQR(an r, an e, anu l, an b);                     // r = SQRT(b),+e  if b<0 then 𝄵 z = ir + e
-#define Fsqr(e, l, b) FSQR(b, e, l, b)                  // b = SQRT(b),+e   Im z = r = SQRT(|b|), Re z = +e
+void FSQR(an r, an e, anu l, an b);                     // r = SQRT(b),+e  if b<0 then 𝄵 z = ir - e
+#define Fsqr(e, l, b) FSQR(b, e, l, b)                  // b = SQRT(b),+e   Im z = r = SQRT(|b|), Re z = -e
 void FMUL(an r, an a, anu l, an b);                     // r = a * b        | r *= Mat.b -> Fmul(r);
 void FDIV(an r, an e, an a, anu l, an b);               // r = a / b  Евклид {+}  e = a mod b
 

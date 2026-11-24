@@ -34,6 +34,16 @@ anu FOLD(anu f, an a, anu l, an b) { Mat.y = FMOV(a, l, b); Mat.q = ((Mat.x = Ma
 anu FVAR(anu f, an a, anu l, an c) { if (l--) { if (f) { FSWAP(a, l, c); return Fmov(l, a); }
     else return FMOV(a, l, c); } return Fvle(a, 0); }
 
+anu Fsin(anu s, anu x) { static anu w[] = {0,1,2,3,4,5,7,8,9,10,11,12,13,14,15,16,
+  17,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44, 45,45,
+  46,47,48,49,50,51,52, 53,53, 54,55,56,57,58,59,59,60,61,62,63 }; Mat.x = x; Mat.y = Mat.x&63;
+  Mat.y = (Mat.x&64) ? *(w + Mat.y) | 64: *(w + Mat.y); Mat.y = (Mat.x&128) ? 127 - Mat.y:Mat.y;
+  return (s) ? -Mat.y:Mat.y; }
+void FSIN(an r, anu l, an b) { Mat.N = ((Mat.y = Fsin(*(b+l)&128,*b))&128) ? 255:0;
+  Mat.F = !Mat.y; Mat.l = 0; *r = Mat.y; }
+void FCOS(an r, anu l, an b) { Mat.N = ((Mat.y = Fcos(*(b+l)&128,*b))&128) ? 255:0;
+  Mat.F = !Mat.y; Mat.l = 0; *r = Mat.y; }
+
 void FTST(an a, anu l, an b) { Mat.i = Mat.l; Mat.lb = l; Mat.a = a; Mat.b = b; Mat.TF = 0;
   Mat.u = ((*(Mat.ae = Mat.a + Mat.i) & 128) && Mat.Nim) ? 255:0; Mat.j = Mat.lb;
   Mat.TN = (Mat.z = ((*(Mat.be = Mat.b + Mat.j) & 128) && Mat.Nim) ? 255:0) != 0;
@@ -174,5 +184,4 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.r = r; Mat.e = e; FTST(a, l, b); 
 void FCADD(an r, an a, anu l, an c) { if (l--) return FADD(r, a, l, c); return FADD(r, a, Mat.lb, Mat.b); }
 void FCSUB(an r, an a, anu l, an c) { if (l--) return FSUB(r, a, l, c); return FSUB(r, a, Mat.lb, Mat.b); }
 void FCMUL(an r, an a, anu l, an c) { if (l--) return FMUL(r, a, l, c); return FMUL(r, a, Mat.lb, Mat.b); }
-void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c);
-  return FDIV(r, e, a, Mat.lb, Mat.b); }
+void FCDIV(an r, an e, an a, anu l, an c) { if (l--) return FDIV(r, e, a, l, c); return FDIV(r, e, a, Mat.lb, Mat.b); }
