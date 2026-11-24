@@ -54,8 +54,8 @@ anu FVAR(anu f, an a, anu l, an c);             // Копирование из �
 #define Fvle(r, ...) FVar(0, r, __VA_ARGS__)            // r = Num{LittleEndian}         | r = 0
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Num{BigEndian}            | r = 0
 
-void Fsin(anu s, anu x);                                // Mat.y = 127sin(s:x) [-127..127] интерполяция x [0..255], s [0/X] знак x
-#define Fcos(s, x) Fsin(((x)&128)?!(s):(s), ((x)^128))  // Mat.y = 127cos(s:x)  2pi = 512, шаг 360/512 = 0,703125 градуса.
+anu FSin(anu s, anu x);                                 // 127sin(s:x) [-127..127] интерполяция x [0..255], s [0/X] знак x
+#define FCos(s, x) FSin(((x)&128)?!(s):(s), ((x)^128))  // 127cos(s:x)  2pi = 512, шаг 360/512 = 0,703125 градуса.
 void FSIN(an r, anu l, an b);                           // r = 127sin(b)
 void FCOS(an r, anu l, an b);                           // r = 127cos(b)
 
@@ -73,6 +73,11 @@ void FSQR(an r, an e, anu l, an b);                     // r = SQRT(b),+e  if b<
 #define Fsqr(e, l, b) FSQR(b, e, l, b)                  // b = SQRT(b),+e   Im z = r = SQRT(|b|), Re z = -e
 void FMUL(an r, an a, anu l, an b);                     // r = a * b        | r *= Mat.b -> Fmul(r);
 void FDIV(an r, an e, an a, anu l, an b);               // r = a / b  Евклид {+}  e = a mod b
+
+void FCSIN(an r, anu l, an c);                                 // r = sin((an)c[l]{Num}) | r = sin(Mat.b)
+void FCCOS(an r, anu l, an c);                                 // r = cos((an)c[l]{Num}) | r = cos(Mat.b)
+#define Fsin(r, ...) FCSIN(r, Anu(__VA_ARGS__))                // r = sin(Num)           | r = sin(Mat.b)
+#define Fcos(r, ...) FCCOS(r, Anu(__VA_ARGS__))                // r = cos(Num)           | r = cos(Mat.b)
 
 void FCTST(an a, anu l, an c);                  // a?(an)c[l]{Num} Mat.TF? =:Mat.TN? <:> | a ? Mat.b
 #define Ftst(x, ...) FCTST(x, Anu(__VA_ARGS__)) // x ? Num         Mat.TF? =:Mat.TN? <:> | x ? Mat.b

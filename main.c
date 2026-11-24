@@ -24,7 +24,7 @@ void Num(anu s, an a) { anu ns,t[m]; if (s > 7) printf(" %d|? ", s + 1);
         else if (ns) printf("%u ", *(uint16_t*)a); else printf("%u ", *(uint8_t*)a); } } } }
 void Show(char s) { Flong(Mat.lb,la); Mat.C = 0; if (s == '+') FAdd(Mat.R, Mat.A); else if (s == '-') FSub(Mat.R, Mat.A);
   else if (s == '*') FMul(Mat.R, Mat.A); else if (s == '/') FDiv(Mat.R, Mat.E, Mat.A); else if (s == '?') Ftst(Mat.A);
-  else if (s == '0') FSIN(Mat.R, la, Mat.A); else if (s == '1') FCOS(Mat.R, lb, Mat.B); else Ftst(Mat.A, 127);
+  else if (s == '0') FSIN(Mat.R, la, Mat.A); else if (s == '1') Fcos(Mat.R); else Ftst(Mat.A, 127);
   if (s == '?' || s == 'c') printf(" %c ", Mat.TF ? 'Z':Mat.TN ? '-':'+'); else printf("%c%c ", Mat.C ? 'C':' ', Mat.F ? Mat.N ? 'I':'Z':Mat.N ? '-':'+');
   if (s == '0' || s == '1') { if (s == '0') Num(la, Mat.A); else { Num(lb, Mat.B); } printf(") "); } else { Num(la, Mat.A);
     if (s == '?' || s == 'c') printf("%c ", Mat.TF ? '=':Mat.TN ? '<':'>'); else { if (s == 'c') printf("? "); else printf("%c ", s); } Num(Mat.lb, Mat.b); }
