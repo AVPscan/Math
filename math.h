@@ -74,10 +74,10 @@ void FSQR(an r, an e, anu l, an b);                     // r = SQRT(b),+e  if b<
 void FMUL(an r, an a, anu l, an b);                     // r = a * b        | r *= Mat.b -> Fmul(r);
 void FDIV(an r, an e, an a, anu l, an b);               // r = a / b  Евклид {+}  e = a mod b
 
-void FCSIN(an r, anu l, an c);                                 // r = sin((an)c[l]{Num}) | r = sin(Mat.b)
-void FCCOS(an r, anu l, an c);                                 // r = cos((an)c[l]{Num}) | r = cos(Mat.b)
-#define Fsin(r, ...) FCSIN(r, Anu(__VA_ARGS__))                // r = sin(Num)           | r = sin(Mat.b)
-#define Fcos(r, ...) FCCOS(r, Anu(__VA_ARGS__))                // r = cos(Num)           | r = cos(Mat.b)
+void FCSIN(an r, anu l, an c);                          // r = 127sin((an)c[l]{Num})     | r = 127sin(Mat.b)
+void FCCOS(an r, anu l, an c);                          // r = 127cos((an)c[l]{Num})     | r = 127cos(Mat.b)
+#define Fsin(r, ...) FCSIN(r, Anu(__VA_ARGS__))                // r = 127sin(Num)        | r = 127sin(Mat.b)
+#define Fcos(r, ...) FCCOS(r, Anu(__VA_ARGS__))                // r = 127cos(Num)        | r = 127cos(Mat.b)
 
 void FCTST(an a, anu l, an c);                  // a?(an)c[l]{Num} Mat.TF? =:Mat.TN? <:> | a ? Mat.b
 #define Ftst(x, ...) FCTST(x, Anu(__VA_ARGS__)) // x ? Num         Mat.TF? =:Mat.TN? <:> | x ? Mat.b
