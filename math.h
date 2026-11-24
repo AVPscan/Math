@@ -54,10 +54,8 @@ anu FVAR(anu f, an a, anu l, an c);             // Копирование из �
 #define Fvle(r, ...) FVar(0, r, __VA_ARGS__)            // r = Num{LittleEndian}         | r = 0
 #define Fvbe(r, ...) FVar(1, r, __VA_ARGS__)            // r = Num{BigEndian}            | r = 0
 
-anu FSin(anu s, anu x);                                 // 127sin(s:x) [-127..127] интерполяция x [0..255], s [0/X] знак x
-#define FCos(s, x) FSin(((x)&128)?!(s):(s), ((x)^128))  // 127cos(s:x)  2pi = 512, шаг 360/512 = 0,703125 градуса.
-void FSIN(an r, anu l, an b);                           // r = 127sin(b)
-void FCOS(an r, anu l, an b);                           // r = 127cos(b)
+anu FTri(anu s, anu x);                                 // 127tri(s:x)   [-127..127] интерполяция x [0..255], s [0/X] знак x
+void FTRI(an r, anu l, an b);                           // r = 127tri(b)  период 2pi = 512, шаг 360/512 = 0,703125
 
 void FTST(an a, anu l, an b);                           // a[Mat.l] ? b[l]  Mat.TF? =:Mat.TN? <:>
 #define FGE(x, l, y) (FTST(x, l, y),!Mat.TN)            // x >= y
@@ -74,10 +72,8 @@ void FDIV(an r, an e, an a, anu l, an b);               // r = a / b  Евкли
 void FSQR(an r, an e, anu l, an b);                     // r = SQRT(b),+e  if b<0 then 𝄵 z = ir - e
 #define Fsqr(e, l, b) FSQR(b, e, l, b)                  // b = SQRT(b),+e   Im z = r = SQRT(|b|), Re z = -e
 
-void FCSIN(an r, anu l, an c);                          // r = 127sin((an)c[l]{Num})     | !l r = 127sin(Mat.b)
-void FCCOS(an r, anu l, an c);                          // r = 127cos((an)c[l]{Num})     | !l r = 127cos(Mat.b)
-#define Fsin(r, ...) FCSIN(r, Anu(__VA_ARGS__))                // r = 127sin(Num)        | r = 127sin(Mat.b)
-#define Fcos(r, ...) FCCOS(r, Anu(__VA_ARGS__))                // r = 127cos(Num)        | r = 127cos(Mat.b)
+void FCTRI(an r, anu l, an c);                          // r = 127tri((an)c[l]{Num})     | !l r = 127tri(Mat.b)
+#define Ftri(r, ...) FCTRI(r, Anu(__VA_ARGS__))                 // r = 127tri(Num)       | r = 127tri(Mat.b)
 
 void FCTST(an a, anu l, an c);                  // a?(an)c[l]{Num} Mat.TF? =:Mat.TN? <:> | !l a ? Mat.b
 #define Ftst(x, ...) FCTST(x, Anu(__VA_ARGS__)) // x ? Num         Mat.TF? =:Mat.TN? <:> | !l x ? Mat.b

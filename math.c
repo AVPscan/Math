@@ -34,16 +34,9 @@ anu FOLD(anu f, an a, anu l, an b) { Mat.y = FMOV(a, l, b); Mat.q = ((Mat.x = Ma
 anu FVAR(anu f, an a, anu l, an c) { if (l--) { if (f) { FSWAP(a, l, c); return Fmov(l, a); }
     else return FMOV(a, l, c); } return Fvle(a, 0); }
 
-anu FSin(anu s, anu x) { static anu w[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,
-  22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,
-  55,56,57,58,59,60,61,62,63,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,
-  87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,
-  115,116,117,118,119,120,121,122,123,124,125,126}; Mat.x = (s) ? ~x + 1 : x;
-  Mat.y = *(w + (Mat.x & 127)); Mat.y = (Mat.x & 128) ? 127 - Mat.y : Mat.y; return (s) ? ~Mat.y+1:Mat.y; }
-void FSIN(an r, anu l, an b) { Mat.y = FSin(Mat.Nim?*(b+l)&128:0, *b); Mat.N = (Mat.y&128) ?255:0; Mat.F = !Mat.y;
-  *r = Mat.y; Mat.l = 0; if ((Mat.i = l) && !Mat.V) { Mat.l = Mat.i; do *++r = Mat.N; while(--Mat.i); } }
-void FCOS(an r, anu l, an b) { Mat.y = FSin(Mat.Nim?(*(b+l)^*b)&128:0, *b^128); Mat.N = (Mat.y&128) ? 255:0; Mat.F = !Mat.y;
-  *r = Mat.y; Mat.l = 0; if ((Mat.i = l) && !Mat.V) { Mat.l = Mat.i; do *++r = Mat.N; while(--Mat.i); } }
+anu FTri(anu s, anu x) { Mat.y = (x&128) ? 127-(x&127):(x&127); return (s) ? ~Mat.y+1:Mat.y; }
+void FTRI(an r, anu l, an b) { Mat.y = FTri(Mat.Nim?*(b+l)&128:0, *b); Mat.N = (Mat.y&128) ?255:0;
+  Mat.F = !Mat.y; *r = Mat.y; Mat.l = 0; if ((Mat.i = l) && !Mat.V) { Mat.l = Mat.i; do *++r = Mat.N; while(--Mat.i); } }
 
 void FTST(an a, anu l, an b) { Mat.i = Mat.l; Mat.lb = l; Mat.a = a; Mat.b = b; Mat.TF = 0;
   Mat.u = ((*(Mat.ae = Mat.a + Mat.i) & 128) && Mat.Nim) ? 255:0; Mat.j = Mat.lb;
@@ -167,8 +160,7 @@ void FDIV(an r, an e, an a, anu l, an b) { Mat.r = r; Mat.e = e; FTST(a, l, b); 
     Mat.i = Mat.l; while(Mat.i--) { *++Mat.r = 0; } return; }
   }
 
-  void FCSIN(an r, anu l, an c) { if (l--) return FSIN(r, l, c); return FSIN(r, Mat.lb, Mat.b); }
-  void FCCOS(an r, anu l, an c) { if (l--) return FCOS(r, l, c); return FCOS(r, Mat.lb, Mat.b); }
+  void FCTRI(an r, anu l, an c) { if (l--) return FTRI(r, l, c); return FTRI(r, Mat.lb, Mat.b); }
 
   void FCTST(an a, anu l, an c) { if (l--) return FTST(a, l, c); return FTST(a, Mat.lb, Mat.b); }
   anu FCGE(an a, anu l, an c) { if (l--) { Mat.r = c; do { Mat.y = (Mat.l > l) ? l:Mat.l;
